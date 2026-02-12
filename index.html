@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>AIxPerf - Quản lý KPI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="design-system.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: 'var(--primary)', hover: 'var(--primary-hover)', light: 'var(--primary-light)' },
+            surface: 'var(--surface)',
+            'border-ds': 'var(--border)',
+            'border-strong': 'var(--border-strong)',
+          },
+        },
+      },
+    };
+  </script>
+  <style type="text/tailwindcss">
+    body { font-family: 'Inter', sans-serif; }
+    input, select, textarea { color: #000; }
+    .step-active .step-circle {
+      background-color: var(--primary);
+      color: var(--text-on-primary);
+      border-color: var(--border);
+    }
+    .step-active .step-text { color: var(--primary); font-weight: 600; }
+    .step-completed .step-circle {
+      background-color: var(--primary);
+      color: var(--text-on-primary);
+      border-color: var(--border);
+    }
+    .step-completed .step-text { color: var(--primary); font-weight: 600; }
+    .step-inactive .step-circle {
+      background-color: var(--surface-solid);
+      color: var(--text-secondary);
+      border: 2px solid var(--border);
+    }
+    .step-inactive .step-text { color: var(--text-secondary); }
+    .peer:checked + div { border-color: var(--border-strong) !important; background-color: var(--primary-light) !important; }
+    .peer:checked + div .w-6.h-6.rounded-full.border-2 { opacity: 1; background: var(--primary) !important; border-color: var(--primary) !important; }
+    .peer:checked + div .w-3.h-3.rounded-full { opacity: 1; }
+    .peer:checked + .year-pill { background: var(--primary) !important; color: var(--text-on-primary) !important; border-color: var(--border) !important; }
+    .wizard-btn-primary:hover { background-color: var(--primary-hover) !important; }
+    .ring-yellow-step { --tw-ring-color: rgba(255, 200, 74, 0.35); box-shadow: 0 0 0 4px rgba(255, 200, 74, 0.25); }
+    #kpi-wizard-layer { display: none; }
+    #kpi-wizard-layer.is-open { display: flex; }
+  </style>
+</head>
+<body class="min-h-screen bg-white">
+
+  <!-- Màn hình chính MVP -->
+  <main class="min-h-screen flex flex-col items-center justify-center p-6">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl font-bold mb-2" style="color: var(--text-main);">AIxPerf</h1>
+      <p class="text-sm" style="color: var(--text-secondary);">Quản lý KPI đơn giản</p>
+    </div>
+    <button
+      id="btn-tao-kpi"
+      type="button"
+      class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] border-2"
+      style="border-color: var(--border-button);"
+      style="background-color: var(--primary); color: var(--text-on-primary); box-shadow: 0 10px 15px -3px var(--shadow-primary);"
+      onmouseover="this.style.backgroundColor='var(--primary-hover)'"
+      onmouseout="this.style.backgroundColor='var(--primary)'"
+    >
+      <span class="material-symbols-outlined text-2xl">add_circle</span>
+      Tạo KPI
+    </button>
+  </main>
+
+  <!-- Layer popup: backdrop + wizard -->
+  <div id="kpi-wizard-layer" class="fixed inset-0 z-40 items-center justify-center p-4 backdrop-blur-sm" style="background: rgba(0,0,0,0.4);" aria-hidden="true">
+    <div class="relative rounded-2xl shadow-2xl w-full max-w-5xl z-50 flex flex-col h-[650px] overflow-hidden border-2 bg-white" style="border-color: var(--border);" role="dialog" aria-modal="true" aria-labelledby="wizard-title">
+      <div class="flex items-center justify-between p-6 border-b-2 shrink-0 bg-white" style="border-color: var(--border);">
+        <div>
+          <h2 id="wizard-title" class="text-xl font-bold" style="color: var(--text-main);">Tạo KPI Mới</h2>
+          <p class="text-sm mt-1" style="color: var(--text-secondary);">Thiết lập các thông số cho KPI của bạn</p>
+        </div>
+        <button id="wizard-close" type="button" class="p-2 rounded-full transition-colors border-2 border-transparent hover:border-[var(--primary)]" style="color: var(--text-secondary);" aria-label="Đóng">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="flex flex-1 overflow-hidden">
+        <div class="w-72 border-r-2 p-8 flex flex-col gap-10 shrink-0" id="wizard-sidebar" class="bg-white" style="border-color: var(--border);">
+          <div class="flex items-center gap-4 relative" id="wizard-step-1-indicator" data-step="1">
+            <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-semibold transition-all duration-300 step-circle z-10">1</div>
+            <div class="flex flex-col">
+              <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #000;">Bước 01</span>
+              <span class="text-sm step-text">Thông tin chung</span>
+            </div>
+            <div class="absolute left-5 top-10 w-0.5 h-10 step-connector" id="connector-1-2" style="background-color: var(--border);"></div>
+          </div>
+          <div class="flex items-center gap-4 relative" id="wizard-step-2-indicator" data-step="2">
+            <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-semibold transition-all duration-300 step-circle z-10">2</div>
+            <div class="flex flex-col">
+              <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #000;">Bước 02</span>
+              <span class="text-sm step-text">Phạm vi & Thời gian</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex-1 overflow-y-auto bg-white">
+          <form class="pt-4 px-10 pb-10 max-w-2xl mx-auto space-y-10" id="kpi-wizard-form">
+            <!-- Bước 1: Thông tin chung -->
+            <div class="wizard-panel hidden" id="wizard-panel-1" data-step="1">
+              <div class="bg-white rounded-xl">
+                <h3 class="text-lg font-semibold mb-6 flex items-center gap-3" style="color: var(--text-main);">
+                  <span class="material-symbols-outlined p-2 rounded-lg border-2" style="color: var(--primary); background-color: var(--primary-light); border-color: var(--border);">business</span>
+                  Thông tin chung
+                </h3>
+                <label class="block text-sm font-medium mb-2" style="color: var(--text-main);">Khối Org (Org Block)</label>
+                <div class="relative mb-4" id="org-block-dropdown-wrap">
+                  <input type="hidden" name="orgBlock" id="wizard-org-block" value=""/>
+                  <button type="button" id="org-block-trigger" class="w-full rounded-lg border-2 py-3 px-4 shadow-sm text-left flex items-center justify-between focus:ring-2 focus:ring-offset-0 focus:ring-[var(--primary)]" style="border-color: var(--border); background-color: var(--surface-solid); color: #000;">
+                    <span id="org-block-label">Chọn khối tổ chức...</span>
+                    <span class="material-symbols-outlined text-xl" style="color: var(--text-secondary);">expand_more</span>
+                  </button>
+                  <div id="org-block-panel" class="absolute left-0 right-0 top-full mt-1 rounded-lg border-2 shadow-lg z-50 hidden bg-white" style="border-color: var(--border); max-height: 320px; display: none;">
+                    <div class="p-2 border-b" style="border-color: var(--border);">
+                      <input type="text" id="org-block-search" placeholder="Tìm nhóm, phòng, bộ phận..." class="w-full rounded-lg border-2 py-2.5 px-3 text-sm focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent" style="border-color: var(--border); color: #000;" autocomplete="off"/>
+                    </div>
+                    <ul id="org-block-list" class="overflow-y-auto py-1 max-h-64 list-none m-0 p-0">
+                      <!-- options rendered by JS -->
+                    </ul>
+                    <p id="org-block-empty" class="hidden py-3 px-3 text-sm" style="color: var(--text-secondary);">Không có kết quả.</p>
+                  </div>
+                </div>
+                <div class="h-px w-full mt-6 mb-6" style="background: var(--border-light);"></div>
+                <div class="rounded-xl border-2 p-4" style="background-color: var(--surface-solid); border-color: var(--border);">
+                  <h3 class="text-lg font-semibold mb-6 flex items-center gap-3" style="color: var(--text-main);">
+                    <span class="material-symbols-outlined p-2 rounded-lg border-2" style="color: var(--primary); background-color: var(--primary-light); border-color: var(--border);">calendar_today</span>
+                    Năm áp dụng
+                  </h3>
+                  <div class="flex flex-wrap gap-4">
+                    <label class="cursor-pointer">
+                      <input checked class="peer sr-only" name="year" type="radio" value="2026"/>
+                      <div class="year-pill px-8 py-3 rounded-xl border-2 font-semibold text-sm transition-all" style="color: var(--text-secondary); border-color: var(--border); background: var(--surface-solid);">2026</div>
+                    </label>
+                    <label class="cursor-pointer">
+                      <input class="peer sr-only" name="year" type="radio" value="2027"/>
+                      <div class="year-pill px-8 py-3 rounded-xl border-2 font-semibold text-sm transition-all" style="color: var(--text-secondary); border-color: var(--border); background: var(--surface-solid);">2027</div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Bước 2: Phạm vi & Thời gian -->
+            <div class="wizard-panel hidden" id="wizard-panel-2" data-step="2">
+            <div class="space-y-10">
+              <div class="bg-white rounded-xl">
+                <h3 class="text-lg font-semibold mb-6 flex items-center gap-3" style="color: var(--text-main);">
+                  <span class="material-symbols-outlined p-2 rounded-lg border-2" style="color: var(--primary); background-color: var(--primary-light); border-color: var(--border);">domain</span>
+                  Phạm vi áp dụng
+                </h3>
+                <div class="space-y-4">
+                  <label class="cursor-pointer block group">
+                    <input checked class="peer sr-only" name="scope" type="radio" value="company"/>
+                    <div class="p-5 rounded-xl border-2 transition-all flex items-center gap-4 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
+                      <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
+                        <div class="w-3 h-3 rounded-full bg-white"></div>
+                      </div>
+                      <div>
+                        <span class="block font-semibold" style="color: var(--text-main);">Toàn bộ công ty</span>
+                        <span class="block text-sm mt-1" style="color: var(--text-secondary);">Áp dụng KPI cho tất cả phòng ban và đơn vị</span>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="cursor-pointer block group">
+                    <input class="peer sr-only" name="scope" type="radio" value="department"/>
+                    <div class="p-5 rounded-xl border-2 transition-all flex items-center gap-4 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
+                      <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
+                        <div class="w-3 h-3 rounded-full bg-white"></div>
+                      </div>
+                      <div>
+                        <span class="block font-semibold" style="color: var(--text-main);">Bộ phận / Phòng ban</span>
+                        <span class="block text-sm mt-1" style="color: var(--text-secondary);">Chỉ định cụ thể từng đơn vị trực thuộc tổ chức</span>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="cursor-pointer block group">
+                    <input class="peer sr-only" name="scope" type="radio" value="individual"/>
+                    <div class="p-5 rounded-xl border-2 transition-all flex items-center gap-4 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
+                      <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
+                        <div class="w-3 h-3 rounded-full bg-white"></div>
+                      </div>
+                      <div>
+                        <span class="block font-semibold" style="color: var(--text-main);">Cá nhân</span>
+                        <span class="block text-sm mt-1" style="color: var(--text-secondary);">Giao KPI trực tiếp cho nhân viên cụ thể</span>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="p-6 border-t-2 flex items-center justify-between shrink-0 bg-white" style="border-color: var(--border);">
+        <button type="button" id="wizard-prev" class="px-6 py-2.5 rounded-xl border-2 font-semibold transition-colors flex items-center gap-2" style="border-color: var(--border); color: var(--text-main);" onmouseover="this.style.backgroundColor='rgba(255,200,74,0.15)'" onmouseout="this.style.backgroundColor='transparent'">
+          <span class="material-symbols-outlined text-lg">arrow_back</span>
+          Quay lại
+        </button>
+        <div class="flex gap-3">
+          <button type="button" id="wizard-next" class="wizard-btn-primary px-8 py-2.5 rounded-xl border-2 font-semibold shadow-lg transition-all flex items-center gap-2" style="background-color: var(--primary); color: var(--text-on-primary); border-color: var(--border-button); box-shadow: 0 10px 15px -3px var(--shadow-primary);">
+            Tiếp theo
+            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+          </button>
+          <button type="submit" form="kpi-wizard-form" id="wizard-submit" class="hidden wizard-btn-primary px-10 py-2.5 rounded-xl border-2 font-semibold shadow-xl transition-all flex items-center gap-2" style="background-color: var(--primary); color: var(--text-on-primary); border-color: var(--border-button); box-shadow: 0 10px 15px -3px var(--shadow-primary);">
+            <span class="material-symbols-outlined text-lg">check</span>
+            Xác nhận
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var TOTAL_STEPS = 2;
+      var layer = document.getElementById('kpi-wizard-layer');
+      var btnOpen = document.getElementById('btn-tao-kpi');
+      var btnClose = document.getElementById('wizard-close');
+      var btnPrev = document.getElementById('wizard-prev');
+      var btnNext = document.getElementById('wizard-next');
+      var btnSubmit = document.getElementById('wizard-submit');
+      var form = document.getElementById('kpi-wizard-form');
+
+      var currentStep = 1;
+      var panels = document.querySelectorAll('.wizard-panel');
+      var indicators = document.querySelectorAll('[id^="wizard-step-"][id$="-indicator"]');
+
+      function openWizard() {
+        currentStep = 1;
+        goToStep(1);
+        layer.classList.add('is-open');
+        layer.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeWizard() {
+        layer.classList.remove('is-open');
+        layer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      function goToStep(step) {
+        if (step < 1 || step > TOTAL_STEPS) return;
+        currentStep = step;
+
+        panels.forEach(function (panel) {
+          var panelStep = parseInt(panel.getAttribute('data-step'), 10);
+          panel.classList.toggle('hidden', panelStep !== step);
+        });
+
+        indicators.forEach(function (indicator) {
+          var stepNum = parseInt(indicator.getAttribute('data-step'), 10);
+          indicator.classList.remove('step-active', 'step-completed', 'step-inactive');
+          if (stepNum < step) {
+            indicator.classList.add('step-completed');
+          } else if (stepNum === step) {
+            indicator.classList.add('step-active');
+            var circle = indicator.querySelector('.step-circle');
+            if (circle) { circle.classList.add('ring-4', 'ring-yellow-step'); }
+          } else {
+            indicator.classList.add('step-inactive');
+            var circle = indicator.querySelector('.step-circle');
+            if (circle) { circle.classList.remove('ring-4', 'ring-yellow-step'); }
+          }
+        });
+
+        var connector = document.getElementById('connector-1-2');
+        if (connector) {
+        if (step >= 2) {
+          connector.style.backgroundColor = 'var(--border)';
+        } else {
+          connector.style.backgroundColor = 'var(--border)';
+        }
+        }
+
+        btnNext.classList.toggle('hidden', step === TOTAL_STEPS);
+        btnSubmit.classList.toggle('hidden', step !== TOTAL_STEPS);
+      }
+
+      btnOpen.addEventListener('click', openWizard);
+
+      btnClose.addEventListener('click', function () {
+        closeWizard();
+      });
+
+      layer.addEventListener('click', function (e) {
+        if (e.target === layer) closeWizard();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && layer.classList.contains('is-open')) closeWizard();
+      });
+
+      btnPrev.addEventListener('click', function () {
+        if (currentStep === 1) {
+          closeWizard();
+        } else {
+          goToStep(currentStep - 1);
+        }
+      });
+
+      btnNext.addEventListener('click', function () {
+        if (currentStep < TOTAL_STEPS) {
+          goToStep(currentStep + 1);
+        }
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var orgBlock = (form.querySelector('[name="orgBlock"]') || {}).value;
+        var scope = (form.querySelector('[name="scope"]:checked') || {}).value;
+        var year = (form.querySelector('[name="year"]:checked') || {}).value;
+        var payload = { orgBlock: orgBlock, scope: scope, year: year };
+        console.log('KPI wizard submit:', payload);
+        closeWizard();
+      });
+
+      // ---- Org Block dropdown: danh sách phòng ban + search (nhóm, phòng, bộ phận) ----
+      var orgBlockData = [
+        { id: 'sales-1', group: 'Khối Kinh Doanh', department: 'Phòng Kinh doanh Dự án', division: 'KD Dự án' },
+        { id: 'sales-2', group: 'Khối Kinh Doanh', department: 'Phòng Bán hàng', division: 'Bán hàng' },
+        { id: 'sales-3', group: 'Khối Kinh Doanh', department: 'Phòng Marketing', division: 'Marketing' },
+        { id: 'ops-1', group: 'Khối Vận Hành', department: 'Phòng Vận hành Hệ thống', division: 'Vận hành' },
+        { id: 'ops-2', group: 'Khối Vận Hành', department: 'Phòng Hỗ trợ Khách hàng', division: 'Hỗ trợ' },
+        { id: 'ops-3', group: 'Khối Vận Hành', department: 'Phòng Hành chính Nhân sự', division: 'HCNS' },
+        { id: 'tech-1', group: 'Khối Công Nghệ', department: 'Phòng Phát triển Sản phẩm', division: 'Dev' },
+        { id: 'tech-2', group: 'Khối Công Nghệ', department: 'Phòng QA & Testing', division: 'QA' },
+        { id: 'tech-3', group: 'Khối Công Nghệ', department: 'Phòng Infrastructure', division: 'Infra' }
+      ];
+      var orgTrigger = document.getElementById('org-block-trigger');
+      var orgPanel = document.getElementById('org-block-panel');
+      var orgSearch = document.getElementById('org-block-search');
+      var orgList = document.getElementById('org-block-list');
+      var orgLabel = document.getElementById('org-block-label');
+      var orgHidden = document.getElementById('wizard-org-block');
+      var orgEmpty = document.getElementById('org-block-empty');
+
+      function renderOrgList(items) {
+        orgList.innerHTML = '';
+        orgEmpty.classList.add('hidden');
+        if (!items.length) {
+          orgEmpty.classList.remove('hidden');
+          return;
+        }
+        items.forEach(function (item) {
+          var li = document.createElement('li');
+          li.setAttribute('role', 'option');
+          li.setAttribute('data-id', item.id);
+          li.className = 'px-3 py-2.5 cursor-pointer border-b last:border-0 transition-colors';
+          li.style.borderColor = 'var(--border-light)';
+          li.style.color = 'var(--text-main)';
+          li.innerHTML = '<span class="font-medium">' + item.department + '</span><br><span class="text-xs" style="color: var(--text-secondary);">' + item.group + ' · ' + item.division + '</span>';
+          li.addEventListener('mouseenter', function () { this.style.backgroundColor = 'rgba(255,200,74,0.12)'; });
+          li.addEventListener('mouseleave', function () { this.style.backgroundColor = ''; });
+          li.addEventListener('click', function () {
+            orgHidden.value = item.id;
+            orgLabel.textContent = item.group + ' - ' + item.department;
+            orgPanel.style.display = 'none';
+            orgPanel.classList.add('hidden');
+          });
+          orgList.appendChild(li);
+        });
+      }
+
+      function filterOrgList() {
+        var q = (orgSearch.value || '').trim().toLowerCase();
+        if (!q) {
+          renderOrgList(orgBlockData);
+          return;
+        }
+        var filtered = orgBlockData.filter(function (item) {
+          return item.group.toLowerCase().indexOf(q) !== -1 ||
+            item.department.toLowerCase().indexOf(q) !== -1 ||
+            item.division.toLowerCase().indexOf(q) !== -1;
+        });
+        renderOrgList(filtered);
+      }
+
+      orgTrigger.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = orgPanel.style.display === 'block';
+        if (isOpen) {
+          orgPanel.style.display = 'none';
+          orgPanel.classList.add('hidden');
+        } else {
+          orgPanel.style.display = 'block';
+          orgPanel.classList.remove('hidden');
+          orgSearch.value = '';
+          orgSearch.focus();
+          renderOrgList(orgBlockData);
+        }
+      });
+
+      orgSearch.addEventListener('input', filterOrgList);
+      orgSearch.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          orgPanel.style.display = 'none';
+          orgPanel.classList.add('hidden');
+        }
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!document.getElementById('org-block-dropdown-wrap').contains(e.target)) {
+          orgPanel.style.display = 'none';
+          orgPanel.classList.add('hidden');
+        }
+      });
+
+      renderOrgList(orgBlockData);
+    })();
+  </script>
+</body>
+</html>

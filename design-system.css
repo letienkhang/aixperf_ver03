@@ -1,0 +1,41 @@
+/**
+ * AIxPerf — Design System (Base)
+ * Mỗi lần build UI phải dùng file này và tuân thủ UI_GUIDELINES.md
+ *
+ * Viền đậm: #ffc84a. Nền: trắng (không dùng vàng nhạt). Chỉ giữ màu vàng cho button.
+ */
+
+:root {
+  /* ---- Primary (Vàng #ffc84a) — dùng cho button, viền ---- */
+  --primary: #ffc84a;
+  --primary-hover: #e6b43d;
+  --primary-light: #f5f5f5;
+
+  /* ---- Border: xám nhạt (trừ button giữ vàng) ---- */
+  --border: #e5e7eb;
+  --border-strong: #e5e7eb;
+  --border-light: #f3f4f6;
+  --border-button: #ffc84a;
+
+  /* ---- Surface = nền trắng ---- */
+  --surface: #ffffff;
+  --surface-solid: #ffffff;
+
+  /* ---- Text ---- */
+  --text-main: #1C1917;
+  --text-secondary: #78716C;
+  --text-on-primary: #1C1917;
+
+  /* ---- Semantic ---- */
+  --bg-page: #ffffff;
+  --shadow-primary: rgba(255, 200, 74, 0.3);
+}
+
+/* Utility classes theo design system */
+.ds-bg-surface { background-color: var(--surface); }
+.ds-bg-surface-solid { background-color: var(--surface-solid); }
+.ds-border { border-color: var(--border); border-width: 2px; }
+.ds-border-strong { border-color: var(--border-strong); border-width: 2px; }
+.ds-text-primary { color: var(--primary); }
+.ds-bg-primary { background-color: var(--primary); }
+.ds-bg-primary-light { background-color: var(--primary-light); }
