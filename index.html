@@ -30,13 +30,13 @@
       color: var(--text-on-primary);
       border-color: var(--border);
     }
-    .step-active .step-text { color: var(--primary); font-weight: 600; }
+    .step-active .step-text { color: var(--text-main); font-weight: 600; }
     .step-completed .step-circle {
       background-color: var(--primary);
       color: var(--text-on-primary);
       border-color: var(--border);
     }
-    .step-completed .step-text { color: var(--primary); font-weight: 600; }
+    .step-completed .step-text { color: var(--text-main); font-weight: 600; }
     .step-inactive .step-circle {
       background-color: var(--surface-solid);
       color: var(--text-secondary);
@@ -44,40 +44,119 @@
     }
     .step-inactive .step-text { color: var(--text-secondary); }
     .peer:checked + div { border-color: var(--border-strong) !important; background-color: var(--primary-light) !important; }
-    .peer:checked + div .w-6.h-6.rounded-full.border-2 { opacity: 1; background: var(--primary) !important; border-color: var(--primary) !important; }
-    .peer:checked + div .w-3.h-3.rounded-full { opacity: 1; }
+    .peer:checked + div .w-6.h-6.rounded-full.border-2,
+    .peer:checked + div .w-5.h-5.rounded-full.border-2 { opacity: 1; background: var(--primary) !important; border-color: var(--primary) !important; }
+    .peer:checked + div .w-3.h-3.rounded-full,
+    .peer:checked + div [class*="w-2.5"][class*="h-2.5"].rounded-full { opacity: 1; }
     .peer:checked + .year-pill { background: var(--primary) !important; color: var(--text-on-primary) !important; border-color: var(--border) !important; }
     .wizard-btn-primary:hover { background-color: var(--primary-hover) !important; }
     .ring-yellow-step { --tw-ring-color: rgba(255, 200, 74, 0.35); box-shadow: 0 0 0 4px rgba(255, 200, 74, 0.25); }
     #kpi-wizard-layer { display: none; }
     #kpi-wizard-layer.is-open { display: flex; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; transition: background 0.2s; border-left: 3px solid transparent; }
+    .nav-item:hover { background: rgba(0,0,0,0.04); }
+    .nav-item.active { background: rgba(0,0,0,0.06); border-left-color: var(--primary); font-weight: 600; }
+    .nav-item { font-size: 14px; }
+    .nav-item .nav-icon { font-size: 18px; }
+    .nav-header-divider { border-bottom: 1px dashed var(--border); }
   </style>
 </head>
-<body class="min-h-screen bg-white">
+<body class="min-h-screen bg-white flex">
 
-  <!-- Màn hình chính MVP -->
-  <main class="min-h-screen flex flex-col items-center justify-center p-6">
-    <div class="text-center mb-10">
-      <h1 class="text-3xl font-bold mb-2" style="color: var(--text-main);">AIxPerf</h1>
-      <p class="text-sm" style="color: var(--text-secondary);">Quản lý KPI đơn giản</p>
+  <!-- Cột nav trái (theo ref) -->
+  <nav class="w-60 shrink-0 border-r flex flex-col bg-white" style="border-color: var(--border); min-height: 100vh;">
+    <div class="h-1 w-full" style="background: #1f2937;"></div>
+    <div class="p-4 pb-3 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <img src="https://aixperf-dev.yody.io/assets/logo-tnGAC7nB.svg" alt="AIxPerf Logo" class="w-8 h-8"/>
+        <h1 class="text-sm font-bold" style="color: var(--text-main);">AIxPerf</h1>
+      </div>
+      <button type="button" class="p-1 rounded hover:bg-gray-100" aria-label="Thu gọn" style="color: var(--text-secondary);">
+        <span class="material-symbols-outlined text-xl">chevron_left</span>
+      </button>
     </div>
-    <button
-      id="btn-tao-kpi"
-      type="button"
-      class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] border-2"
-      style="border-color: var(--border-button);"
-      style="background-color: var(--primary); color: var(--text-on-primary); box-shadow: 0 10px 15px -3px var(--shadow-primary);"
-      onmouseover="this.style.backgroundColor='var(--primary-hover)'"
-      onmouseout="this.style.backgroundColor='var(--primary)'"
-    >
-      <span class="material-symbols-outlined text-2xl">add_circle</span>
-      Tạo KPI
-    </button>
-  </main>
+    <div class="mx-2 nav-header-divider"></div>
+    <div class="flex-1 py-2">
+      <a href="#" class="nav-item active" data-panel="kpi" style="color: var(--text-main);">
+        <span class="material-symbols-outlined nav-icon">bar_chart</span>
+        KPI
+      </a>
+      <a href="#" class="nav-item" data-panel="hieu-suat" style="color: var(--text-main);">
+        <span class="material-symbols-outlined nav-icon">rate_review</span>
+        Đánh giá hiệu suất
+      </a>
+      <a href="#" class="nav-item" data-panel="hieu-suat-nam" style="color: var(--text-main);">
+        <span class="material-symbols-outlined nav-icon">verified_user</span>
+        Đánh giá hiệu suất năm
+      </a>
+      <a href="#" class="nav-item" data-panel="hr" style="color: var(--text-main);">
+        <span class="material-symbols-outlined nav-icon">person</span>
+        HR
+      </a>
+    </div>
+    <div class="p-3 mt-auto border-t" style="border-color: var(--border);">
+      <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-white shrink-0" style="background: #6b7280;">L</div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold truncate text-sm" style="color: var(--text-main);">Lê Tiến Khang</p>
+          <p class="text-xs truncate" style="color: var(--text-secondary);">YD23828</p>
+        </div>
+        <span class="material-symbols-outlined text-lg shrink-0" style="color: var(--text-secondary);">unfold_more</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Nội dung bên phải -->
+  <div class="flex-1 flex flex-col min-w-0">
+    <!-- Panel KPI: màn hình chính + wizard -->
+    <div id="panel-kpi" class="panel flex-1 flex flex-col">
+      <main class="flex-1 flex flex-col items-center justify-center p-6">
+        <div class="text-center mb-10">
+          <h2 class="text-2xl font-bold mb-2" style="color: var(--text-main);">KPI</h2>
+          <p class="text-sm" style="color: var(--text-secondary);">Quản lý KPI đơn giản</p>
+        </div>
+        <button
+          id="btn-tao-kpi"
+          type="button"
+          class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] border-2"
+          style="border-color: var(--border-button); background-color: var(--primary); color: var(--text-on-primary); box-shadow: 0 10px 15px -3px var(--shadow-primary);"
+          onmouseover="this.style.backgroundColor='var(--primary-hover)'"
+          onmouseout="this.style.backgroundColor='var(--primary)'"
+        >
+          <span class="material-symbols-outlined text-2xl">add_circle</span>
+          Tạo KPI
+        </button>
+      </main>
+    </div>
+    <!-- Panel Đánh giá hiệu suất -->
+    <div id="panel-hieu-suat" class="panel hidden flex-1 flex items-center justify-center p-6">
+      <div class="text-center" style="color: var(--text-secondary);">
+        <span class="material-symbols-outlined text-5xl mb-4 block">rate_review</span>
+        <p class="font-medium" style="color: var(--text-main);">Đánh giá hiệu suất</p>
+        <p class="text-sm mt-1">Nội dung đang cập nhật.</p>
+      </div>
+    </div>
+    <!-- Panel Đánh giá hiệu suất năm -->
+    <div id="panel-hieu-suat-nam" class="panel hidden flex-1 flex items-center justify-center p-6">
+      <div class="text-center" style="color: var(--text-secondary);">
+        <span class="material-symbols-outlined text-5xl mb-4 block">verified_user</span>
+        <p class="font-medium" style="color: var(--text-main);">Đánh giá hiệu suất năm</p>
+        <p class="text-sm mt-1">Nội dung đang cập nhật.</p>
+      </div>
+    </div>
+    <!-- Panel HR -->
+    <div id="panel-hr" class="panel hidden flex-1 flex items-center justify-center p-6">
+      <div class="text-center" style="color: var(--text-secondary);">
+        <span class="material-symbols-outlined text-5xl mb-4 block">person</span>
+        <p class="font-medium" style="color: var(--text-main);">HR</p>
+        <p class="text-sm mt-1">Nội dung đang cập nhật.</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Layer popup: backdrop + wizard -->
   <div id="kpi-wizard-layer" class="fixed inset-0 z-40 items-center justify-center p-4 backdrop-blur-sm" style="background: rgba(0,0,0,0.4);" aria-hidden="true">
-    <div class="relative rounded-2xl shadow-2xl w-full max-w-5xl z-50 flex flex-col h-[650px] overflow-hidden border-2 bg-white" style="border-color: var(--border);" role="dialog" aria-modal="true" aria-labelledby="wizard-title">
+    <div class="relative rounded-2xl shadow-2xl w-full max-w-5xl z-50 flex flex-col overflow-hidden border-2 bg-white" style="height: min(90vh, 720px); border-color: var(--border);" role="dialog" aria-modal="true" aria-labelledby="wizard-title">
       <div class="flex items-center justify-between p-6 border-b-2 shrink-0 bg-white" style="border-color: var(--border);">
         <div>
           <h2 id="wizard-title" class="text-xl font-bold" style="color: var(--text-main);">Tạo KPI Mới</h2>
@@ -152,46 +231,46 @@
             </div>
             <!-- Bước 2: Phạm vi & Thời gian -->
             <div class="wizard-panel hidden" id="wizard-panel-2" data-step="2">
-            <div class="space-y-10">
+            <div class="space-y-3">
               <div class="bg-white rounded-xl">
-                <h3 class="text-lg font-semibold mb-6 flex items-center gap-3" style="color: var(--text-main);">
-                  <span class="material-symbols-outlined p-2 rounded-lg border-2" style="color: var(--primary); background-color: var(--primary-light); border-color: var(--border);">domain</span>
+                <h3 class="text-lg font-semibold mb-3 flex items-center gap-3" style="color: var(--text-main);">
+                  <span class="material-symbols-outlined p-1.5 rounded-lg border-2 text-lg" style="color: var(--primary); background-color: var(--primary-light); border-color: var(--border);">domain</span>
                   Phạm vi áp dụng
                 </h3>
-                <div class="space-y-4">
+                <div class="space-y-2">
                   <label class="cursor-pointer block group">
                     <input checked class="peer sr-only" name="scope" type="radio" value="company"/>
-                    <div class="p-5 rounded-xl border-2 transition-all flex items-center gap-4 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
-                      <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
-                        <div class="w-3 h-3 rounded-full bg-white"></div>
+                    <div class="p-3 rounded-xl border-2 transition-all flex items-center gap-3 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
+                      <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
+                        <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
                       </div>
                       <div>
-                        <span class="block font-semibold" style="color: var(--text-main);">Toàn bộ công ty</span>
-                        <span class="block text-sm mt-1" style="color: var(--text-secondary);">Áp dụng KPI cho tất cả phòng ban và đơn vị</span>
+                        <span class="block font-semibold text-sm" style="color: var(--text-main);">Toàn bộ công ty</span>
+                        <span class="block text-xs mt-0.5" style="color: var(--text-secondary);">Áp dụng KPI cho tất cả phòng ban và đơn vị</span>
                       </div>
                     </div>
                   </label>
                   <label class="cursor-pointer block group">
                     <input class="peer sr-only" name="scope" type="radio" value="department"/>
-                    <div class="p-5 rounded-xl border-2 transition-all flex items-center gap-4 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
-                      <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
-                        <div class="w-3 h-3 rounded-full bg-white"></div>
+                    <div class="p-3 rounded-xl border-2 transition-all flex items-center gap-3 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
+                      <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
+                        <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
                       </div>
                       <div>
-                        <span class="block font-semibold" style="color: var(--text-main);">Bộ phận / Phòng ban</span>
-                        <span class="block text-sm mt-1" style="color: var(--text-secondary);">Chỉ định cụ thể từng đơn vị trực thuộc tổ chức</span>
+                        <span class="block font-semibold text-sm" style="color: var(--text-main);">Bộ phận / Phòng ban</span>
+                        <span class="block text-xs mt-0.5" style="color: var(--text-secondary);">Chỉ định cụ thể từng đơn vị trực thuộc tổ chức</span>
                       </div>
                     </div>
                   </label>
                   <label class="cursor-pointer block group">
                     <input class="peer sr-only" name="scope" type="radio" value="individual"/>
-                    <div class="p-5 rounded-xl border-2 transition-all flex items-center gap-4 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
-                      <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
-                        <div class="w-3 h-3 rounded-full bg-white"></div>
+                    <div class="p-3 rounded-xl border-2 transition-all flex items-center gap-3 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
+                      <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
+                        <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
                       </div>
                       <div>
-                        <span class="block font-semibold" style="color: var(--text-main);">Cá nhân</span>
-                        <span class="block text-sm mt-1" style="color: var(--text-secondary);">Giao KPI trực tiếp cho nhân viên cụ thể</span>
+                        <span class="block font-semibold text-sm" style="color: var(--text-main);">Cá nhân</span>
+                        <span class="block text-xs mt-0.5" style="color: var(--text-secondary);">Giao KPI trực tiếp cho nhân viên cụ thể</span>
                       </div>
                     </div>
                   </label>
@@ -223,6 +302,20 @@
 
   <script>
     (function () {
+      // ---- Nav: chuyển panel KPI / Hiệu suất / Hiệu suất năm ----
+      document.querySelectorAll('.nav-item').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          var panelId = this.getAttribute('data-panel');
+          if (!panelId) return;
+          document.querySelectorAll('.nav-item').forEach(function (l) { l.classList.remove('active'); });
+          this.classList.add('active');
+          document.querySelectorAll('.panel').forEach(function (p) { p.classList.add('hidden'); });
+          var panel = document.getElementById('panel-' + panelId);
+          if (panel) panel.classList.remove('hidden');
+        });
+      });
+
       var TOTAL_STEPS = 2;
       var layer = document.getElementById('kpi-wizard-layer');
       var btnOpen = document.getElementById('btn-tao-kpi');
