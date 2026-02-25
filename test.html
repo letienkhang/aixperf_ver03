@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Premium Department Leaderboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+        :root {
+            --ios-blue: #007AFF;
+            --premium-gold: #D4AF37;
+            --premium-silver: #A7A7AD;
+            --premium-bronze: #A97142;
+            --bg-gradient: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%);
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-gradient);
+            -webkit-font-smoothing: antialiased;
+        }
+        .gold-3d {
+            background: linear-gradient(145deg, #FFD700, #B8860B);
+            box-shadow: 0 10px 20px -5px rgba(184, 134, 11, 0.4), inset 0 -4px 0 rgba(0,0,0,0.1);
+        }
+        .silver-3d {
+            background: linear-gradient(145deg, #E2E8F0, #94A3B8);
+            box-shadow: 0 4px 10px -2px rgba(148, 163, 184, 0.3), inset 0 -2px 0 rgba(0,0,0,0.05);
+        }
+        .bronze-3d {
+            background: linear-gradient(145deg, #FB923C, #C2410C);
+            box-shadow: 0 4px 10px -2px rgba(194, 65, 12, 0.3), inset 0 -2px 0 rgba(0,0,0,0.05);
+        }
+        .hero-card {
+            background: radial-gradient(circle at top right, rgba(255, 215, 0, 0.05), transparent), white;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen text-slate-900 pb-12">
+    <div class="h-10 w-full"></div>
+    <div class="max-w-md mx-auto px-5">
+        <header class="flex items-center justify-between mb-6">
+            <button class="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm">
+                <span class="material-symbols-outlined text-slate-600">chevron_left</span>
+            </button>
+            <h1 class="text-lg font-bold tracking-tight text-slate-800">Leaderboard</h1>
+            <button class="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm">
+                <span class="material-symbols-outlined text-slate-600">calendar_today</span>
+            </button>
+        </header>
+        <div
+            class="hero-card rounded-[2.5rem] p-8 mb-6 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] border border-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-6">
+                <span
+                    class="material-symbols-outlined text-yellow-500/20 text-8xl scale-150 rotate-12">workspace_premium</span>
+            </div>
+            <div class="relative z-10 flex flex-col items-center text-center">
+                <div class="relative mb-6">
+                    <div
+                        class="w-32 h-32 rounded-[2.5rem] bg-white shadow-xl flex items-center justify-center border border-yellow-100 overflow-hidden">
+                        <span class="material-symbols-outlined text-6xl text-yellow-500 fill-1">rocket_launch</span>
+                    </div>
+                    <div
+                        class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-12 h-12 gold-3d rounded-full flex items-center justify-center border-4 border-white text-white font-black text-xl">
+                        1</div>
+                </div>
+                <h2 class="text-[10px] font-extrabold text-yellow-600 uppercase tracking-[0.3em] mb-2">Top Performer
+                </h2>
+                <h3 class="text-2xl font-extrabold text-slate-900 mb-1">Customer Success</h3>
+                <div class="flex items-center gap-2">
+                    <span class="text-3xl font-black text-blue-600">16,890</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-tighter">pts</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-10 pt-8 border-t border-slate-100/80">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100">
+                            <span class="material-symbols-outlined text-2xl text-slate-400">payments</span>
+                        </div>
+                        <div
+                            class="absolute -top-2 -right-2 w-5 h-5 silver-3d rounded-full flex items-center justify-center border-2 border-white text-white font-bold text-[10px]">
+                            2</div>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 truncate w-20">Sales</p>
+                        <p class="text-sm font-black text-slate-800">14,250</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100">
+                            <span class="material-symbols-outlined text-2xl text-slate-400">campaign</span>
+                        </div>
+                        <div
+                            class="absolute -top-2 -right-2 w-5 h-5 bronze-3d rounded-full flex items-center justify-center border-2 border-white text-white font-bold text-[10px]">
+                            3</div>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 truncate w-20">Marketing</p>
+                        <p class="text-sm font-black text-slate-800">12,100</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-8">
+            <h2 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1 mb-4">Department Rankings
+            </h2>
+            <div class="bg-white rounded-[1.5rem] shadow-sm border border-slate-100 overflow-hidden">
+                <div class="divide-y divide-slate-50">
+                    <div class="px-5 py-3.5 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <span class="text-[11px] font-bold text-slate-300 w-4">04</span>
+                            <span class="text-sm font-bold text-slate-700">Human Resources</span>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400">11,980</span>
+                    </div>
+                    <div class="px-5 py-3.5 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <span class="text-[11px] font-bold text-slate-300 w-4">05</span>
+                            <span class="text-sm font-bold text-slate-700">R&amp;D Lab</span>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400">10,850</span>
+                    </div>
+                    <div class="px-5 py-3.5 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <span class="text-[11px] font-bold text-slate-300 w-4">06</span>
+                            <span class="text-sm font-bold text-slate-700">IT Infrastructure</span>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400">9,720</span>
+                    </div>
+                    <div class="px-5 py-3.5 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <span class="text-[11px] font-bold text-slate-300 w-4">07</span>
+                            <span class="text-sm font-bold text-slate-700">Finance</span>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400">9,610</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-rose-50/60 rounded-[2rem] p-6 border border-rose-100/50 mb-8 shadow-sm">
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-rose-500 text-xl">report</span>
+                    <span class="text-xs font-extrabold text-rose-600 uppercase tracking-widest">Action Required</span>
+                </div>
+                <span class="text-[10px] font-bold text-rose-400 uppercase">Bottom 3</span>
+            </div>
+            <div class="bg-white/60 rounded-2xl p-4 border border-white">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-1.5 h-1.5 rounded-full bg-rose-400"></div>
+                            <span class="text-sm font-bold text-slate-700">Quality Assurance</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-slate-500">8,240</span>
+                            <span class="material-symbols-outlined text-rose-400 text-sm">trending_down</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-1.5 h-1.5 rounded-full bg-rose-300"></div>
+                            <span class="text-sm font-bold text-slate-700">Maintenance</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-slate-500">7,090</span>
+                            <span class="material-symbols-outlined text-rose-400 text-sm">trending_down</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-1.5 h-1.5 rounded-full bg-rose-200"></div>
+                            <span class="text-sm font-bold text-slate-700">Inventory</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-slate-500">5,840</span>
+                            <span class="material-symbols-outlined text-rose-400 text-sm">trending_down</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fixed bottom-0 inset-x-0 h-8 flex justify-center items-center pointer-events-none">
+        <div class="w-32 h-1 bg-slate-200/50 rounded-full"></div>
+    </div>
+
+</body>
+
+</html>

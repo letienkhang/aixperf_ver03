@@ -17,7 +17,7 @@
             primary: "#221f6d",
             "background-light": "#f8fafc",
             "background-dark": "#0f172a",
-            "accent-orange": "#f97316",
+            "accent-orange": "#FFD700",
             "accent-green": "#10b981",
             "accent-blue": "#2563eb",
             "card-light": "#ffffff",
@@ -47,6 +47,22 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-3px); }
     }
+    @keyframes gold-ring-pulse {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(251,191,36,0.4);
+      }
+      50% {
+        box-shadow: 0 0 18px 4px rgba(251,191,36,0.9);
+      }
+    }
+    @keyframes premium-float {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-6px) scale(1.05);
+      }
+    }
     .rank-main-orbit {
       animation: float-soft 4s ease-in-out infinite;
     }
@@ -57,6 +73,49 @@
     .rank-1 { color: #FFD700; }
     .rank-2 { color: #C0C0C0; }
     .rank-3 { color: #CD7F32; }
+    .gold-3d {
+      background: linear-gradient(145deg, #FFD700, #B8860B);
+      box-shadow: 0 10px 20px -5px rgba(184, 134, 11, 0.4), inset 0 -4px 0 rgba(0,0,0,0.1);
+    }
+    .silver-3d {
+      background: linear-gradient(145deg, #E2E8F0, #94A3B8);
+      box-shadow: 0 4px 10px -2px rgba(148, 163, 184, 0.3), inset 0 -2px 0 rgba(0,0,0,0.05);
+    }
+    .bronze-3d {
+      background: linear-gradient(145deg, #FB923C, #C2410C);
+      box-shadow: 0 4px 10px -2px rgba(194, 65, 12, 0.3), inset 0 -2px 0 rgba(0,0,0,0.05);
+    }
+    .hero-card {
+      background: radial-gradient(circle at top right, rgba(255, 215, 0, 0.05), transparent), white;
+    }
+    .gold-ring {
+      display: inline-flex;
+      padding: 4px;
+      border-radius: 9999px;
+      border: 3px solid #FBBF24; /* amber-400 */
+      animation: gold-ring-pulse 3s ease-in-out infinite;
+    }
+    .top1-achievement-card {
+      background: radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.12) 0%, transparent 60%), white;
+    }
+    .top1-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(226, 232, 240, 0.8), transparent);
+    }
+    .top1-gold-circle-frame {
+      padding: 4px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #FFD700 0%, #D4AF37 50%, #B8860B 100%);
+      box-shadow: 0 15px 35px -5px rgba(212, 175, 55, 0.4);
+    }
+    .top1-score {
+      color: rgb(250 204 21 / var(--tw-text-opacity, 1));
+    }
+    .premium-float {
+      animation: premium-float 6s ease-in-out infinite;
+      transform-origin: center;
+    }
+    .ypoint-score { color: rgb(34 31 109 / var(--tw-text-opacity, 1)); }
   </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 flex flex-col">
@@ -77,55 +136,64 @@
     </div>
   </header>
   <main class="flex-1 px-4 pt-4 pb-16 space-y-6">
-    <section class="rounded-3xl border border-slate-100 dark:border-slate-800 overflow-hidden bg-gradient-to-b from-sky-50 via-white to-transparent dark:from-slate-900 dark:via-slate-950 dark:to-transparent px-4 pt-5 pb-5">
-      <div class="flex justify-center mb-3">
+    <section class="rounded-3xl overflow-hidden px-4 pt-5 pb-5">
+      <div class="flex justify-center mb-3 hidden">
         <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 dark:text-slate-300 bg-white/80 dark:bg-slate-800/80 px-3 py-1 rounded-full">
           <span class="material-icons-round text-xs text-amber-400">workspace_premium</span>
           Bảng xếp hạng · Tháng 02/2026
         </span>
       </div>
-      <div class="flex items-end justify-center gap-4">
-        <div class="flex flex-col items-center gap-2 translate-y-2">
-          <div class="relative">
-            <div class="w-14 h-14 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden border-2 border-slate-200/80 dark:border-slate-600 flex items-center justify-center text-xs font-semibold text-slate-600 dark:text-slate-200">
-              2
-            </div>
-            <span class="absolute -top-2 left-1/2 -translate-x-1/2">
-              <span class="material-icons-round rank-2 text-lg">workspace_premium</span>
-            </span>
-          </div>
-          <p class="text-xs font-medium text-slate-600 dark:text-slate-300">Trần Nam</p>
-          <p class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">2,450 pts</p>
+      <div id="top1-card" class="hero-card rounded-[2.5rem] p-6 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] relative overflow-hidden cursor-pointer active:scale-[0.99] transition-transform">
+        <div class="absolute -top-1 right-0 p-4 premium-float">
+          <span class="material-symbols-outlined text-yellow-500/20 text-8xl scale-[1.4] rotate-[18deg]">workspace_premium</span>
         </div>
-        <div class="flex flex-col items-center gap-2">
-          <div class="relative rank-main-orbit">
-            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div class="w-24 h-24 rounded-full bg-amber-300/25 blur-xl"></div>
+        <div class="relative z-10 flex flex-col items-center text-center">
+          <div class="relative mb-6">
+            <div class="gold-ring">
+              <div class="w-24 h-24 rounded-full bg-white shadow-xl flex items-center justify-center overflow-hidden">
+                <span class="material-symbols-outlined text-5xl text-yellow-500 fill-1">rocket_launch</span>
+              </div>
             </div>
-            <div class="w-20 h-20 rounded-full bg-sky-100 dark:bg-sky-900 overflow-hidden border-[3px] border-amber-400 flex items-center justify-center text-sm font-semibold text-slate-700 dark:text-slate-100 relative">
+            <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-11 h-11 gold-3d rounded-full flex items-center justify-center border-4 border-white text-white font-black text-lg">
               1
             </div>
-            <span class="absolute -top-3 left-1/2 -translate-x-1/2">
-              <span class="material-icons-round rank-1 text-2xl rank-main-crown">workspace_premium</span>
-            </span>
-            <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-amber-400 text-[11px] font-bold text-slate-900 px-2 py-0.5 rounded-full shadow-sm">
-              #1
-            </div>
           </div>
-          <p class="mt-3 text-sm font-bold text-slate-900 dark:text-white">Nguyễn Văn A</p>
-          <p class="text-sm font-extrabold text-accent-blue">2,890 pts</p>
+          <h2 class="text-[10px] font-extrabold text-yellow-600 uppercase tracking-[0.3em] mb-2">Top Công ty</h2>
+          <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-1">Nhân sự hạnh phúc</h3>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl font-black text-primary">2,890</span>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-tighter">pts</span>
+          </div>
         </div>
-        <div class="flex flex-col items-center gap-2 translate-y-2">
-          <div class="relative">
-            <div class="w-14 h-14 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden border-2 border-slate-200/80 dark:border-slate-600 flex items-center justify-center text-xs font-semibold text-slate-600 dark:text-slate-200">
-              3
+        <div class="grid grid-cols-2 gap-4 mt-8 pt-6">
+          <div class="flex items-center gap-3">
+            <div class="relative">
+              <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700 flex items-center justify-center">
+                <span class="material-symbols-outlined text-2xl text-slate-400">business</span>
+              </div>
+              <div class="absolute -top-2 -right-2 w-5 h-5 silver-3d rounded-full flex items-center justify-center border-2 border-white text-white font-bold text-[10px]">
+                2
+              </div>
             </div>
-            <span class="absolute -top-2 left-1/2 -translate-x-1/2">
-              <span class="material-icons-round rank-3 text-lg">workspace_premium</span>
-            </span>
+            <div>
+              <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 truncate max-w-[100px]">CN&amp;CDS</p>
+              <p class="text-sm font-black text-slate-800 dark:text-slate-100">2,450 pts</p>
+            </div>
           </div>
-          <p class="text-xs font-medium text-slate-600 dark:text-slate-300">Lê Thùy</p>
-          <p class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">2,100 pts</p>
+          <div class="flex items-center gap-3">
+            <div class="relative">
+              <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700 flex items-center justify-center">
+                <span class="material-symbols-outlined text-2xl text-slate-400">apartment</span>
+              </div>
+              <div class="absolute -top-2 -right-2 w-5 h-5 bronze-3d rounded-full flex items-center justify-center border-2 border-white text-white font-bold text-[10px]">
+                3
+              </div>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 truncate max-w-[100px]">Công ty #3</p>
+              <p class="text-sm font-black text-slate-800 dark:text-slate-100">2,100 pts</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -140,143 +208,172 @@
         <div class="flex items-center justify-between px-4 py-2.5">
           <div class="flex items-center gap-3">
             <span class="w-6 text-sm font-bold text-slate-400">4</span>
-            <div class="w-9 h-9 rounded-full bg-sky-100 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-primary">
-              PM
-            </div>
             <div>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phạm Minh</p>
-              <p class="text-[11px] text-slate-400">Sales Representative</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Kinh doanh</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
             </div>
           </div>
-          <span class="text-sm font-bold text-accent-blue">1,980 pts</span>
+          <span class="text-sm font-bold ypoint-score">1,980 pts</span>
         </div>
         <div class="flex items-center justify-between px-4 py-2.5">
           <div class="flex items-center gap-3">
             <span class="w-6 text-sm font-bold text-slate-400">5</span>
-            <div class="w-9 h-9 rounded-full bg-emerald-100 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-emerald-700">
-              HB
-            </div>
             <div>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Hoàng Bách</p>
-              <p class="text-[11px] text-slate-400">Retail Associate</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Kế toán</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
             </div>
           </div>
-          <span class="text-sm font-bold text-accent-blue">1,850 pts</span>
+          <span class="text-sm font-bold ypoint-score">1,850 pts</span>
         </div>
         <div class="flex items-center justify-between px-4 py-2.5">
           <div class="flex items-center gap-3">
             <span class="w-6 text-sm font-bold text-slate-400">6</span>
-            <div class="w-9 h-9 rounded-full bg-rose-100 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-rose-600">
-              ĐQ
-            </div>
             <div>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Đỗ Quyên</p>
-              <p class="text-[11px] text-slate-400">Store Manager</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Marketing</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
             </div>
           </div>
-          <span class="text-sm font-bold text-accent-blue">1,720 pts</span>
+          <span class="text-sm font-bold ypoint-score">1,720 pts</span>
         </div>
         <div class="flex items-center justify-between px-4 py-2.5">
           <div class="flex items-center gap-3">
             <span class="w-6 text-sm font-bold text-slate-400">7</span>
-            <div class="w-9 h-9 rounded-full bg-amber-100 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-amber-700">
-              LM
-            </div>
             <div>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Lê Mai</p>
-              <p class="text-[11px] text-slate-400">Customer Support</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Hành chính</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
             </div>
           </div>
-          <span class="text-sm font-bold text-accent-blue">1,680 pts</span>
+          <span class="text-sm font-bold ypoint-score">1,680 pts</span>
         </div>
         <div class="flex items-center justify-between px-4 py-2.5">
           <div class="flex items-center gap-3">
             <span class="w-6 text-sm font-bold text-slate-400">8</span>
-            <div class="w-9 h-9 rounded-full bg-indigo-100 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-indigo-700">
-              VH
-            </div>
             <div>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Vũ Hoàng</p>
-              <p class="text-[11px] text-slate-400">Operations</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Công nghệ</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
             </div>
           </div>
-          <span class="text-sm font-bold text-accent-blue">1,610 pts</span>
+          <span class="text-sm font-bold ypoint-score">1,610 pts</span>
         </div>
         <div class="flex items-center justify-between px-4 py-2.5">
           <div class="flex items-center gap-3">
             <span class="w-6 text-sm font-bold text-slate-400">9</span>
-            <div class="w-9 h-9 rounded-full bg-teal-100 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-teal-700">
-              BT
-            </div>
             <div>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Bùi Tiến</p>
-              <p class="text-[11px] text-slate-400">Visual Merchandiser</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Vận hành</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
             </div>
           </div>
-          <span class="text-sm font-bold text-accent-blue">1,540 pts</span>
+          <span class="text-sm font-bold ypoint-score">1,540 pts</span>
         </div>
         <div class="flex items-center justify-between px-4 py-2.5">
           <div class="flex items-center gap-3">
             <span class="w-6 text-sm font-bold text-slate-400">10</span>
-            <div class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-100">
-              NQ
-            </div>
             <div>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Ngô Quân</p>
-              <p class="text-[11px] text-slate-400">Retail Associate</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Chăm sóc KH</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
             </div>
           </div>
-          <span class="text-sm font-bold text-accent-blue">1,490 pts</span>
+          <span class="text-sm font-bold ypoint-score">1,490 pts</span>
         </div>
-      </div>
-    </section>
-    <section class="pt-2">
-      <div class="flex justify-center mb-2">
-        <div class="flex flex-col items-center gap-1 text-slate-300 dark:text-slate-600">
-          <span class="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-          <span class="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-          <span class="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-        </div>
-      </div>
-      <div class="space-y-2">
-        <div class="flex items-center justify-between bg-white dark:bg-slate-800 rounded-2xl px-4 py-3 border border-slate-100 dark:border-slate-700">
+        <div class="flex items-center justify-between px-4 py-2.5">
           <div class="flex items-center gap-3">
-            <span class="w-8 text-sm font-semibold text-slate-400">18</span>
-            <div class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
-              <span class="material-icons-round text-base">person</span>
-            </div>
+            <span class="w-6 text-sm font-bold text-slate-400">11</span>
             <div>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Trịnh Hùng</p>
-              <p class="text-[11px] text-slate-400">Cashier</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Nhân sự</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
             </div>
           </div>
-          <span class="text-sm font-bold text-accent-blue">900 pts</span>
+          <span class="text-sm font-bold ypoint-score">1,380 pts</span>
         </div>
-        <div class="flex items-center justify-between bg-white dark:bg-slate-800 rounded-2xl px-4 py-3 border border-slate-100 dark:border-slate-700">
+        <div class="flex items-center justify-between px-4 py-2.5">
           <div class="flex items-center gap-3">
-            <span class="w-8 text-sm font-semibold text-slate-400">19</span>
-            <div class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
-              <span class="material-icons-round text-base">person</span>
-            </div>
+            <span class="w-6 text-sm font-bold text-slate-400">12</span>
             <div>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Minh Anh</p>
-              <p class="text-[11px] text-slate-400">Cashier</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng R&amp;D</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
             </div>
           </div>
-          <span class="text-sm font-bold text-accent-blue">860 pts</span>
+          <span class="text-sm font-bold ypoint-score">1,290 pts</span>
         </div>
-        <div class="flex items-center justify-between bg-white dark:bg-slate-800 rounded-2xl px-4 py-3 border border-slate-100 dark:border-slate-700">
+        <div class="flex items-center justify-between px-4 py-2.5">
           <div class="flex items-center gap-3">
-            <span class="w-8 text-sm font-semibold text-slate-400">20</span>
-            <div class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
-              <span class="material-icons-round text-base">person</span>
-            </div>
+            <span class="w-6 text-sm font-bold text-slate-400">13</span>
             <div>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Lý Hà</p>
-              <p class="text-[11px] text-slate-400">Cashier</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Kho vận</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
             </div>
           </div>
-          <span class="text-sm font-bold text-accent-blue">820 pts</span>
+          <span class="text-sm font-bold ypoint-score">1,180 pts</span>
+        </div>
+        <div class="flex items-center justify-between px-4 py-2.5">
+          <div class="flex items-center gap-3">
+            <span class="w-6 text-sm font-bold text-slate-400">14</span>
+            <div>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Truyền thông</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
+            </div>
+          </div>
+          <span class="text-sm font-bold ypoint-score">1,070 pts</span>
+        </div>
+        <div class="flex items-center justify-between px-4 py-2.5">
+          <div class="flex items-center gap-3">
+            <span class="w-6 text-sm font-bold text-slate-400">15</span>
+            <div>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Pháp chế</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
+            </div>
+          </div>
+          <span class="text-sm font-bold ypoint-score">960 pts</span>
+        </div>
+        <div class="flex items-center justify-between px-4 py-2.5">
+          <div class="flex items-center gap-3">
+            <span class="w-6 text-sm font-bold text-slate-400">16</span>
+            <div>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng QA</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
+            </div>
+          </div>
+          <span class="text-sm font-bold ypoint-score">850 pts</span>
+        </div>
+        <div class="flex items-center justify-between px-4 py-2.5">
+          <div class="flex items-center gap-3">
+            <span class="w-6 text-sm font-bold text-slate-400">17</span>
+            <div>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Bảo trì</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
+            </div>
+          </div>
+          <span class="text-sm font-bold ypoint-score">740 pts</span>
+        </div>
+        <div class="flex items-center justify-between px-4 py-2.5">
+          <div class="flex items-center gap-3">
+            <span class="w-6 text-sm font-bold text-slate-400">18</span>
+            <div>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Tổ chức</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
+            </div>
+          </div>
+          <span class="text-sm font-bold ypoint-score">630 pts</span>
+        </div>
+        <div class="flex items-center justify-between px-4 py-2.5">
+          <div class="flex items-center gap-3">
+            <span class="w-6 text-sm font-bold text-slate-400">19</span>
+            <div>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Kho</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
+            </div>
+          </div>
+          <span class="text-sm font-bold ypoint-score">520 pts</span>
+        </div>
+        <div class="flex items-center justify-between px-4 py-2.5">
+          <div class="flex items-center gap-3">
+            <span class="w-6 text-sm font-bold text-slate-400">20</span>
+            <div>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phòng Hậu cần</p>
+              <p class="text-[11px] text-slate-400">Phòng ban</p>
+            </div>
+          </div>
+          <span class="text-sm font-bold ypoint-score">410 pts</span>
         </div>
       </div>
     </section>
@@ -284,11 +381,78 @@
   <button
     id="share-btn"
     type="button"
-    class="fixed bottom-6 right-6 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-indigo-500/30 active:scale-95 transition-transform"
+    class="fixed bottom-6 right-6 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-indigo-500/30 active:scale-95 transition-transform hidden"
     aria-label="Chia sẻ bảng xếp hạng"
   >
     <span class="material-icons-round text-xl">share</span>
   </button>
+
+  <div id="top1-modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-md"></div>
+    <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
+      <div class="relative w-full max-w-[375px]">
+        <button
+          id="top1-close"
+          type="button"
+          class="absolute -top-14 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 border border-white/30 text-white backdrop-blur-md active:scale-90 transition-transform"
+        >
+          <span class="material-symbols-outlined text-base">close</span>
+        </button>
+        <div class="top1-achievement-card rounded-[3.5rem] py-10 px-0 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border border-white/40 relative overflow-hidden">
+          <div class="absolute top-8 left-1/4 w-2 h-2 bg-yellow-400 rounded-full opacity-40 blur-[1px]"></div>
+          <div class="absolute top-24 right-1/4 w-1.5 h-1.5 bg-yellow-300 rounded-full opacity-30 blur-[1px]"></div>
+          <div class="flex flex-col h-full">
+            <div class="px-7 pt-2 pb-8 text-center">
+              <h2 class="text-[11px] font-extrabold text-yellow-700 uppercase tracking-[0.4em] leading-relaxed">
+                CHÚC MỪNG PHÒNG BAN<br/>XUẤT SẮC
+              </h2>
+            </div>
+            <div class="top1-divider"></div>
+            <div class="px-7 py-10 flex flex-col items-center text-center">
+              <div class="relative mb-6">
+                <div class="w-28 h-28 rounded-full top1-gold-circle-frame flex items-center justify-center mx-auto">
+                  <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden border-2 border-white/40">
+                    <span class="material-symbols-outlined text-[56px] text-yellow-500 fill-1">military_tech</span>
+                  </div>
+                </div>
+                <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-slate-800 px-4 py-1.5 rounded-full shadow-lg border border-yellow-500/50 flex items-center justify-center min-w-[90px]">
+                  <span class="text-yellow-400 font-black text-[10px] tracking-[0.15em] italic">RANK #1</span>
+                </div>
+              </div>
+              <h3 class="text-3xl font-black text-slate-900 mb-2 leading-tight tracking-tight">
+                Nhân sự hạnh phúc
+              </h3>
+              <div class="flex items-baseline gap-1.5 justify-center">
+                <span class="text-5xl font-black tracking-tighter italic top1-score">2,890</span>
+                <span class="text-[12px] font-bold text-slate-400 uppercase tracking-widest">pts</span>
+              </div>
+            </div>
+            <div class="top1-divider"></div>
+            <div class="px-10 py-10 text-center">
+              <p class="text-slate-600 text-[14px] leading-relaxed font-medium italic">
+                "Sự nỗ lực và cống hiến không ngừng nghỉ của phòng ban đã mang lại kết quả tuyệt vời này. Thật tự hào về bạn!"
+              </p>
+            </div>
+            <div class="top1-divider"></div>
+            <div class="px-7 pt-8 pb-4">
+              <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-6 text-center">
+                CHIA SẺ THÀNH TÍCH
+              </p>
+              <div class="flex items-center justify-center gap-6">
+                <button class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 shadow-sm text-blue-600 font-bold text-[12px] active:bg-blue-100 transition-colors">
+                  Gapo
+                </button>
+                <button class="w-14 h-14 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100 shadow-sm active:bg-slate-100 transition-colors">
+                  <span class="material-icons-round text-primary text-2xl">download</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fixed bottom-2 inset-x-0 h-1.5 w-36 mx-auto bg-white/20 rounded-full pointer-events-none"></div>
+  </div>
 
   <div id="share-modal" class="fixed inset-0 z-40 hidden">
     <div class="absolute inset-0 bg-black/40"></div>
@@ -336,6 +500,9 @@
       var closeBtn = document.getElementById('share-close');
       var copyBtn = document.getElementById('share-copy');
       var statusEl = document.getElementById('share-status');
+      var top1Card = document.getElementById('top1-card');
+      var top1Modal = document.getElementById('top1-modal');
+      var top1Close = document.getElementById('top1-close');
 
       function openShare() {
         if (!modal) return;
@@ -348,6 +515,16 @@
         modal.classList.add('hidden');
       }
 
+      function openTop1() {
+        if (!top1Modal) return;
+        top1Modal.classList.remove('hidden');
+      }
+
+      function closeTop1() {
+        if (!top1Modal) return;
+        top1Modal.classList.add('hidden');
+      }
+
       if (shareBtn) {
         shareBtn.addEventListener('click', openShare);
       }
@@ -358,6 +535,19 @@
         modal.addEventListener('click', function (e) {
           if (e.target === modal || e.target === modal.firstElementChild) {
             closeShare();
+          }
+        });
+      }
+      if (top1Card) {
+        top1Card.addEventListener('click', openTop1);
+      }
+      if (top1Close) {
+        top1Close.addEventListener('click', closeTop1);
+      }
+      if (top1Modal) {
+        top1Modal.addEventListener('click', function (e) {
+          if (e.target === top1Modal || e.target === top1Modal.firstElementChild) {
+            closeTop1();
           }
         });
       }

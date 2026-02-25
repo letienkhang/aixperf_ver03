@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Chi tiết quà tặng - Y Point</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#1E1B4B",
+            "background-light": "#F9FAFB",
+            "background-dark": "#111827",
+            "surface-light": "#FFFFFF",
+            "surface-dark": "#1F2937",
+            "accent-orange": "#FFD700",
+            "accent-green": "#10B981"
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "12px",
+            "xl": "24px",
+            "2xl": "32px",
+          },
+        },
+      },
+    };
+  </script>
+  <style type="text/tailwindcss">
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .hero-gradient {
+      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 70%, rgba(255,255,255,1) 100%);
+    }
+    .dark .hero-gradient {
+      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 70%, rgba(31,41,55,1) 100%);
+    }
+    #gift-redeem-btn {
+      transition: width 0.35s ease, height 0.35s ease, border-radius 0.35s ease, background-color 0.3s ease;
+    }
+    #gift-redeem-btn.redeem-loading {
+      pointer-events: none;
+    }
+    #gift-redeem-btn.redeem-success {
+      width: 3.5rem;
+      height: 3.5rem;
+      padding: 0;
+      border-radius: 9999px;
+      background-color: #10B981;
+      box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+    }
+    .toast-redeem-enter {
+      animation: toast-redeem-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    @keyframes toast-redeem-in {
+      from { opacity: 0; transform: scale(0.92) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .toast-redeem-card {
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    }
+    .dark .toast-redeem-card {
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+  </style>
+  <style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-0 sm:p-4">
+  <div class="relative w-full max-w-[430px] h-[932px] bg-surface-light dark:bg-surface-dark overflow-hidden shadow-2xl sm:rounded-[3rem] border-[8px] border-slate-900 dark:border-slate-800 flex flex-col">
+    <div class="absolute top-0 left-0 right-0 z-20 h-12 w-full flex items-center justify-between px-8 pt-4 pointer-events-none">
+      <span class="text-sm font-semibold text-white">13:23</span>
+      <div class="flex items-center gap-1.5 text-white">
+        <span class="material-symbols-outlined text-[18px]">signal_cellular_alt</span>
+        <span class="material-symbols-outlined text-[18px]">wifi</span>
+        <span class="material-symbols-outlined text-[18px]">battery_full</span>
+      </div>
+    </div>
+    <div class="flex-1 overflow-y-auto no-scrollbar relative">
+      <section class="relative w-full h-[460px]">
+        <img
+          id="gift-detail-hero-img"
+          alt="Quà tặng"
+          class="w-full h-full object-cover"
+          src="https://images.pexels.com/photos/305821/pexels-photo-305821.jpeg?auto=compress&cs=tinysrgb&w=800"
+        />
+        <div class="hero-gradient absolute inset-0"></div>
+        <a
+          href="ypoint-shop.html"
+          class="absolute top-14 left-6 w-10 h-10 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 z-30 active:scale-95 transition-transform"
+        >
+          <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+        <div class="absolute bottom-6 left-0 right-0 px-6">
+          <h2 id="gift-detail-title" class="text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">
+            Cây xanh để bàn Monstera
+          </h2>
+          <div class="flex items-center gap-2 mt-2">
+            <span id="gift-detail-cost" class="text-3xl font-black text-accent-orange">650 pts</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="px-6 pb-32 mt-3 space-y-6">
+        <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-500 dark:text-slate-400">
+          <div class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">redeem</span>
+            <span id="gift-detail-category">Quà hiện vật</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">schedule</span>
+            <span>Hết hạn 31/12/2026</span>
+          </div>
+          <div class="w-full text-xs opacity-75">Áp dụng toàn hệ thống</div>
+        </div>
+
+        <div id="gift-detail-balance-box" class="bg-white dark:bg-slate-900 border-2 border-indigo-100 dark:border-indigo-900/50 p-6 rounded-2xl shadow-sm">
+          <div class="flex flex-col gap-4">
+            <div class="flex justify-between items-start">
+              <div class="space-y-1">
+                <p class="text-xs uppercase tracking-wider font-semibold text-slate-900 dark:text-white">Điểm hiện có</p>
+                <p id="gift-detail-balance-current" class="text-2xl font-bold text-slate-900 dark:text-white">770 pts</p>
+              </div>
+              <div class="h-10 w-[1px] bg-indigo-200 dark:bg-indigo-800"></div>
+              <div class="space-y-1 text-right">
+                <p class="text-xs uppercase tracking-wider font-semibold text-slate-900 dark:text-white">Sau khi đổi</p>
+                <p id="gift-detail-balance-after" class="text-2xl font-bold text-slate-900 dark:text-white">120 pts</p>
+              </div>
+            </div>
+            <div id="gift-detail-status-wrap" class="pt-4 border-t border-indigo-200/50 dark:border-indigo-800/50">
+              <div id="gift-detail-status-enough" class="flex items-center justify-center gap-2 text-accent-green bg-white dark:bg-slate-900 py-3 px-4 rounded-xl font-bold text-sm shadow-sm border border-emerald-100 dark:border-emerald-900/30">
+                <span class="material-symbols-outlined fill-1">check_circle</span>
+                <span>Bạn có đủ điểm để đổi quà này.</span>
+              </div>
+              <div id="gift-detail-status-not-enough" class="hidden flex items-center justify-center gap-2 text-rose-600 dark:text-rose-400 bg-white dark:bg-slate-900 py-3 px-4 rounded-xl font-bold text-sm shadow-sm border border-rose-200 dark:border-rose-900/40">
+                <span class="material-symbols-outlined fill-1">info</span>
+                <span>Bạn cần thêm <span id="gift-detail-missing-pts">0</span> pts.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+          <h3 class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-4">
+            ĐIỀU KIỆN SỬ DỤNG QUÀ
+          </h3>
+          <div class="space-y-4 px-1">
+            <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center shrink-0 ring-2 ring-emerald-200/60 dark:ring-emerald-800/50">
+                <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              </div>
+              <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                Áp dụng cho quà tặng đã quy đổi trong
+                <span class="font-bold text-slate-800 dark:text-slate-200">tháng hiện tại</span>, không cộng dồn sang kỳ sau.
+              </p>
+            </div>
+            <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center shrink-0 ring-2 ring-emerald-200/60 dark:ring-emerald-800/50">
+                <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              </div>
+              <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                Không quy đổi thành tiền mặt, không chuyển nhượng cho tài khoản khác.
+              </p>
+            </div>
+            <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center shrink-0 ring-2 ring-emerald-200/60 dark:ring-emerald-800/50">
+                <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              </div>
+              <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                Khi sử dụng quà tại đối tác, vui lòng xuất trình
+                <span class="font-bold text-slate-800 dark:text-slate-200">mã QR / mã ưu đãi</span> từ ứng dụng Y Point.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-6 pb-12 bg-surface-light dark:bg-surface-dark border-t border-slate-100 dark:border-slate-800 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] flex justify-center">
+      <button
+        id="gift-redeem-btn"
+        type="button"
+        class="w-full bg-primary hover:brightness-110 active:scale-[0.98] text-white py-4.5 rounded-2xl font-bold text-lg shadow-xl shadow-indigo-900/30 flex items-center justify-center gap-2 h-16 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:brightness-100"
+      >
+        <span id="gift-redeem-label">Xác nhận đổi quà</span>
+      </button>
+    </div>
+
+    <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full"></div>
+  </div>
+
+  <div id="gift-redeem-toast" class="fixed inset-0 z-50 flex items-center justify-center p-5 hidden pointer-events-none">
+    <div id="gift-redeem-toast-card" class="relative pointer-events-auto w-full max-w-[340px] rounded-2xl toast-redeem-card toast-redeem-enter bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 overflow-hidden">
+      <div class="p-5 pt-6 pb-6">
+        <div class="flex gap-4">
+          <div class="shrink-0 w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-2xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          </div>
+          <div class="flex-1 min-w-0 pr-6">
+            <p class="text-base font-semibold text-slate-900 dark:text-white mb-1">Đổi quà thành công</p>
+            <p id="gift-redeem-toast-text" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Hệ thống đang xử lý, nhân sự sẽ liên hệ với bạn sớm nhất.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="px-4 pb-4 flex justify-end">
+        <button type="button" id="gift-redeem-toast-close" class="px-4 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 active:scale-[0.98] transition-colors">
+          Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="gift-redeem-toast-backdrop" class="fixed inset-0 z-40 bg-black/50 hidden"></div>
+
+  <script>
+    (function () {
+      // Data từ shop (sessionStorage) hoặc mặc định khi mở trực tiếp
+      var DEFAULT = {
+        title: 'Cây xanh để bàn Monstera',
+        cost: 650,
+        image: 'https://images.pexels.com/photos/305821/pexels-photo-305821.jpeg?auto=compress&cs=tinysrgb&w=800',
+        category: 'physical',
+        balance: 770
+      };
+
+      var stored = null;
+      try {
+        var raw = sessionStorage.getItem('ypointGiftDetail');
+        if (raw) stored = JSON.parse(raw);
+      } catch (e) {}
+
+      var title = (stored && stored.title) ? stored.title : DEFAULT.title;
+      var cost = (stored && typeof stored.cost === 'number') ? stored.cost : DEFAULT.cost;
+      var image = (stored && stored.image) ? stored.image : DEFAULT.image;
+      var category = (stored && stored.category) ? stored.category : DEFAULT.category;
+      var balance = (stored && typeof stored.balance === 'number') ? stored.balance : DEFAULT.balance;
+
+      var categoryLabels = { physical: 'Quà hiện vật', discount: 'Mã giảm giá', voucher: 'Voucher ưu đãi' };
+      var categoryText = categoryLabels[category] || categoryLabels.physical;
+
+      var enough = balance >= cost;
+      var after = balance - cost;
+      if (after < 0) after = 0;
+
+      var heroImg = document.getElementById('gift-detail-hero-img');
+      var titleEl = document.getElementById('gift-detail-title');
+      var costEl = document.getElementById('gift-detail-cost');
+      var categoryEl = document.getElementById('gift-detail-category');
+      var balanceCurrentEl = document.getElementById('gift-detail-balance-current');
+      var balanceAfterEl = document.getElementById('gift-detail-balance-after');
+      var statusEnough = document.getElementById('gift-detail-status-enough');
+      var statusNotEnough = document.getElementById('gift-detail-status-not-enough');
+      var missingPtsEl = document.getElementById('gift-detail-missing-pts');
+      var btn = document.getElementById('gift-redeem-btn');
+      var label = document.getElementById('gift-redeem-label');
+
+      if (heroImg) { heroImg.src = image; heroImg.alt = title; }
+      if (titleEl) titleEl.textContent = title;
+      if (costEl) costEl.textContent = cost.toLocaleString('vi') + ' pts';
+      if (categoryEl) categoryEl.textContent = categoryText;
+      if (balanceCurrentEl) balanceCurrentEl.textContent = balance.toLocaleString('vi') + ' pts';
+      if (balanceAfterEl) balanceAfterEl.textContent = after.toLocaleString('vi') + ' pts';
+
+      if (enough) {
+        if (statusEnough) statusEnough.classList.remove('hidden');
+        if (statusNotEnough) statusNotEnough.classList.add('hidden');
+        if (btn) btn.disabled = false;
+        if (label) label.textContent = 'Xác nhận đổi quà';
+      } else {
+        if (statusEnough) statusEnough.classList.add('hidden');
+        if (statusNotEnough) {
+          statusNotEnough.classList.remove('hidden');
+          statusNotEnough.classList.add('flex');
+        }
+        if (missingPtsEl) missingPtsEl.textContent = (cost - balance).toLocaleString('vi');
+        if (btn) btn.disabled = true;
+        if (label) label.textContent = 'Chưa đủ điểm';
+      }
+    })();
+
+    (function () {
+      var btn = document.getElementById('gift-redeem-btn');
+      var label = document.getElementById('gift-redeem-label');
+      var toast = document.getElementById('gift-redeem-toast');
+      var toastBackdrop = document.getElementById('gift-redeem-toast-backdrop');
+      var toastClose = document.getElementById('gift-redeem-toast-close');
+
+      if (!btn || !label) return;
+
+      function showToast() {
+        if (toast) {
+          toast.classList.remove('hidden');
+          toast.classList.add('toast-redeem-enter');
+          toast.classList.remove('pointer-events-none');
+        }
+        if (toastBackdrop) {
+          toastBackdrop.classList.remove('hidden');
+        }
+      }
+
+      function hideToast() {
+        if (toast) {
+          toast.classList.add('hidden', 'pointer-events-none');
+          toast.classList.remove('toast-redeem-enter');
+        }
+        if (toastBackdrop) {
+          toastBackdrop.classList.add('hidden');
+        }
+      }
+
+      if (toastClose) {
+        toastClose.addEventListener('click', hideToast);
+      }
+      if (toastBackdrop) {
+        toastBackdrop.addEventListener('click', hideToast);
+      }
+
+      btn.addEventListener('click', function () {
+        if (btn.disabled || btn.classList.contains('redeem-loading') || btn.classList.contains('redeem-success')) return;
+
+        btn.classList.add('redeem-loading');
+        label.textContent = 'Đang xử lý...';
+
+        setTimeout(function () {
+          btn.classList.remove('redeem-loading');
+          btn.classList.add('redeem-success');
+          label.outerHTML = '<span class="material-symbols-outlined text-white text-2xl">check</span>';
+
+          showToast();
+        }, 4000);
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
