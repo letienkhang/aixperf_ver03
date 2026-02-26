@@ -95,6 +95,9 @@
     }
     [data-gift-card] .gift-visual {
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   </style>
 </head>
@@ -116,44 +119,43 @@
     </div>
   </header>
   <main class="flex-1 px-4 pt-2 space-y-6 pb-10">
-    <section class="balance-card bg-transparent p-0 rounded-3xl border-0 relative overflow-visible">
-      <div class="relative overflow-hidden bg-white dark:bg-slate-800 rounded-[2rem] p-8 card-shadow border border-slate-100 dark:border-slate-700">
-        <div class="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl"></div>
+    <section class="balance-card bg-transparent px-1 pt-1 pb-0 rounded-3xl border-0 relative overflow-visible">
+      <div class="relative overflow-hidden bg-white dark:bg-slate-800 rounded-2xl p-5 card-shadow border border-slate-100 dark:border-slate-700">
+        <div class="absolute -top-10 -right-10 w-36 h-36 bg-primary/5 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-10 -left-10 w-36 h-36 bg-primary/5 rounded-full blur-3xl"></div>
         <div class="relative z-10">
-          <div class="flex justify-between items-start mb-10">
-            <div class="space-y-1">
+          <div class="flex justify-between items-start mb-6">
+            <div class="space-y-0.5">
               <p class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
                 Mã nhân viên
               </p>
               <p class="text-xl font-extrabold text-[#1E2161] dark:text-white">YD09090</p>
             </div>
-            <div class="text-right space-y-1">
+            <div class="text-right space-y-0.5">
               <p class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
                 Sắp hết hạn
               </p>
               <p class="text-sm font-bold text-red-500">31/12/2026</p>
             </div>
           </div>
-          <div class="space-y-1 mb-10">
+          <div class="space-y-1 mb-6">
             <p class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
               Số dư khả dụng
             </p>
             <div class="flex items-baseline gap-2">
-              <span id="availablePoints" data-points="1250" class="text-6xl font-black text-[#1E2161] dark:text-white tracking-tighter">1,250</span>
-              <span class="text-lg font-bold text-slate-400 dark:text-slate-500 uppercase">Points</span>
+              <span id="availablePoints" data-points="1250" class="text-5xl font-black text-[#1E2161] dark:text-white tracking-tight">1,250</span>
+              <span class="text-base font-bold text-slate-400 dark:text-slate-500 uppercase">Points</span>
             </div>
           </div>
           <div class="flex justify-between items-end">
             <div class="flex flex-col">
-              <span class="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold border border-primary/20">
-                <span class="material-icons-round text-sm mr-1">workspace_premium</span>
-                Hạng Đồng
+              <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary border border-primary/20">
+                <span class="material-icons-round text-xl">workspace_premium</span>
               </span>
             </div>
-            <a class="flex items-center gap-1.5 py-2.5 px-5 bg-slate-50 dark:bg-slate-700/50 rounded-full hover:bg-slate-100 transition-colors" href="ypoint-ranking.html">
-              <span class="text-[13px] font-bold text-[#1E2161] dark:text-slate-200">Bảng xếp hạng</span>
-              <span class="material-icons-round text-sm text-[#1E2161] dark:text-slate-200">chevron_right</span>
+            <a class="flex items-center gap-1.5 py-2 px-4 bg-slate-50 dark:bg-slate-700/50 rounded-full hover:bg-slate-100 transition-colors" href="ypoint-ranking.html">
+              <span class="text-[12px] font-bold text-[#1E2161] dark:text-slate-200">Bảng xếp hạng</span>
+              <span class="material-icons-round text-xs text-[#1E2161] dark:text-slate-200">chevron_right</span>
             </a>
           </div>
         </div>
@@ -161,9 +163,8 @@
     </section>
     <section>
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-primary dark:text-white text-lg font-bold flex items-center gap-2">
-          <span class="material-icons-round text-accent-orange text-xl">redeem</span>
-          Kho quà
+        <h3 class="text-primary dark:text-white text-lg font-bold">
+          Danh sách đổi quà
         </h3>
       </div>
       <div class="flex gap-2 mb-4 overflow-x-auto hide-scrollbar -mx-4 px-4">
@@ -193,259 +194,223 @@
       </div>
       <div class="grid grid-cols-2 gap-4">
         <!-- Physical gifts (6) -->
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="physical" data-cost-points="480">
-          <div class="gift-visual h-[140px] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Bình giữ nhiệt Inox 480ml" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="physical" data-cost-points="480">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Bình giữ nhiệt Inox 480ml</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">480 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Bình giữ nhiệt Inox 480ml</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">480 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="physical" data-cost-points="650">
-          <div class="gift-visual h-[140px] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Cây xanh để bàn Monstera" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="physical" data-cost-points="650">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Cây xanh để bàn Monstera</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">650 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Cây xanh để bàn Monstera</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">650 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="physical" data-cost-points="820">
-          <div class="gift-visual h-[140px] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Set ly sứ Pastel 4 chiếc" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="physical" data-cost-points="820">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Set ly sứ Pastel 4 chiếc</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">820 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Set ly sứ Pastel 4 chiếc</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">820 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="physical" data-cost-points="1150">
-          <div class="gift-visual h-[140px] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Áo khoác gió YODY" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="physical" data-cost-points="1150">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Áo khoác gió YODY</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">1,150 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Áo khoác gió YODY</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,150 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="physical" data-cost-points="1400">
-          <div class="gift-visual h-[140px] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Vali du lịch 24 inch" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1565026057447-bc90a3d2b2b9?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="physical" data-cost-points="1400">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Vali du lịch 24 inch</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">1,400 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Vali du lịch 24 inch</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,400 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="physical" data-cost-points="1600">
-          <div class="gift-visual h-[140px] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Ghế công thái học mini" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="physical" data-cost-points="1600">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Ghế công thái học mini</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">1,600 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Ghế công thái học mini</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,600 pts</span>
             </div>
           </div>
         </div>
 
         <!-- Discount gifts (6) -->
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="discount" data-cost-points="300">
-          <div class="gift-visual h-[140px] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Mã giảm giá 50K cửa hàng" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="discount" data-cost-points="300">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Mã giảm giá 50K cửa hàng</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">300 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Mã giảm giá 50K cửa hàng</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">300 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="discount" data-cost-points="420">
-          <div class="gift-visual h-[140px] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Mã giảm giá 100K cửa hàng" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="discount" data-cost-points="420">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Mã giảm giá 100K cửa hàng</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">420 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Mã giảm giá 100K cửa hàng</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">420 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="discount" data-cost-points="700">
-          <div class="gift-visual aspect-[3/4] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Voucher freeship 1 tháng" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="discount" data-cost-points="700">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Voucher freeship 1 tháng</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">700 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher freeship 1 tháng</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">700 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="discount" data-cost-points="1100">
-          <div class="gift-visual aspect-[3/4] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Mã giảm 20% bộ sưu tập mới" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="discount" data-cost-points="1100">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Mã giảm 20% bộ sưu tập mới</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">1,100 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Mã giảm 20% bộ sưu tập mới</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,100 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="discount" data-cost-points="1350">
-          <div class="gift-visual aspect-[3/4] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Combo voucher ăn trưa 100K" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="discount" data-cost-points="1350">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Combo voucher ăn trưa 100K</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">1,350 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Combo voucher ăn trưa 100K</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,350 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="discount" data-cost-points="1600">
-          <div class="gift-visual aspect-[3/4] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Mã giảm giá 40% giới hạn" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1607083206325-caf4843834f0?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="discount" data-cost-points="1600">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Mã giảm giá 40% giới hạn</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">1,600 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Mã giảm giá 40% giới hạn</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,600 pts</span>
             </div>
           </div>
         </div>
 
         <!-- Voucher gifts (6) -->
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="voucher" data-cost-points="280">
-          <div class="gift-visual aspect-[3/4] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Voucher cafe 3 ngày" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="voucher" data-cost-points="280">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Voucher cafe 3 ngày</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">280 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher cafe 3 ngày</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">280 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="voucher" data-cost-points="500">
-          <div class="gift-visual aspect-[3/4] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Voucher siêu thị 100K" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="voucher" data-cost-points="500">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Voucher siêu thị 100K</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">500 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher siêu thị 100K</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">500 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="voucher" data-cost-points="900">
-          <div class="gift-visual aspect-[3/4] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Voucher xem phim đôi" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="voucher" data-cost-points="900">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Voucher xem phim đôi</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">900 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher xem phim đôi</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">900 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="voucher" data-cost-points="1200">
-          <div class="gift-visual aspect-[3/4] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Voucher nghỉ dưỡng cuối tuần" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="voucher" data-cost-points="1200">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Voucher nghỉ dưỡng cuối tuần</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">1,200 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher nghỉ dưỡng cuối tuần</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,200 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="voucher" data-cost-points="1450">
-          <div class="gift-visual aspect-[3/4] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Voucher mua sắm YODY 300K" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="voucher" data-cost-points="1450">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Voucher mua sắm YODY 300K</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">1,450 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher mua sắm YODY 300K</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,450 pts</span>
             </div>
           </div>
         </div>
-        <div class="rounded-[26px] bg-slate-100 dark:bg-slate-900/40 p-1.5 flex flex-col shadow-sm overflow-hidden" data-gift-card data-category="voucher" data-cost-points="1800">
-          <div class="gift-visual aspect-[3/4] bg-gradient-to-b from-[#fbbf77] to-[#f79b5c] relative flex items-center justify-center">
-            <img alt="Voucher du lịch nội địa" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80"/>
+        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3" data-gift-card data-category="voucher" data-cost-points="1800">
+          <div class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
           </div>
-          <div class="bg-white dark:bg-slate-950 px-3 pt-2 pb-2 flex flex-col flex-1 min-h-[4.2rem] gap-1 rounded-b-[22px] justify-between">
-            <h4 class="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">Voucher du lịch nội địa</h4>
-            <div class="flex justify-end pt-1">
-              <div class="inline-flex items-center gap-1 rounded-full text-amber-600 dark:text-amber-300 px-2.5 py-0.5 text-[11px] font-semibold">
-                <span class="material-icons-round text-xs">stars</span>
-                <span class="text-sm font-bold">1,800 pts</span>
-              </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher du lịch nội địa</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,800 pts</span>
             </div>
           </div>
         </div>
@@ -658,7 +623,7 @@
         var balance = getBalance();
         currentCost = parseInt(card.getAttribute('data-cost-points') || '0', 10);
         var category = card.getAttribute('data-category') || 'physical';
-        var title = card.querySelector('h4') ? card.querySelector('h4').textContent.trim() : 'Quà tặng';
+        var title = card.querySelector('h3') ? card.querySelector('h3').textContent.trim() : 'Quà tặng';
         var img = card.querySelector('img');
         var imgSrc = img ? img.getAttribute('src') : '';
 
@@ -718,7 +683,7 @@
           var balance = getBalance();
           var cost = parseInt(card.getAttribute('data-cost-points') || '0', 10);
           var category = card.getAttribute('data-category') || 'physical';
-          var title = card.querySelector('h4') ? card.querySelector('h4').textContent.trim() : 'Quà tặng';
+          var title = card.querySelector('h3') ? card.querySelector('h3').textContent.trim() : 'Quà tặng';
           var img = card.querySelector('img');
           var imgSrc = img ? img.getAttribute('src') : '';
           var payload = {
