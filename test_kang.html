@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Employee Loyalty Card - Tier 1</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#D97706", // Bronze-ish Orange
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1.25rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex justify-center">
+    <div class="w-full max-w-[430px] min-h-screen bg-background-light dark:bg-background-dark relative flex flex-col">
+        <div class="px-8 pt-4 flex justify-between items-center text-sm font-semibold">
+            <span>9:41</span>
+            <div class="flex items-center space-x-1.5">
+                <span class="material-icons-round text-[18px]">signal_cellular_alt</span>
+                <span class="material-icons-round text-[18px]">wifi</span>
+                <span class="material-icons-round text-[18px]">battery_full</span>
+            </div>
+        </div>
+        <div class="px-6 pt-6 pb-2 flex justify-between items-center">
+            <button
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+                <span class="material-icons-round text-slate-600 dark:text-slate-300">chevron_left</span>
+            </button>
+            <h1 class="text-lg font-bold">Thẻ Thành Viên</h1>
+            <button
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+                <span class="material-icons-round text-slate-600 dark:text-slate-300 text-[20px]">notifications</span>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto px-6 pt-4 pb-24 space-y-8">
+            <div
+                class="relative overflow-hidden bg-white dark:bg-slate-800 rounded-[2rem] p-8 card-shadow border border-slate-100 dark:border-slate-700">
+                <div class="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl"></div>
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-10">
+                        <div class="space-y-1">
+                            <p
+                                class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
+                                Mã nhân viên</p>
+                            <p class="text-xl font-extrabold text-[#1E2161] dark:text-white">YD09090</p>
+                        </div>
+                        <div class="text-right space-y-1">
+                            <p
+                                class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
+                                Sắp hết hạn</p>
+                            <p class="text-sm font-bold text-red-500">31/12/2026</p>
+                        </div>
+                    </div>
+                    <div class="space-y-1 mb-10">
+                        <p class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
+                            Số dư khả dụng</p>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-6xl font-black text-[#1E2161] dark:text-white tracking-tighter">50</span>
+                            <span class="text-lg font-bold text-slate-400 dark:text-slate-500 uppercase">Points</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div class="flex flex-col">
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold border border-primary/20">
+                                <span class="material-icons-round text-sm mr-1">workspace_premium</span>
+                                Hạng Đồng
+                            </span>
+                        </div>
+                        <button
+                            class="flex items-center gap-1.5 py-2.5 px-5 bg-slate-50 dark:bg-slate-700/50 rounded-full hover:bg-slate-100 transition-colors">
+                            <span class="text-[13px] font-bold text-[#1E2161] dark:text-slate-200">Bảng xếp hạng</span>
+                            <span
+                                class="material-icons-round text-sm text-[#1E2161] dark:text-slate-200">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <h2 class="font-bold text-slate-800 dark:text-white">Tiến trình thạng hạng</h2>
+                    <span class="text-xs font-semibold text-primary">Cần 50 điểm nữa</span>
+                </div>
+                <div
+                    class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
+                    <div class="flex justify-between mb-3 text-xs font-bold text-slate-500">
+                        <span>Hạng Đồng</span>
+                        <span>Hạng Bạc</span>
+                    </div>
+                    <div class="w-full h-3 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 50%">
+                        </div>
+                    </div>
+                    <p class="mt-4 text-[13px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                        Bạn đang ở mức khởi đầu. Tích lũy thêm 50 điểm để nâng cấp lên <b>Hạng Bạc</b> và nhận thêm
+                        nhiều ưu đãi đặc quyền.
+                    </p>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <h2 class="font-bold text-slate-800 dark:text-white">Đặc quyền Hạng Đồng</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <div
+                        class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex flex-col items-center text-center space-y-2">
+                        <div
+                            class="w-10 h-10 rounded-full bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center">
+                            <span class="material-icons-round text-primary">local_cafe</span>
+                        </div>
+                        <p class="text-xs font-bold">Voucher Cafe</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex flex-col items-center text-center space-y-2">
+                        <div
+                            class="w-10 h-10 rounded-full bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center">
+                            <span class="material-icons-round text-primary">redeem</span>
+                        </div>
+                        <p class="text-xs font-bold">Quà sinh nhật</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            class="absolute bottom-0 left-0 right-0 h-24 bg-white/80 dark:bg-slate-900/80 ios-blur border-t border-slate-100 dark:border-slate-800 px-8 flex justify-between items-center pb-6">
+            <div class="flex flex-col items-center space-y-1 text-primary">
+                <span class="material-icons-round">credit_card</span>
+                <span class="text-[10px] font-bold">Thẻ</span>
+            </div>
+            <div class="flex flex-col items-center space-y-1 text-slate-400">
+                <span class="material-icons-round">history</span>
+                <span class="text-[10px] font-bold">Lịch sử</span>
+            </div>
+            <div class="flex flex-col items-center space-y-1 text-slate-400">
+                <span class="material-icons-round">storefront</span>
+                <span class="text-[10px] font-bold">Đổi quà</span>
+            </div>
+            <div class="flex flex-col items-center space-y-1 text-slate-400">
+                <span class="material-icons-round">person_outline</span>
+                <span class="text-[10px] font-bold">Tôi</span>
+            </div>
+        </div>
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full">
+        </div>
+    </div>
+
+</body>
+
+</html>
