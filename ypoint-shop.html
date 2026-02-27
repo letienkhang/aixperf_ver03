@@ -93,6 +93,15 @@
     .confetti-dot {
       animation: confetti-fall 0.8s ease-out forwards;
     }
+    [data-gift-card] {
+      transition: transform 0.16s ease-out, box-shadow 0.16s ease-out, opacity 0.16s ease-out;
+      transform-origin: center;
+    }
+    [data-gift-card].card-tap {
+      transform: scale(0.96);
+      opacity: 0.9;
+      box-shadow: 0 16px 30px -18px rgba(15, 23, 42, 0.4);
+    }
     [data-gift-card] .gift-visual {
       position: relative;
       display: flex;
@@ -689,9 +698,13 @@
         }, 250);
       }
 
-      // Khi click vào từng item quà, lưu data quà + số dư rồi chuyển sang trang chi tiết
+      // Khi click vào từng item quà, lưu data quà + số dư rồi chuyển sang trang chi tiết (kèm animation nhẹ)
+      var isNavigating = false;
       cards.forEach(function (card) {
         card.addEventListener('click', function () {
+          if (isNavigating) return;
+          isNavigating = true;
+
           var balance = getBalance();
           var cost = parseInt(card.getAttribute('data-cost-points') || '0', 10);
           var category = card.getAttribute('data-category') || 'physical';
@@ -708,7 +721,11 @@
           try {
             sessionStorage.setItem('ypointGiftDetail', JSON.stringify(payload));
           } catch (e) {}
-          window.location.href = 'ypoint-gift-detail.html';
+
+          card.classList.add('card-tap');
+          setTimeout(function () {
+            window.location.href = 'ypoint-gift-detail.html';
+          }, 180);
         });
       });
     })();
