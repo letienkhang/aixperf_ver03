@@ -120,11 +120,14 @@
     </div>
   </div>
   <header class="sticky top-0 z-50 bg-background-light/90 dark:bg-background-dark/90 ios-blur">
-    <div class="px-4 py-3 flex items-center gap-3">
-      <a class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform" href="ypoint.html">
+    <div class="px-4 py-3 flex items-center gap-3 w-full">
+      <a class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform" href="ypoint.html">
         <span class="material-icons-round text-primary dark:text-white">arrow_back</span>
       </a>
-      <h1 class="text-primary dark:text-white text-xl font-bold">Y Point Shop</h1>
+      <h1 class="flex-1 min-w-0 text-primary dark:text-white text-xl font-bold truncate">Y Point Shop</h1>
+      <a href="ypoint-history.html" class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform" aria-label="Lịch sử đổi quà">
+        <span class="material-icons-round text-[22px] text-primary dark:text-white">history</span>
+      </a>
     </div>
   </header>
   <main class="flex-1 px-4 pt-2 space-y-6 pb-10">
@@ -528,6 +531,7 @@
       </div>
     </div>
   </div>
+
   <script>
     (function () {
       var toggle = document.getElementById('filterToggle');
