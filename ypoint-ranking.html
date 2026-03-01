@@ -154,6 +154,146 @@
     </div>
   </header>
   <main class="flex-1 px-4 pt-4 pb-16 space-y-6">
+    <div class="flex justify-center gap-6 border-b border-slate-200 dark:border-slate-700">
+      <button type="button" data-rank-tab="personal" class="rank-tab pb-2.5 pt-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500 border-b-2 border-transparent -mb-px transition-colors">
+        Cá nhân
+      </button>
+      <button type="button" data-rank-tab="department" class="rank-tab pb-2.5 pt-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-primary dark:text-white border-b-2 border-amber-400 -mb-px transition-colors">
+        Phòng ban
+      </button>
+    </div>
+
+    <div id="ranking-personal" class="ranking-panel hidden space-y-6">
+      <section class="rounded-3xl overflow-hidden px-4 pt-5 pb-5">
+        <div id="top1-card-personal" class="hero-card dark:bg-slate-800/50 rounded-[2.5rem] p-6 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] relative overflow-hidden cursor-pointer active:scale-[0.99] transition-transform border border-slate-100 dark:border-slate-700">
+          <div class="absolute -top-1 right-0 p-4 premium-float">
+            <span class="material-symbols-outlined text-yellow-500/20 text-8xl scale-[1.4] rotate-[18deg]">workspace_premium</span>
+          </div>
+          <div class="relative z-10 flex flex-col items-center text-center">
+            <div class="relative mb-6">
+              <div class="gold-ring">
+                <div class="w-24 h-24 rounded-full bg-white dark:bg-slate-700 shadow-xl flex items-center justify-center overflow-hidden">
+                  <span class="material-symbols-outlined text-5xl text-yellow-500 fill-1">person</span>
+                </div>
+              </div>
+              <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-11 h-11 gold-3d rounded-full flex items-center justify-center border-4 border-white dark:border-slate-800 text-white font-black text-lg">1</div>
+            </div>
+            <h2 class="text-[10px] font-extrabold text-yellow-600 uppercase tracking-[0.3em] mb-2">Top cá nhân</h2>
+            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-1">Nguyễn Văn An</h3>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-black text-primary">2,890</span>
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-tighter">pts</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mt-8 pt-6">
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-2xl text-slate-400">person</span>
+                </div>
+                <div class="absolute -top-2 -right-2 w-5 h-5 silver-3d rounded-full flex items-center justify-center border-2 border-white dark:border-slate-800 text-white font-bold text-[10px]">2</div>
+              </div>
+              <div>
+                <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 truncate max-w-[100px]">Trần Thị Bình</p>
+                <p class="text-sm font-black text-slate-800 dark:text-slate-100">2,450 pts</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-2xl text-slate-400">person</span>
+                </div>
+                <div class="absolute -top-2 -right-2 w-5 h-5 bronze-3d rounded-full flex items-center justify-center border-2 border-white dark:border-slate-800 text-white font-bold text-[10px]">3</div>
+              </div>
+              <div>
+                <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 truncate max-w-[100px]">Lê Văn Cường</p>
+                <p class="text-sm font-black text-slate-800 dark:text-slate-100">2,100 pts</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="pb-2">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-[11px] font-semibold tracking-[0.12em] uppercase text-slate-400 dark:text-slate-500">Top 4 - 20</p>
+          <span class="text-[11px] font-medium text-slate-400 dark:text-slate-500">Cập nhật 5 phút trước</span>
+        </div>
+        <div class="bg-white/90 dark:bg-slate-800/90 rounded-3xl border border-slate-100/80 dark:border-slate-700/80 overflow-hidden divide-y divide-slate-100/80 dark:divide-slate-700/80">
+          <div class="flex items-center justify-between px-4 py-2.5">
+            <div class="flex items-center gap-3">
+              <span class="w-6 text-sm font-bold text-slate-400">4</span>
+              <div>
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Phạm Thị Dung</p>
+                <p class="text-[11px] text-slate-400">Cá nhân</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold ypoint-score">1,980 pts</span>
+          </div>
+          <div class="flex items-center justify-between px-4 py-2.5">
+            <div class="flex items-center gap-3">
+              <span class="w-6 text-sm font-bold text-slate-400">5</span>
+              <div>
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Hoàng Văn Em</p>
+                <p class="text-[11px] text-slate-400">Cá nhân</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold ypoint-score">1,850 pts</span>
+          </div>
+          <div class="flex items-center justify-between px-4 py-2.5">
+            <div class="flex items-center gap-3">
+              <span class="w-6 text-sm font-bold text-slate-400">6</span>
+              <div>
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Võ Thị Phương</p>
+                <p class="text-[11px] text-slate-400">Cá nhân</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold ypoint-score">1,720 pts</span>
+          </div>
+          <div class="flex items-center justify-between px-4 py-2.5">
+            <div class="flex items-center gap-3">
+              <span class="w-6 text-sm font-bold text-slate-400">7</span>
+              <div>
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Đặng Văn Hải</p>
+                <p class="text-[11px] text-slate-400">Cá nhân</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold ypoint-score">1,680 pts</span>
+          </div>
+          <div class="flex items-center justify-between px-4 py-2.5">
+            <div class="flex items-center gap-3">
+              <span class="w-6 text-sm font-bold text-slate-400">8</span>
+              <div>
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Ngô Thị Lan</p>
+                <p class="text-[11px] text-slate-400">Cá nhân</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold ypoint-score">1,610 pts</span>
+          </div>
+          <div class="flex items-center justify-between px-4 py-2.5">
+            <div class="flex items-center gap-3">
+              <span class="w-6 text-sm font-bold text-slate-400">9</span>
+              <div>
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Bùi Văn Minh</p>
+                <p class="text-[11px] text-slate-400">Cá nhân</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold ypoint-score">1,540 pts</span>
+          </div>
+          <div class="flex items-center justify-between px-4 py-2.5">
+            <div class="flex items-center gap-3">
+              <span class="w-6 text-sm font-bold text-slate-400">10</span>
+              <div>
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">Trương Thị Nga</p>
+                <p class="text-[11px] text-slate-400">Cá nhân</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold ypoint-score">1,490 pts</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="ranking-department" class="ranking-panel space-y-6">
     <section class="rounded-3xl overflow-hidden px-4 pt-5 pb-5">
       <div class="flex justify-center mb-3 hidden">
         <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 dark:text-slate-300 bg-white/80 dark:bg-slate-800/80 px-3 py-1 rounded-full">
@@ -395,6 +535,7 @@
         </div>
       </div>
     </section>
+    </div>
   </main>
   <button
     id="share-btn"
@@ -657,6 +798,28 @@
       var top3Modal = document.getElementById('top3-modal');
       var top3Close = document.getElementById('top3-close');
       var top3Timestamp = document.getElementById('top3-timestamp');
+
+      var rankTabs = document.querySelectorAll('.rank-tab[data-rank-tab]');
+      var rankPanels = document.querySelectorAll('.ranking-panel');
+      rankTabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var value = tab.getAttribute('data-rank-tab');
+          rankTabs.forEach(function (t) {
+            var isActive = t.getAttribute('data-rank-tab') === value;
+            t.classList.toggle('text-primary', isActive);
+            t.classList.toggle('dark:text-white', isActive);
+            t.classList.toggle('border-amber-400', isActive);
+            t.classList.toggle('text-slate-400', !isActive);
+            t.classList.toggle('dark:text-slate-500', !isActive);
+            t.classList.toggle('border-transparent', !isActive);
+          });
+          rankPanels.forEach(function (panel) {
+            var id = panel.id;
+            var show = (id === 'ranking-personal' && value === 'personal') || (id === 'ranking-department' && value === 'department');
+            panel.classList.toggle('hidden', !show);
+          });
+        });
+      });
 
       function openShare() {
         if (!modal) return;
