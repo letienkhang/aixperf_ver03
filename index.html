@@ -98,6 +98,10 @@
         <span class="material-symbols-outlined nav-icon">person</span>
         HR
       </a>
+      <a href="#" class="nav-item" data-panel="cfr" style="color: var(--text-main);">
+        <span class="material-symbols-outlined nav-icon">forum</span>
+        CFR
+      </a>
       <a href="#" class="nav-item" data-panel="ypoint" style="color: var(--text-main);">
         <span class="material-symbols-outlined nav-icon">stars</span>
         Ypoint
@@ -159,6 +163,17 @@
         <div class="shadow-2xl rounded-[2rem] overflow-hidden border-4 border-gray-800 w-full" style="max-width: 430px;">
           <iframe src="ypoint.html" title="Y Point - Mobile" class="w-full bg-white" style="height: min(884px, 95vh); min-height: 700px; border: none;"></iframe>
         </div>
+      </div>
+    </div>
+    <!-- Panel CFR: full-width giống HR, dùng chung một nền -->
+    <div id="panel-cfr" class="panel hidden flex-1 flex flex-col overflow-hidden" style="background:#f5f7fb;">
+      <div class="flex-1 flex px-6 pb-6 pt-6 min-h-0">
+        <iframe
+          src="aixperf-cfr.html"
+          title="CFR Dashboard"
+          class="w-full h-full"
+          style="border: none; background: transparent;"
+        ></iframe>
       </div>
     </div>
     <!-- Panel HR -->
