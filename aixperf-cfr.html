@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>CFR Dashboard - 1-1 Discussion Confirmation</title>
+    <link rel="stylesheet" href="design-system.css" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
         rel="stylesheet" />
@@ -41,7 +42,14 @@
         }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            color: #9ca3af; /* xám nhẹ cho toàn bộ icon */
+            color: #9ca3af;
+        }
+        .cfr-accent-bg { background-color: color-mix(in srgb, var(--primary) 20%, transparent); }
+        .cfr-accent-text { color: var(--primary); }
+        /* Ẩn nội dung nhận xét của quản lý khi còn khóa */
+        .cfr-manager-hidden textarea {
+            color: transparent !important;
+            text-shadow: none !important;
         }
     </style>
 </head>
@@ -104,49 +112,46 @@
                     </div>
             </div>
         </section>
-        <header class="px-6 py-5 border-b border-slate-200 dark:border-slate-700">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 flex-wrap">
-                <div class="flex items-center gap-4 flex-wrap min-w-0">
-                    <div class="relative shrink-0">
-                        <div class="h-14 w-14 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center shrink-0 text-slate-700 dark:text-slate-200 font-bold text-sm">LK</div>
-                    </div>
-                    <div class="min-w-0 flex-1">
+        <header class="px-6 py-5 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/50">
+            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <!-- Khối trái: Thông tin cá nhân -->
+                <div class="flex items-start gap-4 min-w-0">
+                    <div class="h-14 w-14 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center shrink-0 text-slate-700 dark:text-slate-200 font-bold text-sm">LK</div>
+                    <div class="min-w-0">
                         <h1 class="text-lg font-bold text-slate-900 dark:text-slate-100 leading-tight">Lê Tiến Khang</h1>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Product Owner · <span class="font-medium">#YD23828</span></p>
-                        <div class="mt-2 flex flex-wrap items-center gap-2">
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Product Owner · <span class="font-medium text-slate-600 dark:text-slate-300">#YD23828</span></p>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-1.5">Quản lý: Phạm Đình Trung <span class="font-medium text-slate-500 dark:text-slate-400">#YD22973</span></p>
+                    </div>
+                </div>
+                <!-- Khối phải: Huy hiệu + Nhóm -->
+                <div class="flex flex-col sm:flex-row sm:items-start gap-6 lg:gap-8 lg:shrink-0 lg:pl-8 lg:border-l border-slate-200 dark:border-slate-700">
+                    <div class="min-w-0">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Xác nhận</p>
+                        <div class="flex flex-wrap items-center gap-2">
                             <div id="cfr-1-1-wrap" class="inline-flex">
-                                <button type="button" id="cfr-1-1-switch" class="cfr-1-1-state inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-xs font-medium cursor-pointer hover:bg-slate-200/80 dark:hover:bg-slate-700/50 transition-colors" aria-pressed="false" title="Bật để đánh dấu đã trao đổi 1-1">
+                                <button type="button" id="cfr-1-1-switch" class="cfr-1-1-state inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-xs font-medium cursor-pointer hover:bg-slate-200/80 dark:hover:bg-slate-700/50 transition-colors" aria-pressed="false" title="Bật để đánh dấu đã trao đổi 1-1">
                                     <span class="w-4 h-2.5 rounded-md bg-slate-300 dark:bg-slate-600 relative inline-block">
                                         <span class="absolute left-0.5 top-0.5 w-1.5 h-1.5 rounded-sm bg-white shadow-sm transition-transform duration-200" style="transform: translateX(0);"></span>
                                     </span>
                                     Chưa trao đổi 1-1 với QLTT
                                 </button>
-                                <span id="cfr-1-1-badge" class="cfr-1-1-state hidden inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-200 text-xs font-bold cursor-pointer hover:opacity-90 transition-opacity" role="button" title="Nhấn để chuyển lại trạng thái chưa trao đổi">
+                                <span id="cfr-1-1-badge" class="cfr-1-1-state hidden sr-only inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-200 text-xs font-bold cursor-pointer hover:opacity-90 transition-opacity" role="button" title="Nhấn để chuyển lại trạng thái chưa trao đổi" aria-hidden="true">
                                     <span class="material-symbols-outlined text-sm leading-none">handshake</span>
                                     Đã trao đổi 1-1 với QLTT
                                 </span>
                             </div>
-                            <span class="hidden sm:inline-block w-px h-4 bg-slate-200 dark:bg-slate-600" aria-hidden="true"></span>
-                            <p class="hidden sm:block text-sm text-slate-600 dark:text-slate-300">
-                                Manager: Phạm Đình Trung <span class="font-medium text-slate-500 dark:text-slate-400">#YD22973</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center gap-8 sm:gap-10 shrink-0">
-                    <div>
-                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5">Huy hiệu đang đạt</p>
-                        <div id="cfr-1-1-achievement-badge" class="cfr-1-1-state hidden mt-1.5">
-                            <div class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-600/80 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/30">
-                                <span class="flex w-8 h-8 rounded-lg bg-emerald-500/20 items-center justify-center flex-shrink-0">
-                                    <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                </span>
-                                <span class="text-sm font-semibold text-slate-700 dark:text-slate-200">Đã 1-1 QL</span>
+                            <div id="cfr-1-1-achievement-badge" class="cfr-1-1-state hidden cursor-pointer" title="Nhấn để chuyển lại trạng thái chưa trao đổi">
+                                <div class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-600/80 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/30">
+                                    <span class="flex w-8 h-8 rounded-lg cfr-accent-bg items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 cfr-accent-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    </span>
+                                    <span class="text-sm font-semibold text-slate-700 dark:text-slate-200">Đã 1-1 QL</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5">Nhóm</p>
+                    <div class="sm:border-l sm:border-slate-200 dark:sm:border-slate-700 sm:pl-6 lg:pl-8">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Nhóm</p>
                         <p class="text-base font-bold text-slate-900 dark:text-slate-100 leading-tight">Lambda</p>
                     </div>
                 </div>
@@ -218,7 +223,7 @@
                         <div class="h-full bg-gradient-to-r from-slate-400 to-slate-300 dark:from-slate-500 dark:to-slate-400 rounded-full shadow-md" style="width: 100%;"></div>
                     </div>
                     <div class="pt-2 flex justify-end items-center text-xs text-slate-400 dark:text-slate-600">
-                        <button type="button" class="flex items-center gap-1 font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:underline">
+                        <button type="button" class="flex items-center gap-1 font-semibold cfr-accent-text hover:opacity-80 hover:underline">
                             Xem chi tiết KPI
                             <span class="material-symbols-outlined text-sm">arrow_forward</span>
                         </button>
@@ -295,19 +300,19 @@
                                 </div>
                                 <div class="flex gap-1">
                                     <div
-                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400 cursor-pointer hover:border-slate-300">
+                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400">
                                         A+</div>
                                     <div
-                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400 cursor-pointer hover:border-slate-300">
+                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400">
                                         A</div>
                                     <div
-                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold bg-slate-500 dark:bg-slate-600 text-white rounded cursor-pointer">
+                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold bg-slate-500 dark:bg-slate-600 text-white rounded">
                                         B+</div>
                                     <div
-                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400 cursor-pointer hover:border-slate-300">
+                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400">
                                         B</div>
                                     <div
-                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400 cursor-pointer hover:border-slate-300">
+                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400">
                                         C</div>
                                 </div>
                             </div>
@@ -316,37 +321,41 @@
                             class="col-span-4 p-6 border-l border-border-light dark:border-border-dark flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <span class="text-4xl font-black text-slate-900 dark:text-slate-50 shrink-0">3.09</span>
                             <div class="flex flex-col items-start sm:items-end">
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">XẾP LOẠI
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">
+                                    XẾP LOẠI (ẩn với nhân sự)
                                 </p>
+                                <!-- Placeholder: không hiển thị hạng thật, chỉ cho thấy đã có dữ liệu -->
                                 <div class="text-left sm:text-right mb-2">
-                                    <div class="text-2xl font-black text-slate-900 dark:text-white leading-tight">B+
-                                    </div>
-                                    <div class="text-sm font-bold text-slate-600 dark:text-slate-300">Đạt kỳ
-                                        vọng</div>
+                                    <div class="h-3 w-16 rounded-full bg-slate-200 dark:bg-slate-700 mb-1"></div>
+                                    <div class="h-3 w-28 rounded-full bg-slate-100 dark:bg-slate-800"></div>
                                 </div>
                                 <div class="flex gap-1">
                                     <div
-                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400 cursor-pointer hover:border-slate-300">
+                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold rounded bg-slate-100 dark:bg-slate-800 text-transparent select-none">
                                         A+</div>
                                     <div
-                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400 cursor-pointer hover:border-slate-300">
+                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold rounded bg-slate-100 dark:bg-slate-800 text-transparent select-none">
                                         A</div>
                                     <div
-                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold bg-slate-500 dark:bg-slate-600 text-white rounded cursor-pointer">
+                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold rounded bg-slate-100 dark:bg-slate-800 text-transparent select-none">
                                         B+</div>
                                     <div
-                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400 cursor-pointer hover:border-slate-300">
+                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold rounded bg-slate-100 dark:bg-slate-800 text-transparent select-none">
                                         B</div>
                                     <div
-                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-900 text-slate-400 cursor-pointer hover:border-slate-300">
+                                        class="w-8 h-8 flex items-center justify-center text-xs font-bold rounded bg-slate-100 dark:bg-slate-800 text-transparent select-none">
                                         C</div>
                                 </div>
+                                <p class="mt-2 text-[11px] text-slate-500 dark:text-slate-400 max-w-xs text-right">
+                                    Nhận xét chi tiết sẽ được hiển thị sau khi hoàn tất kỳ đánh giá.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 px-6 py-6 border-t border-slate-200 dark:border-slate-700">
+                <!-- Ghi chú cá nhân (hiển thị đầy đủ cho nhân sự) -->
                 <div class="pr-0 lg:pr-6 lg:border-r border-slate-200 dark:border-slate-700">
                     <label
                         class="block text-base font-bold mb-4 text-slate-600 dark:text-slate-300 uppercase tracking-widest flex items-center gap-2">
@@ -355,21 +364,53 @@
                     </label>
                     <textarea
                         class="w-full min-h-[160px] bg-white dark:bg-slate-900 border border-border-light dark:border-border-dark p-4 text-base focus:ring-primary focus:border-primary resize-none rounded-lg"
-                        placeholder="Nhập tóm tắt đóng góp nổi bật của bạn..."></textarea>
+                    >Q4/2023: Chủ động đề xuất các cải tiến quy trình triển khai sprint, hỗ trợ onboarding 02 thành viên mới vào squad Lambda, đảm bảo bàn giao KPI đúng hạn.
+
+- Đã hoàn thành 100% KPI cam kết.
+- Chủ động nhận thêm task khi team thiếu người.
+- Cần tiếp tục duy trì tần suất cập nhật tiến độ hằng tuần với Quản lý.</textarea>
                 </div>
+                <!-- Đánh giá của Quản lý: đã có data nhưng đang ẩn với nhân sự đến khi kết thúc kỳ đánh giá -->
                 <div class="pl-0 lg:pl-6">
                     <label
                         class="block text-base font-bold mb-4 text-slate-600 dark:text-slate-300 uppercase tracking-widest flex items-center gap-2">
                         <span class="material-symbols-outlined text-slate-600 text-xl">comment</span>
                         Đánh giá của quản lý
                     </label>
-                    <textarea
-                        class="w-full min-h-[160px] bg-white dark:bg-slate-900 border border-border-light dark:border-border-dark p-4 text-base focus:ring-primary focus:border-primary resize-none rounded-lg"
-                        placeholder="Nhập nhận xét từ quản lý..."></textarea>
+                    <div id="cfr-manager-comment-wrap" class="relative group" data-manager-comment="hidden-from-employee">
+                        <textarea
+                            id="cfr-manager-comment-text"
+                            class="w-full min-h-[160px] bg-white dark:bg-slate-900 border border-border-light dark:border-border-dark p-4 text-base resize-none rounded-lg text-slate-700 dark:text-slate-200"
+                            readonly
+                        >Tổng thể đáp ứng tốt vai trò Product Owner ở squad Lambda, nắm rõ ưu tiên và truyền đạt lại cho team dev rõ ràng. Chủ động trao đổi với các bên liên quan (Marketing, Vận hành) trước khi chốt scope sprint.
+
+Một số điểm cần cải thiện:
+- Cân bằng lại giữa yêu cầu business và năng lực thực thi của team.
+- Tăng thêm tần suất 1-1 với từng member để nắm rõ kỳ vọng cá nhân.</textarea>
+                        <!-- Lớp phủ thể hiện đã có nhận xét nhưng nhân sự chưa xem được -->
+                        <div
+                            id="cfr-manager-comment-overlay"
+                            class="absolute inset-0 rounded-lg bg-slate-50/90 dark:bg-slate-900/85 backdrop-blur-[1px] flex items-center justify-center">
+                            <div class="text-center text-xs text-slate-500 dark:text-slate-400 px-6">
+                                <div
+                                    class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-900 text-white text-[11px] font-semibold shadow-sm mb-1.5">
+                                    <span class="material-symbols-outlined text-[14px] leading-none">lock</span>
+                                    Đã có nhận xét từ Quản lý
+                                </div>
+                                <p>Nhận xét chi tiết sẽ được hiển thị sau khi hoàn tất kỳ đánh giá.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
         <footer class="px-6 py-6 flex flex-wrap items-center justify-end gap-4 border-t border-slate-200 dark:border-slate-700">
+            <button
+                type="button"
+                id="cfr-end-review-btn"
+                class="px-6 py-2.5 border border-border-light dark:border-border-dark font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors rounded-lg text-sm mr-auto">
+                Kết thúc kỳ đánh giá
+            </button>
             <button
                 class="px-8 py-2.5 border border-border-light dark:border-border-dark font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors rounded-lg text-base">Tải
                 báo cáo PDF</button>
@@ -390,6 +431,70 @@
         </div>
     </div>
 
+    <script>
+        (function () {
+            var THEME_KEY = 'aixperf-theme';
+            function applyTheme(theme) {
+                var root = document.documentElement;
+                if (!theme || theme === 'gray') {
+                    root.removeAttribute('data-theme');
+                } else {
+                    root.setAttribute('data-theme', theme);
+                }
+                try { localStorage.setItem(THEME_KEY, theme || 'gray'); } catch (e) {}
+            }
+            try {
+                var saved = localStorage.getItem(THEME_KEY);
+                applyTheme(saved === 'yody' || saved === 'blue' || saved === 'emerald' ? saved : 'gray');
+            } catch (e) {}
+            window.addEventListener('message', function (e) {
+                if (e.data && e.data.type === 'aixperf-theme' && e.data.theme !== undefined) {
+                    applyTheme(e.data.theme);
+                }
+            });
+            if (window.parent !== window) {
+                try { window.parent.postMessage({ type: 'aixperf-theme-get' }, '*'); } catch (e) {}
+            }
+        })();
+    </script>
+    <script>
+        (function () {
+            // Hiển thị nhận xét của quản lý chỉ khi Nhân sự xác nhận đã kết thúc kỳ đánh giá
+            var REVIEW_KEY = 'cfr-review-ended';
+            var endBtn = document.getElementById('cfr-end-review-btn');
+            var overlay = document.getElementById('cfr-manager-comment-overlay');
+            var wrap = document.getElementById('cfr-manager-comment-wrap');
+            if (!endBtn || !overlay || !wrap) return;
+
+            function applyReviewState(ended) {
+                if (ended) {
+                    overlay.classList.add('hidden');
+                    wrap.classList.remove('cfr-manager-hidden');
+                    endBtn.textContent = 'Đã kết thúc kỳ đánh giá';
+                    endBtn.disabled = true;
+                    endBtn.classList.add('opacity-60', 'cursor-default');
+                } else {
+                    overlay.classList.remove('hidden');
+                    wrap.classList.add('cfr-manager-hidden');
+                    endBtn.textContent = 'Kết thúc kỳ đánh giá';
+                    endBtn.disabled = false;
+                    endBtn.classList.remove('opacity-60', 'cursor-default');
+                }
+            }
+
+            var saved = null;
+            try { saved = localStorage.getItem(REVIEW_KEY); } catch (e) {}
+            applyReviewState(saved === '1');
+
+            endBtn.addEventListener('click', function () {
+                if (!confirm('Bạn xác nhận đã kết thúc kỳ đánh giá và cho phép hiển thị nhận xét của Quản lý?')) {
+                    return;
+                }
+                try { localStorage.setItem(REVIEW_KEY, '1'); } catch (e) {}
+                applyReviewState(true);
+            });
+        })();
+    </script>
     <script>
         (function () {
             var switchBtn = document.getElementById('cfr-1-1-switch');
@@ -413,10 +518,15 @@
             var achievementBadge = document.getElementById('cfr-1-1-achievement-badge');
             function switchToBadge() {
                 switchBtn.classList.add('hidden');
-                badge.classList.remove('hidden');
                 if (activeBadge) activeBadge.classList.remove('hidden');
                 if (achievementBadge) achievementBadge.classList.remove('hidden');
                 switchBtn.setAttribute('aria-pressed', 'true');
+            }
+            function revertToSwitch() {
+                switchBtn.classList.remove('hidden');
+                if (activeBadge) activeBadge.classList.add('hidden');
+                if (achievementBadge) achievementBadge.classList.add('hidden');
+                switchBtn.setAttribute('aria-pressed', 'false');
             }
 
             switchBtn.addEventListener('click', function () {
@@ -430,13 +540,14 @@
             confirmEl.addEventListener('click', function (e) {
                 if (e.target === confirmEl) hideConfirm();
             });
-            badge.addEventListener('click', function () {
-                badge.classList.add('hidden');
-                switchBtn.classList.remove('hidden');
-                if (activeBadge) activeBadge.classList.add('hidden');
-                if (achievementBadge) achievementBadge.classList.add('hidden');
-                switchBtn.setAttribute('aria-pressed', 'false');
-            });
+            badge.addEventListener('click', revertToSwitch);
+            if (achievementBadge) {
+                achievementBadge.addEventListener('click', function () {
+                    revertToSwitch();
+                });
+                achievementBadge.classList.add('cursor-pointer');
+                achievementBadge.setAttribute('title', 'Nhấn để chuyển lại trạng thái chưa trao đổi');
+            }
         })();
     </script>
 </body>

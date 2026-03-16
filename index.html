@@ -64,6 +64,7 @@
     .hr-detail-btn .hr-detail-icon { display: inline-block; transition: transform 0.3s ease; }
     .hr-detail-btn.expanded .hr-detail-icon { transform: rotate(180deg); }
     .hr-person-row.hr-row-expanded { border-left: 3px solid #f97316; background: rgba(249,115,22,0.05); }
+    .theme-pill.active { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--primary); outline: none; }
   </style>
 </head>
 <body class="min-h-screen bg-white flex">
@@ -106,6 +107,16 @@
         <span class="material-symbols-outlined nav-icon">stars</span>
         Ypoint
       </a>
+    </div>
+    <!-- Đổi màu toàn trang (so sánh theme) -->
+    <div class="p-3 border-t" style="border-color: var(--border);">
+      <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-secondary);">Màu</p>
+      <div class="flex flex-wrap gap-2">
+        <button type="button" class="theme-pill active rounded-full w-8 h-8 border-2 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-1" data-theme="gray" title="Mockup xám" style="background: #475569; border-color: #334155;"></button>
+        <button type="button" class="theme-pill rounded-full w-8 h-8 border-2 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-1" data-theme="yody" title="Yody vàng" style="background: #ffc84a; border-color: #e6b43d;"></button>
+        <button type="button" class="theme-pill rounded-full w-8 h-8 border-2 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-1" data-theme="blue" title="Xanh dương" style="background: #2563eb; border-color: #1d4ed8;"></button>
+        <button type="button" class="theme-pill rounded-full w-8 h-8 border-2 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-1" data-theme="emerald" title="Xanh ngọc" style="background: #059669; border-color: #047857;"></button>
+      </div>
     </div>
     <div class="p-3 mt-auto border-t" style="border-color: var(--border);">
       <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">
@@ -169,6 +180,7 @@
     <div id="panel-cfr" class="panel hidden flex-1 flex flex-col overflow-hidden" style="background:#f5f7fb;">
       <div class="flex-1 flex px-6 pb-6 pt-6 min-h-0">
         <iframe
+          id="iframe-cfr"
           src="aixperf-cfr.html"
           title="CFR Dashboard"
           class="w-full h-full"
@@ -701,6 +713,42 @@
 
   <script>
     (function () {
+      // ---- Đổi màu toàn trang (theme): lưu localStorage, áp dụng index + gửi iframe CFR (trừ Ypoint) ----
+      var THEME_KEY = 'aixperf-theme';
+      var currentTheme = 'gray';
+      function applyTheme(theme) {
+        theme = theme || 'gray';
+        currentTheme = theme;
+        var root = document.documentElement;
+        if (theme === 'gray') {
+          root.removeAttribute('data-theme');
+        } else {
+          root.setAttribute('data-theme', theme);
+        }
+        try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+        document.querySelectorAll('.theme-pill').forEach(function (btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
+        });
+        var cfriframe = document.getElementById('iframe-cfr');
+        if (cfriframe && cfriframe.contentWindow) {
+          try { cfriframe.contentWindow.postMessage({ type: 'aixperf-theme', theme: theme }, '*'); } catch (e) {}
+        }
+      }
+      window.addEventListener('message', function (e) {
+        if (e.data && e.data.type === 'aixperf-theme-get') {
+          try { e.source.postMessage({ type: 'aixperf-theme', theme: currentTheme }, '*'); } catch (err) {}
+        }
+      });
+      document.querySelectorAll('.theme-pill').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var t = this.getAttribute('data-theme');
+          if (t) applyTheme(t);
+        });
+      });
+      var saved = null;
+      try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
+      applyTheme(saved === 'yody' || saved === 'blue' || saved === 'emerald' ? saved : 'gray');
+
       function setHrTabActive(value) {
         document.querySelectorAll('.hr-tab').forEach(function (btn) {
           var isActive = btn.getAttribute('data-hr-tab') === value;
