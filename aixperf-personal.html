@@ -38,7 +38,7 @@
 </head>
 
 <body class="p-6 md:p-10">
-    <main class="max-w-5xl mx-auto space-y-10">
+    <main class="w-full space-y-10">
         <!-- Summary Header Cards Section (gộp thành 1 card, chia 4 cột, ngăn bởi đường divide) -->
         <section data-purpose="summary-cards">
             <article class="bg-white rounded-2xl border border-gray-100 card-shadow">
@@ -57,13 +57,8 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="pt-3 border-t border-gray-50 flex justify-between items-center">
-                            <div class="text-[10px] text-gray-400 font-medium">Năm ngoái:
-                                <span class="text-gray-600 font-bold">2.96</span>
-                            </div>
-                            <div class="w-10 h-1 bg-gray-100 rounded-full overflow-hidden">
-                                <div class="bg-blue-500 h-full w-[85%]"></div>
-                            </div>
+                        <div class="pt-3 border-t border-gray-50 flex justify-end items-center">
+                            <div class="w-10 h-1 bg-gray-100 rounded-full overflow-hidden"></div>
                         </div>
                     </div>
                     <!-- 2. Rating -->
@@ -79,32 +74,9 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="pt-3 border-t border-gray-50">
-                            <p class="text-[10px] text-gray-400 font-medium">Năm ngoái:
-                                <span class="text-gray-600 font-bold">B+</span>
-                            </p>
-                        </div>
+                        <div class="pt-3 border-t border-gray-50"></div>
                     </div>
-                    <!-- 3. KPIs Completed -->
-                    <div class="p-5 flex flex-col justify-between">
-                        <div>
-                            <h3 class="text-gray-500 text-[10px] font-bold mb-3 uppercase tracking-widest">KPI Hoàn
-                                thành</h3>
-                            <div class="flex items-baseline gap-2 mb-2">
-                                <span class="text-3xl font-extrabold tracking-tight">92%</span>
-                                <span class="text-green-600 font-bold flex items-center text-xs">
-                                    <span class="material-symbols-outlined text-sm mr-0.5">add</span>
-                                    4%
-                                </span>
-                            </div>
-                        </div>
-                        <div class="pt-3 border-t border-gray-50">
-                            <p class="text-[10px] text-gray-400 font-medium">Năm ngoái:
-                                <span class="text-gray-600 font-bold">88%</span>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- 4. Performance Trend -->
+                    <!-- 3. Performance Trend (chart giống file test_persionnal) -->
                     <div class="p-5 flex flex-col justify-between">
                         <div>
                             <h3 class="text-gray-500 text-[10px] font-bold mb-3 uppercase tracking-widest">Xu hướng tăng
@@ -114,12 +86,7 @@
                                     style="width: 214.5px; height: 40px;"></canvas>
                             </div>
                         </div>
-                        <div class="pt-3 border-t border-gray-50 flex justify-between items-center">
-                            <p class="text-[10px] text-gray-400 font-medium">So với năm ngoái</p>
-                            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-tighter italic">
-                                Cải thiện rõ rệt
-                            </span>
-                        </div>
+                        <div class="pt-3 border-t border-gray-50"></div>
                     </div>
                 </div>
             </article>
@@ -157,36 +124,18 @@
                 </div>
                 <div class="space-y-4">
                     <div
-                        class="flex flex-wrap items-center gap-4 bg-white p-4 rounded-xl border border-gray-100 card-shadow w-fit">
-                        <div class="px-4 border-r border-gray-100">
-                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Điểm TB</p>
-                            <p class="text-xl font-bold">3.20</p>
+                        class="bg-white p-6 rounded-2xl border border-dashed border-gray-200 card-shadow flex items-center gap-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-400">
+                            <span class="material-symbols-outlined text-lg">info</span>
                         </div>
-                        <div class="px-4 border-r border-gray-100">
-                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Xếp loại</p>
-                            <p class="text-xl font-bold">B+</p>
-                        </div>
-                        <div class="px-4">
-                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Trạng thái
+                        <div>
+                            <p class="text-sm font-semibold text-gray-700">Bạn chưa tham gia kỳ đánh giá này.</p>
+                            <p class="text-xs text-gray-500 mt-1">
+                                Khi có kết quả đánh giá Quý 2, điểm số và nhận xét từ cấp trên sẽ được hiển thị tại đây
+                                để bạn theo dõi.
                             </p>
-                            <p class="text-xs font-bold text-blue-600 uppercase">Đạt kỳ vọng</p>
                         </div>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-gray-100 card-shadow">
-                        <h4
-                            class="text-gray-400 text-[10px] uppercase font-bold tracking-widest mb-4 flex items-center">
-                            <span class="material-symbols-outlined text-sm mr-2">comment</span>
-                            Nhận xét cấp trên
-                        </h4>
-                        <ul
-                            class="space-y-3 text-sm text-slate-700 leading-relaxed list-disc list-inside marker:text-blue-400">
-                            <li>Giữ vững chất lượng đầu ra, số lỗi production giảm so với Quý 1.</li>
-                            <li>Chủ động hơn trong phối hợp với các team liên quan, đặc biệt là Marketing và Vận hành.
-                            </li>
-                            <li>Ưu tiên xử lý các task quan trọng trước, giúp tiến độ sprint rõ ràng hơn.</li>
-                            <li>Cần tiếp tục tối ưu thời gian phản hồi khi có yêu cầu gấp từ business.</li>
-                            <li>Nên chuẩn hoá checklist khi kickoff feature để hạn chế việc bỏ sót requirement.</li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -292,6 +241,53 @@
                     </div>
                 </div>
             </div>
+            <!-- FY -->
+            <div class="timeline-item relative pl-12">
+                <div
+                    class="absolute left-0 top-0 w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center z-10 shadow-sm text-white">
+                    <span class="text-xs font-bold">FY</span>
+                </div>
+                <div class="space-y-4">
+                    <div
+                        class="flex flex-wrap items-center gap-4 bg-white p-4 rounded-xl border border-blue-100 card-shadow w-fit">
+                        <div class="px-4 border-r border-blue-100">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Điểm TB cả năm
+                            </p>
+                            <p class="text-xl font-bold">3.24</p>
+                        </div>
+                        <div class="px-4 border-r border-blue-100">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Xếp loại năm
+                            </p>
+                            <p class="text-xl font-bold text-blue-600">A</p>
+                        </div>
+                        <div class="px-4">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Trạng thái
+                            </p>
+                            <p class="text-xs font-bold text-blue-600 uppercase">Vượt kỳ vọng</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-blue-100 card-shadow">
+                        <h4
+                            class="text-gray-400 text-[10px] uppercase font-bold tracking-widest mb-4 flex items-center">
+                            <span class="material-symbols-outlined text-sm mr-2">insights</span>
+                            Tổng kết năm (FY)
+                        </h4>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            Trong cả năm, em duy trì được hiệu suất ổn định và tạo ra nhiều giá trị rõ ràng cho sản
+                            phẩm cũng như
+                            các bên liên quan. Từ Quý 3 trở đi, vai trò dẫn dắt của em được thể hiện rõ hơn qua việc
+                            chủ động chuẩn
+                            bị kế hoạch, quản lý rủi ro và truyền thông minh bạch với stakeholders. Một số điểm cần
+                            tiếp tục phát
+                            huy là khả năng cân bằng giữa kỳ vọng business và năng lực thực thi của team, cũng như việc
+                            chia sẻ kiến
+                            thức, mentoring cho các thành viên mới. Nhìn chung, em đã đạt và vượt kỳ vọng ở vai trò hiện
+                            tại và có
+                            tiềm năng để đảm nhận những phạm vi lớn hơn trong năm tiếp theo.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
     <script>
@@ -299,31 +295,37 @@
             const canvas = document.getElementById('trendChart');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
-            const dpr = window.devicePixelRatio || 1;
-            const rect = canvas.parentNode.getBoundingClientRect();
-            canvas.width = rect.width * dpr;
-            canvas.height = rect.height * dpr;
-            ctx.scale(dpr, dpr);
-            canvas.style.width = rect.width + 'px';
-            canvas.style.height = rect.height + 'px';
 
-            // Comparing trend: Year 2 (Solid Blue) vs Year 1 (Dashed Gray)
+            // Dùng kích thước cố định để tránh bị 0 width khi iframe/tab đang ẩn trong index.html
+            const dpr = window.devicePixelRatio || 1;
+            const baseWidth = 214;
+            const baseHeight = 40;
+            canvas.width = baseWidth * dpr;
+            canvas.height = baseHeight * dpr;
+            ctx.scale(dpr, dpr);
+            canvas.style.width = baseWidth + 'px';
+            canvas.style.height = baseHeight + 'px';
+
+            // Comparing trend: Current FY (Solid Blue) vs Last FY (Dashed Gray)
+            // 4 quý + 1 điểm FY: Q1 & Q2 không có data (xám), Q3–Q4 & FY có data (xanh, tăng dần)
             const currentYear = [
-                { x: 0.05, y: 0.8 },
-                { x: 0.35, y: 0.7 },
-                { x: 0.65, y: 0.65 },
-                { x: 0.95, y: 0.3 }
+                { x: 0.05, y: 0.6 },  // Q1 (no data - xám)
+                { x: 0.25, y: 0.6 },  // Q2 (no data - xám)
+                { x: 0.5, y: 0.45 },  // Q3
+                { x: 0.75, y: 0.35 }, // Q4
+                { x: 0.95, y: 0.30 }  // FY (tổng kết năm, cao nhất)
             ];
 
             const lastYear = [
-                { x: 0.05, y: 0.9 },
-                { x: 0.35, y: 0.85 },
-                { x: 0.65, y: 0.82 },
-                { x: 0.95, y: 0.75 }
+                { x: 0.05, y: 0.7 },
+                { x: 0.25, y: 0.7 },
+                { x: 0.5, y: 0.68 },
+                { x: 0.75, y: 0.66 },
+                { x: 0.95, y: 0.64 }
             ];
 
-            const w = rect.width;
-            const h = rect.height;
+            const w = baseWidth;
+            const h = baseHeight;
 
             // Last Year Line (Background reference)
             ctx.setLineDash([3, 3]);
@@ -339,12 +341,15 @@
             ctx.stroke();
             ctx.setLineDash([]); // Reset dash
 
-            // Current Year Line
-            const gradient = ctx.createLinearGradient(0, 0, w, 0);
-            gradient.addColorStop(0, '#3b82f6');
-            gradient.addColorStop(1, '#2563eb');
+            // Current Year Line:
+            // - Đoạn Q1–Q2: xám (chưa có dữ liệu rõ)
+            // - Đoạn từ Q3 trở đi: xanh (đã có dữ liệu)
+            // Vẽ line xám toàn bộ trước
+            const grayGradient = ctx.createLinearGradient(0, 0, w, 0);
+            grayGradient.addColorStop(0, '#cbd5e1');
+            grayGradient.addColorStop(1, '#94a3b8');
             ctx.beginPath();
-            ctx.strokeStyle = gradient;
+            ctx.strokeStyle = grayGradient;
             ctx.lineWidth = 3;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
@@ -356,14 +361,35 @@
             });
             ctx.stroke();
 
-            // Dots for current year
-            currentYear.forEach((point) => {
+            // Vẽ đè line xanh cho đoạn có dữ liệu (từ Q3 trở đi)
+            const blueGradient = ctx.createLinearGradient(0, 0, w, 0);
+            blueGradient.addColorStop(0, '#3b82f6');
+            blueGradient.addColorStop(1, '#2563eb');
+            ctx.beginPath();
+            ctx.strokeStyle = blueGradient;
+            // Bắt đầu từ điểm index 2 (Q3)
+            currentYear.forEach((point, i) => {
+                if (i < 2) return;
+                const px = point.x * w;
+                const py = point.y * h;
+                if (i === 2) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            });
+            ctx.stroke();
+
+            // Dots for current year (Q1 & Q2 không có data: hiển thị xám)
+            currentYear.forEach((point, i) => {
+                const isNoDataQuarter = i === 0 || i === 1; // Q1, Q2
+                const outerColor = isNoDataQuarter ? '#cbd5e1' : '#2563eb';
+                const innerColor = isNoDataQuarter ? '#e5e7eb' : '#ffffff';
+
                 ctx.beginPath();
-                ctx.fillStyle = '#2563eb';
+                ctx.fillStyle = outerColor;
                 ctx.arc(point.x * w, point.y * h, 3.5, 0, Math.PI * 2);
                 ctx.fill();
+
                 ctx.beginPath();
-                ctx.fillStyle = '#ffffff';
+                ctx.fillStyle = innerColor;
                 ctx.arc(point.x * w, point.y * h, 1.5, 0, Math.PI * 2);
                 ctx.fill();
             });
