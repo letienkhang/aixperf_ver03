@@ -87,6 +87,10 @@
         <span class="material-symbols-outlined nav-icon">bar_chart</span>
         KPI
       </a>
+      <a href="#" class="nav-item" data-panel="ca-nhan" style="color: var(--text-main);">
+        <span class="material-symbols-outlined nav-icon">person_pin</span>
+        Cá nhân
+      </a>
       <a href="#" class="nav-item" data-panel="hieu-suat" style="color: var(--text-main);">
         <span class="material-symbols-outlined nav-icon">rate_review</span>
         Đánh giá hiệu suất
@@ -151,6 +155,18 @@
           Tạo KPI
         </button>
       </main>
+    </div>
+    <!-- Panel Cá nhân: 4 quý trong năm (file riêng) -->
+    <div id="panel-ca-nhan" class="panel hidden flex-1 flex flex-col overflow-hidden" style="background:#f5f7fb;">
+      <div class="flex-1 flex px-6 pb-6 pt-6 min-h-0">
+        <iframe
+          id="iframe-ca-nhan"
+          src="aixperf-personal.html"
+          title="Cá nhân - 4 quý"
+          class="w-full h-full"
+          style="border: none; background: transparent;"
+        ></iframe>
+      </div>
     </div>
     <!-- Panel Đánh giá hiệu suất -->
     <div id="panel-hieu-suat" class="panel hidden flex-1 flex items-center justify-center p-6">

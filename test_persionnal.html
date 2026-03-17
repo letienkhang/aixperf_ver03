@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Performance Review Dashboard - Timeline View</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .card-shadow {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 1.25rem;
+            top: 2rem;
+            bottom: 0;
+            width: 2px;
+            background-color: #e2e8f0;
+            z-index: 0;
+        }
+        .timeline-item:last-child .timeline-line::before {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="p-6 md:p-10">
+    <main class="max-w-5xl mx-auto space-y-10">
+        <!-- Summary Header Cards Section (gộp thành 1 card, chia 4 cột, ngăn bởi đường divide) -->
+        <section data-purpose="summary-cards">
+            <article class="bg-white rounded-2xl border border-gray-100 card-shadow">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+                    <!-- 1. Average Score -->
+                    <div class="p-5 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-gray-500 text-[10px] font-bold mb-3 uppercase tracking-widest">Điểm trung bình</h3>
+                            <div class="flex items-baseline gap-2 mb-2">
+                                <span class="text-3xl font-extrabold tracking-tight">3.24</span>
+                                <span class="text-green-600 font-bold flex items-center text-xs">
+                                    <span class="material-symbols-outlined text-sm mr-0.5">trending_up</span>
+                                    9.6%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-gray-50 flex justify-between items-center">
+                            <div class="text-[10px] text-gray-400 font-medium">Năm ngoái:
+                                <span class="text-gray-600 font-bold">2.96</span>
+                            </div>
+                            <div class="w-10 h-1 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="bg-blue-500 h-full w-[85%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 2. Rating -->
+                    <div class="p-5 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-gray-500 text-[10px] font-bold mb-3 uppercase tracking-widest">Xếp loại năm</h3>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-3xl font-extrabold text-blue-600">A</span>
+                                <span
+                                    class="bg-blue-50 text-blue-600 text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-blue-100">
+                                    Vượt kỳ vọng
+                                </span>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-gray-50">
+                            <p class="text-[10px] text-gray-400 font-medium">Năm ngoái:
+                                <span class="text-gray-600 font-bold">B+</span>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- 3. KPIs Completed -->
+                    <div class="p-5 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-gray-500 text-[10px] font-bold mb-3 uppercase tracking-widest">KPI Hoàn thành</h3>
+                            <div class="flex items-baseline gap-2 mb-2">
+                                <span class="text-3xl font-extrabold tracking-tight">92%</span>
+                                <span class="text-green-600 font-bold flex items-center text-xs">
+                                    <span class="material-symbols-outlined text-sm mr-0.5">add</span>
+                                    4%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-gray-50">
+                            <p class="text-[10px] text-gray-400 font-medium">Năm ngoái:
+                                <span class="text-gray-600 font-bold">88%</span>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- 4. Performance Trend -->
+                    <div class="p-5 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-gray-500 text-[10px] font-bold mb-3 uppercase tracking-widest">Xu hướng tăng trưởng</h3>
+                            <div class="h-[40px] relative mb-2">
+                                <canvas id="trendChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-gray-50 flex justify-between items-center">
+                            <p class="text-[10px] text-gray-400 font-medium">So với năm ngoái</p>
+                            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-tighter italic">
+                                Cải thiện rõ rệt
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+        <!-- Timeline Section -->
+        <section class="relative space-y-12" data-purpose="quarterly-timeline">
+            <!-- Q1 -->
+            <div class="timeline-item relative pl-12 timeline-line">
+                <div
+                    class="absolute left-0 top-0 w-10 h-10 bg-white border-2 border-blue-600 rounded-full flex items-center justify-center z-10 shadow-sm">
+                    <span class="text-xs font-bold text-blue-600">Q1</span>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-white p-6 rounded-2xl border border-dashed border-gray-200 card-shadow flex items-center gap-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-400">
+                            <span class="material-symbols-outlined text-lg">info</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-700">Bạn chưa tham gia kỳ đánh giá này.</p>
+                            <p class="text-xs text-gray-500 mt-1">
+                                Khi có kết quả đánh giá Quý 1, điểm số và nhận xét từ cấp trên sẽ được hiển thị tại đây để bạn theo dõi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Q2 -->
+            <div class="timeline-item relative pl-12 timeline-line">
+                <div
+                    class="absolute left-0 top-0 w-10 h-10 bg-white border-2 border-blue-600 rounded-full flex items-center justify-center z-10 shadow-sm">
+                    <span class="text-xs font-bold text-blue-600">Q2</span>
+                </div>
+                <div class="space-y-4">
+                    <div
+                        class="flex flex-wrap items-center gap-4 bg-white p-4 rounded-xl border border-gray-100 card-shadow w-fit">
+                        <div class="px-4 border-r border-gray-100">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Điểm TB</p>
+                            <p class="text-xl font-bold">3.20</p>
+                        </div>
+                        <div class="px-4 border-r border-gray-100">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Xếp loại</p>
+                            <p class="text-xl font-bold">B+</p>
+                        </div>
+                        <div class="px-4">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Trạng thái
+                            </p>
+                            <p class="text-xs font-bold text-blue-600 uppercase">Đạt kỳ vọng</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 card-shadow">
+                        <h4
+                            class="text-gray-400 text-[10px] uppercase font-bold tracking-widest mb-4 flex items-center">
+                            <span class="material-symbols-outlined text-sm mr-2">comment</span>
+                            Nhận xét cấp trên
+                        </h4>
+                        <ul
+                            class="space-y-3 text-sm text-slate-700 leading-relaxed list-disc list-inside marker:text-blue-400">
+                            <li>Giữ vững chất lượng đầu ra, số lỗi production giảm so với Quý 1.</li>
+                            <li>Chủ động hơn trong phối hợp với các team liên quan, đặc biệt là Marketing và Vận hành.</li>
+                            <li>Ưu tiên xử lý các task quan trọng trước, giúp tiến độ sprint rõ ràng hơn.</li>
+                            <li>Cần tiếp tục tối ưu thời gian phản hồi khi có yêu cầu gấp từ business.</li>
+                            <li>Nên chuẩn hoá checklist khi kickoff feature để hạn chế việc bỏ sót requirement.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Q3 -->
+            <div class="timeline-item relative pl-12 timeline-line">
+                <div
+                    class="absolute left-0 top-0 w-10 h-10 bg-white border-2 border-blue-600 rounded-full flex items-center justify-center z-10 shadow-sm">
+                    <span class="text-xs font-bold text-blue-600">Q3</span>
+                </div>
+                <div class="space-y-4">
+                    <div
+                        class="flex flex-wrap items-center gap-4 bg-white p-4 rounded-xl border border-gray-100 card-shadow w-fit">
+                        <div class="px-4 border-r border-gray-100">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Điểm TB</p>
+                            <p class="text-xl font-bold">3.25</p>
+                        </div>
+                        <div class="px-4 border-r border-gray-100">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Xếp loại</p>
+                            <p class="text-xl font-bold">A</p>
+                        </div>
+                        <div class="px-4">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Trạng thái
+                            </p>
+                            <p class="text-xs font-bold text-blue-600 uppercase">Vượt kỳ vọng</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 card-shadow">
+                        <h4
+                            class="text-gray-400 text-[10px] uppercase font-bold tracking-widest mb-4 flex items-center">
+                            <span class="material-symbols-outlined text-sm mr-2">comment</span>
+                            Nhận xét cấp trên
+                        </h4>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            Trong Quý 3, em thể hiện rất rõ vai trò dẫn dắt trong các đợt release lớn, từ khâu lên kế hoạch,
+                            phối hợp với các bên liên quan cho tới triển khai chi tiết với team kỹ thuật. Cách em truyền thông
+                            thay đổi tới stakeholders giúp mọi người nắm rất rõ phạm vi và rủi ro, hạn chế tối đa việc hiểu nhầm
+                            hoặc lệch kỳ vọng. Khi gặp vấn đề phát sinh, em biết cách phân rã thành từng bước nhỏ, đưa ra phương
+                            án xử lý cụ thể và trao đổi lại với team để cùng thống nhất. Điểm cần lưu ý là đôi khi em vẫn nhận
+                            thêm một số yêu cầu ngoài scope sprint, điều này có thể ảnh hưởng tới năng lực thực thi của team về
+                            dài hạn nên em có thể mạnh dạn hơn trong việc thương lượng hoặc từ chối. Khả năng trình bày và bảo vệ
+                            quan điểm trước ban lãnh đạo của em rất tốt, logic và có dữ liệu đi kèm, đây là thế mạnh nên hãy tiếp
+                            tục tận dụng trong các buổi review kế hoạch hoặc đề xuất hướng đi mới cho sản phẩm.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Q4 -->
+            <div class="timeline-item relative pl-12 timeline-line">
+                <div
+                    class="absolute left-0 top-0 w-10 h-10 bg-white border-2 border-blue-600 rounded-full flex items-center justify-center z-10 shadow-sm">
+                    <span class="text-xs font-bold text-blue-600">Q4</span>
+                </div>
+                <div class="space-y-4">
+                    <div
+                        class="flex flex-wrap items-center gap-4 bg-white p-4 rounded-xl border border-gray-100 card-shadow w-fit">
+                        <div class="px-4 border-r border-gray-100">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Điểm TB</p>
+                            <p class="text-xl font-bold">3.40</p>
+                        </div>
+                        <div class="px-4 border-r border-gray-100">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Xếp loại</p>
+                            <p class="text-xl font-bold">A</p>
+                        </div>
+                        <div class="px-4">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Trạng thái
+                            </p>
+                            <p class="text-xs font-bold text-blue-600 uppercase">Vượt kỳ vọng</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 card-shadow">
+                        <h4
+                            class="text-gray-400 text-[10px] uppercase font-bold tracking-widest mb-4 flex items-center">
+                            <span class="material-symbols-outlined text-sm mr-2">comment</span>
+                            Nhận xét cấp trên
+                        </h4>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            Quý 4 là giai đoạn em duy trì được phong độ ổn định, nhất là ở các mốc bàn giao quan trọng và các
+                            đợt go-live có nhiều bên liên quan tham gia. Em chuẩn bị khá kỹ về kịch bản, dữ liệu demo cũng như
+                            phương án rollback, nhờ đó giảm thiểu rủi ro và tạo được niềm tin với các phòng ban sử dụng. Tuy vậy,
+                            tài liệu chức năng và flow hệ thống vẫn có thể chuẩn hoá thêm để việc bàn giao cho thành viên mới diễn
+                            ra trơn tru hơn, tránh phụ thuộc quá nhiều vào kiến thức ngầm của cá nhân em. Trong quá trình đưa ra
+                            giải pháp, em cân bằng tốt giữa nhu cầu business và giới hạn kỹ thuật, biết đánh đổi hợp lý để không
+                            làm phức tạp hệ thống. Em cũng đã bắt đầu dành thời gian kèm cặp cho các bạn ít kinh nghiệm hơn, nếu
+                            tiếp tục duy trì và có kế hoạch mentoring rõ ràng thì sẽ hỗ trợ rất tốt cho mục tiêu xây dựng đội ngũ
+                            kế cận trong 6–12 tháng tới.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        window.onload = function () {
+            const canvas = document.getElementById('trendChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.parentNode.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            canvas.style.width = rect.width + 'px';
+            canvas.style.height = rect.height + 'px';
+
+            // Comparing trend: Year 2 (Solid Blue) vs Year 1 (Dashed Gray)
+            const currentYear = [
+                { x: 0.05, y: 0.8 },
+                { x: 0.35, y: 0.7 },
+                { x: 0.65, y: 0.65 },
+                { x: 0.95, y: 0.3 }
+            ];
+
+            const lastYear = [
+                { x: 0.05, y: 0.9 },
+                { x: 0.35, y: 0.85 },
+                { x: 0.65, y: 0.82 },
+                { x: 0.95, y: 0.75 }
+            ];
+
+            const w = rect.width;
+            const h = rect.height;
+
+            // Last Year Line (Background reference)
+            ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1.5;
+            lastYear.forEach((point, i) => {
+                const px = point.x * w;
+                const py = point.y * h;
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            });
+            ctx.stroke();
+            ctx.setLineDash([]); // Reset dash
+
+            // Current Year Line
+            const gradient = ctx.createLinearGradient(0, 0, w, 0);
+            gradient.addColorStop(0, '#3b82f6');
+            gradient.addColorStop(1, '#2563eb');
+            ctx.beginPath();
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            currentYear.forEach((point, i) => {
+                const px = point.x * w;
+                const py = point.y * h;
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            });
+            ctx.stroke();
+
+            // Dots for current year
+            currentYear.forEach((point) => {
+                ctx.beginPath();
+                ctx.fillStyle = '#2563eb';
+                ctx.arc(point.x * w, point.y * h, 3.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.fillStyle = '#ffffff';
+                ctx.arc(point.x * w, point.y * h, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        };
+    </script>
+</body>
+
+</html>
