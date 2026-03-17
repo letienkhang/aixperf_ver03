@@ -44,11 +44,11 @@
             <article class="bg-white rounded-2xl border border-gray-100 card-shadow">
                 <div
                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
-                    <!-- 1. Average Score -->
+                    <!-- 1. Average Score (tổng quan năm) -->
                     <div class="p-5 flex flex-col justify-between">
                         <div>
-                            <h3 class="text-gray-500 text-[10px] font-bold mb-3 uppercase tracking-widest">Điểm trung
-                                bình</h3>
+                            <h3 class="text-gray-500 text-[10px] font-bold mb-1.5 uppercase tracking-widest">Tổng quan
+                                điểm năm nay</h3>
                             <div class="flex items-baseline gap-2 mb-2">
                                 <span class="text-3xl font-extrabold tracking-tight">3.24</span>
                                 <span class="text-green-600 font-bold flex items-center text-xs">
@@ -56,22 +56,27 @@
                                     9.6%
                                 </span>
                             </div>
+                            <div class="space-y-0.5 text-[11px] text-gray-500"></div>
                         </div>
                         <div class="pt-3 border-t border-gray-50 flex justify-end items-center">
                             <div class="w-10 h-1 bg-gray-100 rounded-full overflow-hidden"></div>
                         </div>
                     </div>
-                    <!-- 2. Rating -->
+                    <!-- 2. Rating (chỉ số xếp loại năm) -->
                     <div class="p-5 flex flex-col justify-between">
                         <div>
-                            <h3 class="text-gray-500 text-[10px] font-bold mb-3 uppercase tracking-widest">Xếp loại năm
-                            </h3>
+                            <h3 class="text-gray-500 text-[10px] font-bold mb-1.5 uppercase tracking-widest">Xếp loại
+                                năm nay</h3>
                             <div class="flex items-center gap-2 mb-2">
                                 <span class="text-3xl font-extrabold text-blue-600">A</span>
                                 <span
                                     class="bg-blue-50 text-blue-600 text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border border-blue-100">
                                     Vượt kỳ vọng
                                 </span>
+                            </div>
+                            <div class="space-y-0.5 text-[11px] text-gray-500">
+                                <p><span class="font-semibold text-gray-700">Số quý đạt A:</span> 2</p>
+                                <p><span class="font-semibold text-gray-700">% quý đạt A trở lên:</span> 100%</p>
                             </div>
                         </div>
                         <div class="pt-3 border-t border-gray-50"></div>
@@ -84,6 +89,39 @@
                             <div class="h-[40px] relative mb-2">
                                 <canvas id="trendChart" width="214" height="40"
                                     style="width: 214.5px; height: 40px;"></canvas>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-gray-50"></div>
+                    </div>
+                    <!-- 4. Benchmark với phòng -->
+                    <div class="p-5 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-gray-500 text-[10px] font-bold mb-3 uppercase tracking-widest">So với phòng
+                            </h3>
+                            <div class="space-y-2 text-[11px] text-gray-600">
+                                <div class="flex items-baseline justify-between">
+                                    <span class="text-gray-400 font-semibold uppercase tracking-wider">Điểm TB</span>
+                                    <span class="font-semibold">
+                                        <span class="text-gray-900">3.24</span>
+                                        <span class="mx-1 text-gray-400">/</span>
+                                        <span class="text-gray-500">3.05 phòng</span>
+                                    </span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-400 font-semibold uppercase tracking-wider">Nhóm xếp loại</span>
+                                    <span class="inline-flex items-center gap-1">
+                                        <span
+                                            class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold uppercase tracking-wider">Top
+                                            25%</span>
+                                        <span class="text-[10px] text-gray-400 italic">trong phòng</span>
+                                    </span>
+                                </div>
+                                <div class="flex items-center justify-between pt-1 mt-1 border-t border-dashed border-gray-200">
+                                    <span class="text-gray-400 font-semibold uppercase tracking-wider">Nhận định</span>
+                                    <span class="text-[10px] text-blue-600 font-semibold uppercase tracking-tight">
+                                        Cao hơn trung bình phòng
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="pt-3 border-t border-gray-50"></div>
