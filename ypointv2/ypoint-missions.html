@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Nhiệm vụ kiếm Points - Y Point</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#221f6d",
+            "background-light": "#f8fafc",
+            "background-dark": "#0f172a",
+            "accent-orange": "#FFD700",
+            "accent-green": "#10b981",
+            "card-light": "#ffffff",
+            "card-dark": "#1e293b"
+          },
+          fontFamily: { display: ["Inter", "sans-serif"] },
+          borderRadius: { DEFAULT: "1.25rem" }
+        }
+      }
+    };
+  </script>
+  <style type="text/tailwindcss">
+    body { font-family: 'Inter', sans-serif; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    body { min-height: max(884px, 100dvh); }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 flex flex-col">
+  <div class="flex justify-between items-center px-8 py-3 w-full shrink-0">
+    <span class="text-sm font-semibold text-slate-900 dark:text-white">13:23</span>
+    <div class="flex items-center space-x-1.5 text-slate-900 dark:text-white">
+      <span class="material-icons-round text-sm">signal_cellular_alt</span>
+      <span class="material-icons-round text-sm">wifi</span>
+      <span class="material-icons-round text-sm rotate-90">battery_full</span>
+    </div>
+  </div>
+
+  <header class="sticky top-0 z-50 bg-background-light/90 dark:bg-background-dark/90 ios-blur">
+    <div class="px-4 py-3 flex items-center gap-3 w-full">
+      <a class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform"
+        href="ypoint-shop.html" aria-label="Quay lại">
+        <span class="material-icons-round text-primary dark:text-white">arrow_back</span>
+      </a>
+      <div class="flex-1 min-w-0">
+        <h1 class="text-primary dark:text-white text-xl font-bold truncate">Nhiệm vụ săn points</h1>
+        <p class="text-[11px] text-slate-400 dark:text-slate-500 truncate">Hoàn thành nhiệm vụ để nhận thêm points</p>
+      </div>
+      
+    </div>
+  </header>
+
+  <main class="flex-1 pt-2 pb-10">
+    <section class="px-4 pt-3">
+      <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div class="divide-y divide-slate-100 dark:divide-slate-700">
+          <!-- item -->
+          <div class="px-4 py-4 flex items-center gap-3 cursor-pointer" data-mission-item data-title="Theo dõi trang Lotte Cinema" data-hint="Nhấn “Làm nhiệm vụ” để mở trang theo dõi. Hoàn tất theo hướng dẫn để nhận points." data-url="#">
+            <div class="w-12 h-12 rounded-full bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/40 flex items-center justify-center shrink-0">
+              <span class="material-icons-round text-amber-500 text-[22px]">stars</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between mb-0.5">
+                <p class="text-[11px] text-slate-400 dark:text-slate-500">NSHP</p>
+                <p class="text-[11px] text-slate-400 dark:text-slate-500">0/5</p>
+              </div>
+              <p class="text-sm font-semibold text-slate-900 dark:text-slate-100 leading-snug break-words">Theo dõi trang Lotte Cinema</p>
+              <div class="mt-2 flex items-center justify-between gap-3">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-200 text-[11px] font-extrabold">
+                  <span class="material-icons-round text-amber-500 text-[14px] leading-none">stars</span>
+                  +10
+                </span>
+                <a href="#" class="text-xs font-semibold text-amber-700 dark:text-amber-300 whitespace-nowrap" data-mission-cta>Làm nhiệm vụ</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- item -->
+          <div class="px-4 py-4 flex items-center gap-3 cursor-pointer" data-mission-item data-title="Theo dõi trang Galaxy Cinema" data-hint="Nhấn “Làm nhiệm vụ” để mở trang theo dõi. Hoàn tất theo hướng dẫn để nhận points." data-url="#">
+            <div class="w-12 h-12 rounded-full bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/40 flex items-center justify-center shrink-0">
+              <span class="material-icons-round text-amber-500 text-[22px]">stars</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between mb-0.5">
+                <p class="text-[11px] text-slate-400 dark:text-slate-500">MKT</p>
+                <p class="text-[11px] text-slate-400 dark:text-slate-500">0/5</p>
+              </div>
+              <p class="text-sm font-semibold text-slate-900 dark:text-slate-100 leading-snug break-words">Theo dõi trang Galaxy Cinema</p>
+              <div class="mt-2 flex items-center justify-between gap-3">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-200 text-[11px] font-extrabold">
+                  <span class="material-icons-round text-amber-500 text-[14px] leading-none">stars</span>
+                  +10
+                </span>
+                <a href="#" class="text-xs font-semibold text-amber-700 dark:text-amber-300 whitespace-nowrap" data-mission-cta>Làm nhiệm vụ</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- item -->
+          <div class="px-4 py-4 flex items-center gap-3 cursor-pointer" data-mission-item data-title="Tham gia Cộng Đồng Góp ý" data-hint="Nhấn “Làm nhiệm vụ” để mở cộng đồng góp ý. Gửi phản hồi theo hướng dẫn để nhận points." data-url="#">
+            <div class="w-12 h-12 rounded-full bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/40 flex items-center justify-center shrink-0">
+              <span class="material-icons-round text-amber-500 text-[22px]">stars</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between mb-0.5">
+                <p class="text-[11px] text-slate-400 dark:text-slate-500">CNTT</p>
+                <p class="text-[11px] text-slate-400 dark:text-slate-500">0/5</p>
+              </div>
+              <p class="text-sm font-semibold text-slate-900 dark:text-slate-100 leading-snug break-words">Tham gia Cộng Đồng Góp ý</p>
+              <div class="mt-2 flex items-center justify-between gap-3">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-200 text-[11px] font-extrabold">
+                  <span class="material-icons-round text-amber-500 text-[14px] leading-none">stars</span>
+                  +20
+                </span>
+                <a href="#" class="text-xs font-semibold text-amber-700 dark:text-amber-300 whitespace-nowrap" data-mission-cta>Làm nhiệm vụ</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom sheet: Chi tiết nhiệm vụ -->
+  <div id="mission-modal" class="fixed inset-0 z-50 hidden">
+    <div id="mission-backdrop" class="absolute inset-0 bg-black/35"></div>
+    <div class="absolute inset-x-0 bottom-0">
+      <div id="mission-sheet" class="rounded-t-3xl bg-white dark:bg-slate-900 shadow-2xl translate-y-full transition-transform duration-300 border-t border-slate-100 dark:border-slate-700">
+        <div class="px-5 pt-4 pb-5">
+          <div class="flex items-center justify-between gap-3">
+            <p class="text-sm font-extrabold text-slate-900 dark:text-slate-100">Chi tiết nhiệm vụ</p>
+            <button type="button" id="mission-close" class="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center">
+              <span class="material-icons-round text-slate-500 dark:text-slate-300">close</span>
+            </button>
+          </div>
+
+          <div class="mt-4">
+            <p id="mission-title" class="text-lg font-extrabold text-slate-900 dark:text-slate-100 leading-snug"></p>
+            <p id="mission-hint" class="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed"></p>
+          </div>
+
+          <button type="button" id="mission-action"
+            class="mt-5 w-full py-3 rounded-2xl text-sm font-extrabold text-white bg-amber-700 dark:bg-amber-500 active:scale-[0.99] transition-transform">
+            Làm nhiệm vụ
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var modal = document.getElementById('mission-modal');
+      var sheet = document.getElementById('mission-sheet');
+      var backdrop = document.getElementById('mission-backdrop');
+      var closeBtn = document.getElementById('mission-close');
+      var titleEl = document.getElementById('mission-title');
+      var hintEl = document.getElementById('mission-hint');
+      var actionBtn = document.getElementById('mission-action');
+
+      var currentUrl = '#';
+
+      function openModal(data) {
+        if (!modal || !sheet) return;
+        if (titleEl) titleEl.textContent = data.title || '';
+        if (hintEl) hintEl.textContent = data.hint || 'Hãy thực hiện theo hướng dẫn để hoàn thành nhiệm vụ và nhận points.';
+        currentUrl = data.url || '#';
+        modal.classList.remove('hidden');
+        requestAnimationFrame(function () {
+          sheet.classList.remove('translate-y-full');
+        });
+      }
+
+      function closeModal() {
+        if (!modal || !sheet) return;
+        sheet.classList.add('translate-y-full');
+        setTimeout(function () {
+          modal.classList.add('hidden');
+        }, 220);
+      }
+
+      document.querySelectorAll('[data-mission-item]').forEach(function (item) {
+        item.addEventListener('click', function () {
+          openModal({
+            title: item.getAttribute('data-title') || '',
+            hint: item.getAttribute('data-hint') || '',
+            url: item.getAttribute('data-url') || '#'
+          });
+        });
+      });
+
+      document.querySelectorAll('[data-mission-cta]').forEach(function (cta) {
+        cta.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var item = cta.closest('[data-mission-item]');
+          openModal({
+            title: item ? (item.getAttribute('data-title') || '') : '',
+            hint: item ? (item.getAttribute('data-hint') || '') : '',
+            url: item ? (item.getAttribute('data-url') || '#') : '#'
+          });
+        });
+      });
+
+      if (actionBtn) {
+        actionBtn.addEventListener('click', function () {
+          if (currentUrl && currentUrl !== '#') {
+            window.location.href = currentUrl;
+            return;
+          }
+          closeModal();
+        });
+      }
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (backdrop) backdrop.addEventListener('click', closeModal);
+    })();
+  </script>
+</body>
+</html>
+
