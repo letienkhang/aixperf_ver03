@@ -91,6 +91,10 @@
         <span class="material-symbols-outlined nav-icon">person_pin</span>
         Cá nhân
       </a>
+      <a href="#" class="nav-item" data-panel="ceo" style="color: var(--text-main);">
+        <span class="material-symbols-outlined nav-icon">workspace_premium</span>
+        CEO
+      </a>
       <a href="#" class="nav-item" data-panel="hieu-suat" style="color: var(--text-main);">
         <span class="material-symbols-outlined nav-icon">rate_review</span>
         Đánh giá hiệu suất
@@ -110,6 +114,10 @@
       <a href="#" class="nav-item" data-panel="ypoint" style="color: var(--text-main);">
         <span class="material-symbols-outlined nav-icon">stars</span>
         Ypoint
+      </a>
+      <a href="#" class="nav-item" data-panel="ypointv2" style="color: var(--text-main);">
+        <span class="material-symbols-outlined nav-icon">stars</span>
+        YpointV2
       </a>
     </div>
     <!-- Đổi màu toàn trang (so sánh theme) -->
@@ -168,6 +176,18 @@
         ></iframe>
       </div>
     </div>
+    <!-- Panel CEO: dashboard tổng quan (file riêng) -->
+    <div id="panel-ceo" class="panel hidden flex-1 flex flex-col overflow-hidden" style="background:#f5f7fb;">
+      <div class="flex-1 flex px-6 pb-6 pt-6 min-h-0">
+        <iframe
+          id="iframe-ceo"
+          src="aixperf-ceo.html"
+          title="CEO Dashboard"
+          class="w-full h-full"
+          style="border: none; background: transparent;"
+        ></iframe>
+      </div>
+    </div>
     <!-- Panel Đánh giá hiệu suất -->
     <div id="panel-hieu-suat" class="panel hidden flex-1 flex items-center justify-center p-6">
       <div class="text-center" style="color: var(--text-secondary);">
@@ -189,6 +209,14 @@
       <div class="flex-1 flex items-start justify-center overflow-auto py-6 min-h-0">
         <div class="shadow-2xl rounded-[2rem] overflow-hidden border-4 border-gray-800 w-full" style="max-width: 430px;">
           <iframe src="ypoint.html" title="Y Point - Mobile" class="w-full bg-white" style="height: min(884px, 95vh); min-height: 700px; border: none;"></iframe>
+        </div>
+      </div>
+    </div>
+    <!-- Panel YpointV2: copy từ Ypoint (iframe) -->
+    <div id="panel-ypointv2" class="panel hidden flex-1 flex flex-col min-h-0 overflow-hidden bg-gray-100">
+      <div class="flex-1 flex items-start justify-center overflow-auto py-6 min-h-0">
+        <div class="shadow-2xl rounded-[2rem] overflow-hidden border-4 border-gray-800 w-full" style="max-width: 430px;">
+          <iframe src="ypointv2/ypoint.html" title="Y Point - Mobile (V2)" class="w-full bg-white" style="height: min(884px, 95vh); min-height: 700px; border: none;"></iframe>
         </div>
       </div>
     </div>
@@ -748,6 +776,14 @@
         var cfriframe = document.getElementById('iframe-cfr');
         if (cfriframe && cfriframe.contentWindow) {
           try { cfriframe.contentWindow.postMessage({ type: 'aixperf-theme', theme: theme }, '*'); } catch (e) {}
+        }
+        var personalIframe = document.getElementById('iframe-ca-nhan');
+        if (personalIframe && personalIframe.contentWindow) {
+          try { personalIframe.contentWindow.postMessage({ type: 'aixperf-theme', theme: theme }, '*'); } catch (e) {}
+        }
+        var ceoIframe = document.getElementById('iframe-ceo');
+        if (ceoIframe && ceoIframe.contentWindow) {
+          try { ceoIframe.contentWindow.postMessage({ type: 'aixperf-theme', theme: theme }, '*'); } catch (e) {}
         }
       }
       window.addEventListener('message', function (e) {

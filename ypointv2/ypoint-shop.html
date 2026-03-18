@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Y Point Shop</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#221f6d",
+            "background-light": "#f8fafc",
+            "background-dark": "#0f172a",
+            "accent-orange": "#FFD700",
+            "accent-red": "#ef4444",
+            "accent-green": "#10b981",
+            "card-light": "#ffffff",
+            "card-dark": "#1e293b"
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "1.25rem",
+          },
+        },
+      },
+    };
+  </script>
+  <style type="text/tailwindcss">
+    body { font-family: 'Inter', sans-serif; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    body { min-height: max(884px, 100dvh); }
+    @keyframes border-flow-soft {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    .balance-card {
+      position: relative;
+    }
+    .balance-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 1.75rem;
+      background: linear-gradient(120deg, rgba(34,31,109,0.18), rgba(249,115,22,0.15), rgba(56,189,248,0.15), rgba(34,31,109,0.18));
+      background-size: 200% 200%;
+      animation: border-flow-soft 8s linear infinite;
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .dark .balance-card::before {
+      background: linear-gradient(120deg, rgba(129,140,248,0.35), rgba(251,191,36,0.25), rgba(56,189,248,0.28), rgba(129,140,248,0.35));
+      opacity: 0.8;
+    }
+    @keyframes balance-border-highlight {
+      0% { box-shadow: 0 0 0 0 rgba(52,211,153,0.0); }
+      40% { box-shadow: 0 0 0 3px rgba(52,211,153,0.35); }
+      70% { box-shadow: 0 0 0 3px rgba(52,211,153,0.25); }
+      100% { box-shadow: 0 0 0 0 rgba(52,211,153,0.0); }
+    }
+    .balance-card.highlight {
+      animation: balance-border-highlight 1.6s ease-out;
+    }
+    @keyframes balance-pop {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+    .balance-updated-soft {
+      animation: balance-pop 0.45s ease-out;
+    }
+    @keyframes toast-pop {
+      0% { transform: translateY(-8px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .toast-show {
+      animation: toast-pop 0.3s ease-out forwards;
+    }
+    @keyframes confetti-fall {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(20px) scale(0.9); opacity: 0; }
+    }
+    .confetti-dot {
+      animation: confetti-fall 0.8s ease-out forwards;
+    }
+    [data-gift-card] {
+      transition: transform 0.16s ease-out, box-shadow 0.16s ease-out, opacity 0.16s ease-out;
+      transform-origin: center;
+    }
+    [data-gift-card].card-tap {
+      transform: scale(0.96);
+      opacity: 0.9;
+      box-shadow: 0 16px 30px -18px rgba(15, 23, 42, 0.4);
+    }
+    [data-gift-card] .gift-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 flex flex-col">
+  <div class="flex justify-between items-center px-8 py-3 w-full shrink-0">
+    <span class="text-sm font-semibold text-slate-900 dark:text-white">13:23</span>
+    <div class="flex items-center space-x-1.5 text-slate-900 dark:text-white">
+      <span class="material-icons-round text-sm">signal_cellular_alt</span>
+      <span class="material-icons-round text-sm">wifi</span>
+      <span class="material-icons-round text-sm rotate-90">battery_full</span>
+    </div>
+  </div>
+  <header class="sticky top-0 z-50 bg-background-light/90 dark:bg-background-dark/90 ios-blur">
+    <div class="px-4 py-3 flex items-center gap-3 w-full">
+      <a class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform"
+        href="ypoint.html">
+        <span class="material-icons-round text-primary dark:text-white">arrow_back</span>
+      </a>
+      <h1 class="flex-1 min-w-0 text-primary dark:text-white text-xl font-bold truncate">Y Point Shop</h1>
+      <a href="ypoint-history.html"
+        class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform"
+        aria-label="Lịch sử đổi quà">
+        <span class="material-icons-round text-[22px] text-primary dark:text-white">history</span>
+      </a>
+    </div>
+  </header>
+  <main class="flex-1 px-4 pt-2 space-y-6 pb-10">
+    <section class="balance-card bg-transparent px-1 pt-1 pb-0 rounded-3xl border-0 relative overflow-visible">
+      <div
+        class="relative overflow-hidden bg-white dark:bg-slate-800 rounded-2xl p-5 card-shadow border border-slate-100 dark:border-slate-700">
+        <div class="absolute -top-10 -right-10 w-36 h-36 bg-primary/5 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-10 -left-10 w-36 h-36 bg-primary/5 rounded-full blur-3xl"></div>
+        <div class="relative z-10">
+          <div class="flex justify-between items-start mb-6">
+            <div class="space-y-0.5">
+              <p class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
+                Mã nhân viên
+              </p>
+              <p class="text-xl font-extrabold text-[#1E2161] dark:text-white">YD09090</p>
+            </div>
+            <div class="text-right space-y-0.5">
+              <p class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
+                Sắp hết hạn
+              </p>
+              <p class="text-sm font-bold text-red-500">31/12/2026</p>
+            </div>
+          </div>
+          <div class="space-y-1 mb-6">
+            <p class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
+              Số dư khả dụng
+            </p>
+            <div class="flex items-baseline gap-2">
+              <span id="availablePoints" data-points="1250"
+                class="text-5xl font-black text-[#1E2161] dark:text-white tracking-tight">1,250</span>
+              <span class="text-base font-bold text-slate-400 dark:text-slate-500 uppercase">Points</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-end">
+            <div class="flex flex-col">
+              <span
+                class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary border border-primary/20">
+                <span class="material-icons-round text-xl">workspace_premium</span>
+              </span>
+            </div>
+            <a class="flex items-center gap-1.5 py-2 px-4 bg-slate-50 dark:bg-slate-700/50 rounded-full hover:bg-slate-100 transition-colors"
+              href="ypoint-ranking.html">
+              <span class="text-[12px] font-bold text-[#1E2161] dark:text-slate-200">Bảng xếp hạng</span>
+              <span class="material-icons-round text-xs text-[#1E2161] dark:text-slate-200">chevron_right</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Banner nhiệm vụ nhận points -->
+    <section class="mt-4">
+      <a href="#"
+        class="group flex items-center justify-between gap-4 bg-white dark:bg-slate-800 rounded-2xl px-4 py-3 border border-amber-200 dark:border-amber-700/60 shadow-sm active:scale-[0.99] transition-transform">
+        <div class="flex items-center gap-3 min-w-0">
+          <div
+            class="w-10 h-10 rounded-full bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/40 flex items-center justify-center shrink-0">
+            <span class="material-icons-round text-amber-500 text-[22px]">stars</span>
+          </div>
+          <div class="min-w-0">
+            <p class="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
+              Nhận thêm <span class="font-extrabold">10.000</span> Points cực dễ
+            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">
+              Làm nhiệm vụ để gom thêm points
+            </p>
+          </div>
+        </div>
+        <div class="text-sm font-bold text-amber-600 dark:text-amber-400 whitespace-nowrap group-hover:underline">
+          Thử ngay
+        </div>
+      </a>
+    </section>
+    <section>
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-primary dark:text-white text-lg font-bold">
+          Danh sách đổi quà
+        </h3>
+      </div>
+      <div class="flex justify-center gap-6 mb-4 border-b border-slate-200 dark:border-slate-700">
+        <button type="button" data-category-tab="physical"
+          class="tab-chip pb-2 pt-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary border-b-2 border-amber-400">
+          Quà hiện vật
+        </button>
+        <button type="button" data-category-tab="discount"
+          class="tab-chip pb-2 pt-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500 border-b-2 border-transparent">
+          Mã giảm giá
+        </button>
+        <button type="button" data-category-tab="voucher"
+          class="tab-chip pb-2 pt-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500 border-b-2 border-transparent">
+          Voucher
+        </button>
+      </div>
+      <div
+        class="flex items-center justify-between mb-6 bg-emerald-50 dark:bg-emerald-900/20 px-4 py-4 rounded-2xl border border-emerald-100 dark:border-emerald-800/60 shadow-sm hidden">
+        <div class="flex items-center gap-3">
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input class="sr-only peer" id="filterToggle" type="checkbox" />
+            <div
+              class="w-11 h-6 bg-emerald-200 peer-focus:outline-none rounded-full peer dark:bg-emerald-900/40 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-emerald-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500">
+            </div>
+          </label>
+          <span id="redeemableLabel" class="text-sm font-semibold text-slate-600 dark:text-slate-300">
+            Tất cả quà trong kho
+          </span>
+        </div>
+        <span
+          class="inline-flex items-center justify-center bg-emerald-500 text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold"
+          id="redeemableCount">
+          0
+        </span>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Physical gifts (6) -->
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="physical" data-cost-points="480">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Bình giữ nhiệt Inox 480ml</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">480 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="physical" data-cost-points="650">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Cây xanh để bàn Monstera</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">650 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="physical" data-cost-points="820">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Set ly sứ Pastel 4 chiếc</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">820 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="physical" data-cost-points="1150">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Áo khoác gió YODY</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,150 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="physical" data-cost-points="1400">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Vali du lịch 24 inch</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,400 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="physical" data-cost-points="1600">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">featured_seasonal_and_gifts</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Ghế công thái học mini</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,600 pts</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Discount gifts (6) -->
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="discount" data-cost-points="300">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Mã giảm giá 50K cửa hàng</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">300 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="discount" data-cost-points="420">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Mã giảm giá 100K cửa hàng</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">420 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="discount" data-cost-points="700">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher freeship 1 tháng</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">700 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="discount" data-cost-points="1100">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Mã giảm 20% bộ sưu tập mới</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,100 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="discount" data-cost-points="1350">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Combo voucher ăn trưa 100K</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,350 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="discount" data-cost-points="1600">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">confirmation_number</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Mã giảm giá 40% giới hạn</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,600 pts</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Voucher gifts (6) -->
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="voucher" data-cost-points="280">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher cafe 3 ngày</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">280 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="voucher" data-cost-points="500">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher siêu thị 100K</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">500 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="voucher" data-cost-points="900">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher xem phim đôi</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">900 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="voucher" data-cost-points="1200">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher nghỉ dưỡng cuối tuần</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,200 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="voucher" data-cost-points="1450">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher mua sắm YODY 300K</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,450 pts</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3"
+          data-gift-card data-category="voucher" data-cost-points="1800">
+          <div
+            class="w-full aspect-square rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-4xl">card_giftcard</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">Voucher du lịch nội địa</h3>
+            <div class="flex items-center text-primary">
+              <span class="material-icons-round text-sm mr-1">stars</span>
+              <span class="text-xs font-extrabold uppercase">1,800 pts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="redeem-toast"
+    class="fixed inset-x-0 top-1/2 -translate-y-1/2 z-50 flex justify-center pointer-events-none hidden">
+    <div
+      class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 text-white text-xs font-semibold shadow-lg shadow-emerald-500/40 toast-content pointer-events-auto">
+      <span class="material-icons-round text-base">celebration</span>
+      <span id="redeem-toast-text">Bạn đã đổi quà thành công! Hệ thống sẽ liên hệ với bạn trong thời gian gần
+        nhất.</span>
+      <button id="redeem-toast-close" type="button"
+        class="ml-1 inline-flex items-center justify-center rounded-full hover:bg-emerald-500/60 focus:outline-none">
+        <span class="material-icons-round text-sm leading-none">close</span>
+      </button>
+    </div>
+  </div>
+  <div id="confetti-layer" class="fixed inset-x-0 top-20 z-40 flex justify-center pointer-events-none hidden">
+    <div class="relative w-32 h-8">
+      <span class="confetti-dot absolute left-2 top-0 w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+      <span class="confetti-dot absolute left-10 top-1 w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+      <span class="confetti-dot absolute left-18 top-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+      <span class="confetti-dot absolute left-24 top-1 w-1.5 h-1.5 rounded-full bg-pink-400"></span>
+      <span class="confetti-dot absolute right-4 top-0.5 w-1.5 h-1.5 rounded-full bg-violet-400"></span>
+    </div>
+  </div>
+  <div id="gift-modal" class="fixed inset-0 z-40 hidden">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div id="gift-sheet"
+      class="absolute inset-x-0 bottom-0 rounded-t-3xl bg-card-light dark:bg-card-dark shadow-xl translate-y-full transition-transform duration-300">
+      <div class="px-5 pt-4 pb-5">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-1 rounded-full bg-slate-200 dark:bg-slate-700 mx-auto"></div>
+          <button type="button" id="gift-close"
+            class="absolute right-4 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+            <span class="material-icons-round text-xl">close</span>
+          </button>
+        </div>
+        <div class="mb-4">
+          <div
+            class="w-full max-h-72 rounded-3xl bg-slate-100 dark:bg-slate-800 overflow-auto flex items-center justify-center">
+            <img id="gift-image" src="" alt="Quà tặng" class="max-h-72 w-auto object-contain" />
+          </div>
+        </div>
+        <div class="mb-4">
+          <p id="gift-title" class="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-1 line-clamp-2"></p>
+          <p id="gift-cost" class="text-xs font-semibold text-accent-orange mb-1"></p>
+          <p id="gift-type" class="text-[11px] text-slate-400 mb-0.5"></p>
+          <p id="gift-meta" class="text-[11px] text-slate-400">Quà áp dụng trong chương trình tích điểm Y Point.</p>
+        </div>
+        <div
+          class="rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700 px-4 py-3 mb-4">
+          <div class="flex justify-between items-start mb-3">
+            <div class="space-y-1">
+              <p class="text-[11px] uppercase tracking-wide font-semibold text-slate-900 dark:text-white">Điểm hiện có
+              </p>
+              <p id="gift-balance-current" class="text-lg font-bold text-slate-900 dark:text-slate-50">0 pts</p>
+            </div>
+            <div class="h-9 w-px bg-slate-200 dark:bg-slate-700"></div>
+            <div class="space-y-1 text-right">
+              <p class="text-[11px] uppercase tracking-wide font-semibold text-slate-900 dark:text-white">Sau khi đổi
+              </p>
+              <p id="gift-balance-after" class="text-lg font-bold text-slate-900 dark:text-slate-50">0 pts</p>
+            </div>
+          </div>
+          <p id="gift-status" class="text-xs font-semibold"></p>
+          <p id="gift-balance-line" class="text-[10px] text-slate-500 dark:text-slate-400 mt-1"></p>
+        </div>
+        <div class="mb-4">
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.25em] mb-2">
+            Điều kiện sử dụng quà
+          </p>
+          <div
+            class="rounded-2xl bg-slate-50/90 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-700 px-4 py-3 space-y-2 text-left">
+            <div class="flex items-start gap-2">
+              <span class="material-icons-round text-[16px] text-emerald-500 mt-0.5">check_circle</span>
+              <p class="text-[11px] text-slate-600 dark:text-slate-200">
+                Áp dụng cho quà tặng đã quy đổi trong <span class="font-semibold">tháng hiện tại</span>, không cộng dồn
+                sang kỳ sau.
+              </p>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="material-icons-round text-[16px] text-emerald-500 mt-0.5">check_circle</span>
+              <p class="text-[11px] text-slate-600 dark:text-slate-200">
+                Không quy đổi thành tiền mặt, không chuyển nhượng cho tài khoản khác.
+              </p>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="material-icons-round text-[16px] text-emerald-500 mt-0.5">check_circle</span>
+              <p class="text-[11px] text-slate-600 dark:text-slate-200">
+                Khi sử dụng quà tại đối tác, vui lòng xuất trình <span class="font-semibold">mã QR / mã ưu đãi</span> từ
+                ứng dụng Y Point.
+              </p>
+            </div>
+          </div>
+        </div>
+        <button type="button" id="gift-redeem-btn"
+          class="w-full py-3 rounded-2xl text-sm font-bold text-white bg-primary dark:bg-indigo-600 active:scale-[0.98] transition-transform disabled:opacity-60 disabled:cursor-not-allowed">
+          Quy đổi quà
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var toggle = document.getElementById('filterToggle');
+      var balanceEl = document.getElementById('availablePoints');
+      var cards = document.querySelectorAll('[data-gift-card]');
+      var tabs = document.querySelectorAll('.tab-chip[data-category-tab]');
+      var currentCategory = 'physical';
+      var redeemCountEl = document.getElementById('redeemableCount');
+      var redeemLabelEl = document.getElementById('redeemableLabel');
+      if (!balanceEl || !cards.length) return;
+
+      function getBalance() {
+        var fromData = balanceEl.getAttribute('data-points');
+        if (fromData) return parseInt(fromData, 10) || 0;
+        var text = balanceEl.textContent || '';
+        var numeric = text.replace(/[^0-9]/g, '');
+        return parseInt(numeric || '0', 10);
+      }
+
+      function setActiveTab(tabEl) {
+        tabs.forEach(function (btn) {
+          var isActive = btn === tabEl;
+          if (isActive) {
+            btn.classList.add('text-primary', 'border-amber-400');
+            btn.classList.remove('text-slate-400', 'dark:text-slate-500', 'border-transparent');
+          } else {
+            btn.classList.remove('text-primary', 'border-amber-400');
+            btn.classList.add('text-slate-400', 'dark:text-slate-500', 'border-transparent');
+          }
+        });
+      }
+
+      function applyFilter() {
+        var balance = getBalance();
+        var onlyRedeemable = toggle ? toggle.checked : false;
+
+        var redeemableInCategory = 0;
+
+        cards.forEach(function (card) {
+          var cost = parseInt(card.getAttribute('data-cost-points') || '0', 10);
+          var category = card.getAttribute('data-category') || 'physical';
+          var matchCategory = !currentCategory || category === currentCategory;
+          var matchPoints = !onlyRedeemable || cost <= balance;
+
+          if (matchCategory && matchPoints) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+
+          // Đếm quà có thể đổi ngay trong category hiện tại (bất kể toggle)
+          if (category === currentCategory && cost <= balance) {
+            redeemableInCategory++;
+          }
+        });
+
+        if (redeemCountEl) {
+          redeemCountEl.textContent = redeemableInCategory;
+        }
+
+        if (redeemLabelEl) {
+          if (toggle && toggle.checked) {
+            redeemLabelEl.textContent = 'Quà có thể đổi ngay';
+            redeemLabelEl.className = 'text-sm font-semibold text-emerald-800 dark:text-emerald-300';
+          } else {
+            redeemLabelEl.textContent = 'Tất cả quà trong kho';
+            redeemLabelEl.className = 'text-sm font-semibold text-slate-600 dark:text-slate-300';
+          }
+        }
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var tabCategory = tab.getAttribute('data-category-tab');
+          if (!tabCategory || tabCategory === currentCategory) return;
+          currentCategory = tabCategory;
+          setActiveTab(tab);
+          applyFilter();
+        });
+      });
+
+      if (tabs.length) {
+        setActiveTab(tabs[0]);
+      }
+
+      if (toggle) {
+        toggle.addEventListener('change', applyFilter);
+      }
+      applyFilter();
+
+      // Khi click vào từng item quà, lưu data quà + số dư rồi chuyển sang trang chi tiết (kèm animation nhẹ)
+      var isNavigating = false;
+      cards.forEach(function (card) {
+        card.addEventListener('click', function () {
+          if (isNavigating) return;
+          isNavigating = true;
+
+          var balance = getBalance();
+          var cost = parseInt(card.getAttribute('data-cost-points') || '0', 10);
+          var category = card.getAttribute('data-category') || 'physical';
+          var title = card.querySelector('h3') ? card.querySelector('h3').textContent.trim() : 'Quà tặng';
+          var img = card.querySelector('img');
+          var imgSrc = img ? img.getAttribute('src') : '';
+          var payload = {
+            title: title,
+            cost: cost,
+            image: imgSrc,
+            category: category,
+            balance: balance
+          };
+          try {
+            sessionStorage.setItem('ypointGiftDetail', JSON.stringify(payload));
+          } catch (e) { }
+
+          card.classList.add('card-tap');
+          setTimeout(function () {
+            window.location.href = 'ypoint-gift-detail.html';
+          }, 180);
+        });
+      });
+    })();
+  </script>
+</body>
+
+</html>
+

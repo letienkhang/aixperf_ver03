@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Chi tiết quà tặng - Y Point</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#1E1B4B",
+            "background-light": "#F9FAFB",
+            "background-dark": "#111827",
+            "surface-light": "#FFFFFF",
+            "surface-dark": "#1F2937",
+            "accent-orange": "#FFD700",
+            "accent-green": "#10B981"
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "12px",
+            "xl": "24px",
+            "2xl": "32px",
+          },
+        },
+      },
+    };
+  </script>
+  <style type="text/tailwindcss">
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .hero-gradient {
+      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 70%, rgba(255,255,255,1) 100%);
+    }
+    .dark .hero-gradient {
+      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 70%, rgba(31,41,55,1) 100%);
+    }
+    #gift-redeem-btn { transition: width 0.35s ease, height 0.35s ease, border-radius 0.35s ease, background-color 0.3s ease; }
+    #gift-redeem-btn.redeem-loading { pointer-events: none; }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200">
+  <main class="max-w-md mx-auto px-4 pt-6 pb-10">
+    <div class="rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700 p-4">
+      <p class="text-sm font-semibold">Trang chi tiết quà (V2)</p>
+      <p class="text-xs mt-1 text-slate-500 dark:text-slate-400">
+        File này được copy để bạn chỉnh riêng cho YpointV2.
+      </p>
+      <div class="mt-4">
+        <a href="ypoint-shop.html" class="text-sm font-semibold underline">Quay lại shop</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CEO Dashboard</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="design-system.css" />
+  <style type="text/tailwindcss">
+    body { font-family: Inter, ui-sans-serif, system-ui; }
+  </style>
+</head>
+<body class="p-6 md:p-10" style="background: transparent;">
+  <main class="w-full space-y-6">
+    <header class="flex items-start justify-between gap-4 flex-wrap">
+      <div>
+        <h1 class="text-2xl font-extrabold" style="color: var(--text-main);">CEO Dashboard</h1>
+        <p class="text-sm mt-1" style="color: var(--text-secondary);">Tổng quan toàn công ty (placeholder).</p>
+      </div>
+      <div class="inline-flex items-center gap-2 px-3 py-2 rounded-xl border bg-white"
+        style="border-color: var(--border);">
+        <span class="material-symbols-outlined text-[18px]" style="color: var(--text-secondary);">calendar_month</span>
+        <span class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-secondary);">FY 2026</span>
+      </div>
+    </header>
+
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <article class="rounded-2xl border bg-white p-5" style="border-color: var(--border);">
+        <p class="text-[10px] font-bold uppercase tracking-widest" style="color: var(--text-secondary);">Headcount</p>
+        <p class="mt-2 text-3xl font-extrabold" style="color: var(--text-main);">—</p>
+        <p class="mt-1 text-xs" style="color: var(--text-secondary);">Dữ liệu đang cập nhật</p>
+      </article>
+      <article class="rounded-2xl border bg-white p-5" style="border-color: var(--border);">
+        <p class="text-[10px] font-bold uppercase tracking-widest" style="color: var(--text-secondary);">Hiệu suất (FY)</p>
+        <p class="mt-2 text-3xl font-extrabold" style="color: var(--text-main);">—</p>
+        <p class="mt-1 text-xs" style="color: var(--text-secondary);">Dữ liệu đang cập nhật</p>
+      </article>
+      <article class="rounded-2xl border bg-white p-5" style="border-color: var(--border);">
+        <p class="text-[10px] font-bold uppercase tracking-widest" style="color: var(--text-secondary);">Risk / Attrition</p>
+        <p class="mt-2 text-3xl font-extrabold" style="color: var(--text-main);">—</p>
+        <p class="mt-1 text-xs" style="color: var(--text-secondary);">Dữ liệu đang cập nhật</p>
+      </article>
+    </section>
+
+    <section class="rounded-2xl border bg-white p-6" style="border-color: var(--border);">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <h2 class="text-sm font-bold uppercase tracking-widest" style="color: var(--text-secondary);">Tóm tắt</h2>
+        <span class="text-xs" style="color: var(--text-secondary);">Nội dung sẽ bổ sung theo yêu cầu CEO</span>
+      </div>
+      <div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="rounded-xl border p-4" style="border-color: var(--border-light);">
+          <p class="text-xs font-semibold" style="color: var(--text-main);">KPI / OKR</p>
+          <p class="mt-1 text-xs" style="color: var(--text-secondary);">Placeholder</p>
+        </div>
+        <div class="rounded-xl border p-4" style="border-color: var(--border-light);">
+          <p class="text-xs font-semibold" style="color: var(--text-main);">Năng suất</p>
+          <p class="mt-1 text-xs" style="color: var(--text-secondary);">Placeholder</p>
+        </div>
+        <div class="rounded-xl border p-4" style="border-color: var(--border-light);">
+          <p class="text-xs font-semibold" style="color: var(--text-main);">Cảnh báo</p>
+          <p class="mt-1 text-xs" style="color: var(--text-secondary);">Placeholder</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var THEME_KEY = 'aixperf-theme';
+      function applyTheme(theme) {
+        var root = document.documentElement;
+        if (!theme || theme === 'gray') root.removeAttribute('data-theme');
+        else root.setAttribute('data-theme', theme);
+        try { localStorage.setItem(THEME_KEY, theme || 'gray'); } catch (e) {}
+      }
+
+      try {
+        var saved = localStorage.getItem(THEME_KEY);
+        applyTheme(saved === 'yody' || saved === 'blue' || saved === 'emerald' ? saved : 'gray');
+      } catch (e) {}
+
+      window.addEventListener('message', function (e) {
+        if (e.data && e.data.type === 'aixperf-theme' && e.data.theme !== undefined) applyTheme(e.data.theme);
+      });
+
+      if (window.parent !== window) {
+        try { window.parent.postMessage({ type: 'aixperf-theme-get' }, '*'); } catch (e) {}
+      }
+    })();
+  </script>
+</body>
+</html>
