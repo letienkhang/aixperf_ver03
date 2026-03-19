@@ -62,6 +62,16 @@
 
   <main class="flex-1 pt-2 pb-10">
     <section class="px-4 pt-3">
+      <div class="flex justify-center gap-6 mb-4 border-b border-slate-200 dark:border-slate-700">
+        <button type="button" data-mission-tab="active"
+          class="pb-2 pt-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary border-b-2 border-amber-400 -mb-px transition-colors">
+          Còn lượt
+        </button>
+        <button type="button" data-mission-tab="expired"
+          class="pb-2 pt-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500 border-b-2 border-transparent -mb-px transition-colors">
+          Hết lượt
+        </button>
+      </div>
       <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
         <div class="divide-y divide-slate-100 dark:divide-slate-700">
           <!-- item -->
@@ -302,6 +312,42 @@
           closeModal();
         });
       }
+
+      // Mission tabs: Còn lượt / Hết lượt
+      var tabBtns = document.querySelectorAll('[data-mission-tab]');
+      var missionItems = document.querySelectorAll('[data-mission-item]');
+
+      function applyMissionTab(tabValue) {
+        var showExpired = tabValue === 'expired';
+
+        missionItems.forEach(function (item) {
+          var isExpired = item.getAttribute('data-expired') === 'true';
+          var shouldShow = showExpired ? isExpired : !isExpired;
+          item.classList.toggle('hidden', !shouldShow);
+        });
+
+        tabBtns.forEach(function (btn) {
+          var isActive = btn.getAttribute('data-mission-tab') === tabValue;
+          if (isActive) {
+            btn.classList.add('text-primary', 'border-amber-400', 'dark:text-white');
+            btn.classList.remove('text-slate-400', 'dark:text-slate-500', 'border-transparent');
+          } else {
+            btn.classList.remove('text-primary', 'border-amber-400', 'dark:text-white');
+            btn.classList.add('text-slate-400', 'dark:text-slate-500', 'border-transparent');
+          }
+        });
+      }
+
+      tabBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var tabValue = btn.getAttribute('data-mission-tab') || 'active';
+          applyMissionTab(tabValue);
+        });
+      });
+
+      // Default tab: Còn lượt
+      applyMissionTab('active');
+
       if (closeBtn) closeBtn.addEventListener('click', closeModal);
       if (backdrop) backdrop.addEventListener('click', closeModal);
     })();
