@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Đánh giá hiệu suất Ver3</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="design-system.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: "var(--primary)", hover: "var(--primary-hover)", light: "var(--primary-light)" }
+          }
+        }
+      }
+    };
+  </script>
+  <style type="text/tailwindcss">
+    body { font-family: "Inter", sans-serif; color: var(--text-main); background: #f8fafc; }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 16px; }
+    .soft-shadow { box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; }
+    .donut {
+      width: 168px;
+      height: 168px;
+      border-radius: 50%;
+      background: conic-gradient(#22c55e 0 40deg, #3b82f6 40deg 165deg, #6366f1 165deg 240deg, #ef4444 240deg 360deg);
+      position: relative;
+    }
+    .donut::after {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border-radius: 50%;
+      background: white;
+      border: 1px solid var(--border-light);
+    }
+    .table-chip {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 16px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .progress-step {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 2px solid #cbd5e1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #64748b;
+      background: #fff;
+    }
+    .progress-step.done {
+      border-color: #10b981;
+      color: #10b981;
+      background: #ecfdf5;
+    }
+    .progress-line {
+      width: 26px;
+      height: 2px;
+      background: #e2e8f0;
+      border-radius: 999px;
+    }
+    .progress-line.done { background: #10b981; }
+    .table-check {
+      width: 16px;
+      height: 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      background: #fff;
+      display: inline-block;
+    }
+    .emp-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #64748b;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .stage-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .stage-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .stage-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stage-wait { background: #e2e8f0; color: #64748b; }
+    .stage-doing { background: #dbeafe; color: #1d4ed8; }
+    .stage-done { background: #d1fae5; color: #047857; }
+    .stage-bar {
+      width: 32px;
+      height: 2px;
+      border-radius: 999px;
+      background: #e2e8f0;
+    }
+    .stage-bar-doing { background: #93c5fd; }
+    .stage-bar-done { background: #6ee7b7; }
+    .culture-mini-wrap {
+      min-width: 300px;
+      max-width: 340px;
+      padding: 6px 8px 6px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+    }
+    .culture-mini-title {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .culture-trend-svg { width: 100%; height: 78px; display: block; }
+    .culture-trend-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .culture-quarters {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      font-size: 10px;
+      font-weight: 600;
+      color: #64748b;
+      margin-top: -2px;
+      text-align: center;
+    }
+    .culture-score-hint {
+      font-size: 10px;
+      color: #0f766e;
+      font-weight: 600;
+      margin-top: 2px;
+      text-align: right;
+    }
+    .culture-core-grid {
+      margin-top: 0;
+      border-top: none;
+      padding-top: 0;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 4px;
+      min-width: 132px;
+      flex-shrink: 0;
+    }
+    .culture-core-grid .idx {
+      font-size: 9px;
+      color: #64748b;
+      font-weight: 700;
+      line-height: 1.1;
+      text-align: center;
+    }
+    .culture-core-grid .score {
+      font-size: 10px;
+      color: #0f172a;
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 2px 0;
+    }
+    .culture-value-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      background: #fff;
+      padding: 8px 10px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .culture-value-card .badge {
+      display: inline-flex;
+      min-width: 20px;
+      height: 20px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .culture-value-card .name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.35;
+    }
+    .culture-value-card .hint {
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+    .culture-detail-item {
+      border-radius: 10px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 8px 10px;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+  <main class="min-h-screen p-3 md:p-5">
+    <section class="card soft-shadow p-4 md:p-5 flex flex-col">
+      <header class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <p class="text-xs font-semibold tracking-wide uppercase" style="color: var(--text-secondary);">Đánh giá hiệu suất</p>
+          <h1 class="text-lg md:text-xl font-bold mt-1">Dashboard Ver3</h1>
+          <p class="text-sm mt-1" style="color: var(--text-secondary);">Giao diện tối ưu cho theo dõi tiến trình CFR, dễ quét thông tin và ít nhiễu thị giác.</p>
+        </div>
+        <div class="hidden flex items-center gap-2 flex-wrap">
+          <select class="h-9 rounded-xl border px-3 text-sm" style="border-color: var(--border);">
+            <option>Tất cả nhân viên</option>
+            <option>Khối vận hành</option>
+            <option>Khối kinh doanh</option>
+          </select>
+          <select class="h-9 rounded-xl border px-3 text-sm" style="border-color: var(--border);">
+            <option>Q1 - 2026</option>
+            <option>Q4 - 2025</option>
+            <option>Q3 - 2025</option>
+          </select>
+          <button class="h-9 px-3 inline-flex items-center gap-1.5 rounded-xl border text-sm font-medium hover:bg-gray-50" style="border-color: var(--border);">
+            <span class="material-symbols-outlined text-base">file_download</span>
+            Export
+          </button>
+          <button class="h-9 px-3 inline-flex items-center gap-1.5 rounded-xl text-sm font-semibold text-white" style="background: var(--primary);">
+            <span class="material-symbols-outlined text-base">add</span>
+            Chốt CFR
+          </button>
+        </div>
+      </header>
+
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-4 mt-4">
+        <aside class="xl:col-span-3 flex flex-col gap-6 xl:max-h-[calc(100vh-140px)] xl:overflow-y-auto pr-1">
+          <div class="card p-4 border-4 border-red-500 min-h-[280px] mb-1">
+            <div class="flex justify-start items-center mb-2 gap-2">
+              <h3 class="text-base font-bold flex items-center gap-1">
+                <span class="material-symbols-outlined text-[16px] text-blue-500">percent</span>
+                Phân bổ tiêu chuẩn Hạng
+              </h3>
+              <button class="inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" type="button" aria-label="Thông tin">
+                <span class="material-symbols-outlined text-[16px]" style="color: var(--text-secondary);">info</span>
+              </button>
+            </div>
+            <div class="flex-1">
+              <div class="w-full flex flex-col pl-8 mt-6 relative">
+                <div class="flex items-center gap-4 text-[10px] mb-2">
+                  <span class="inline-flex items-center gap-1"><i class="legend-dot" style="background:#94a3b8;"></i>Tiêu chuẩn</span>
+                  <span class="inline-flex items-center gap-1"><i class="legend-dot" style="background:#16a34a;"></i>Thực tế Q1/2026</span>
+                </div>
+                <div class="h-[180px] relative border-b w-full mb-2" style="border-color: var(--border);">
+                  <div class="absolute w-full border-t border-dashed text-[9px] left-0" style="bottom: 0%; border-color: var(--border); color: var(--text-secondary);"><span class="absolute -left-8 -top-2 w-7 text-right">0</span></div>
+                  <div class="absolute w-full border-t border-dashed text-[9px] left-0" style="bottom: 20%; border-color: var(--border); color: var(--text-secondary);"><span class="absolute -left-8 -top-2 w-7 text-right">2</span></div>
+                  <div class="absolute w-full border-t border-dashed text-[9px] left-0" style="bottom: 40%; border-color: var(--border); color: var(--text-secondary);"><span class="absolute -left-8 -top-2 w-7 text-right">4</span></div>
+                  <div class="absolute w-full border-t border-dashed text-[9px] left-0" style="bottom: 60%; border-color: var(--border); color: var(--text-secondary);"><span class="absolute -left-8 -top-2 w-7 text-right">6</span></div>
+                  <div class="absolute w-full border-t border-dashed text-[9px] left-0" style="bottom: 80%; border-color: var(--border); color: var(--text-secondary);"><span class="absolute -left-8 -top-2 w-7 text-right">8</span></div>
+                  <div class="absolute w-full border-t border-dashed text-[9px] left-0" style="bottom: 100%; border-color: var(--border); color: var(--text-secondary);"><span class="absolute -left-8 -top-2 w-7 text-right">10</span></div>
+                  <div class="absolute inset-0 flex items-end justify-between px-2">
+                    <div class="flex gap-1 items-end justify-center w-full h-full px-1 cursor-pointer">
+                      <div class="w-[24px] rounded-t relative transition-all bg-slate-400/40" style="height: 20%;"><span class="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-bold whitespace-nowrap">2</span></div>
+                      <div class="w-[24px] rounded-t relative transition-all bg-emerald-500" style="height: 10%;"><span class="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] font-bold whitespace-nowrap text-emerald-600">1</span></div>
+                    </div>
+                    <div class="flex gap-1 items-end justify-center w-full h-full px-1 cursor-pointer">
+                      <div class="w-[24px] rounded-t relative transition-all bg-slate-400/40" style="height: 70%;"><span class="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-bold whitespace-nowrap">7</span></div>
+                      <div class="w-[24px] rounded-t relative transition-all bg-emerald-500" style="height: 10%;"><span class="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] font-bold whitespace-nowrap text-emerald-600">1</span></div>
+                    </div>
+                    <div class="flex gap-1 items-end justify-center w-full h-full px-1 cursor-pointer">
+                      <div class="w-[24px] rounded-t relative transition-all bg-slate-400/40" style="height: 10%;"><span class="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-bold whitespace-nowrap">1</span></div>
+                      <div class="w-[24px] rounded-t relative transition-all bg-rose-500" style="height: 80%;"><span class="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] font-bold whitespace-nowrap text-rose-600">8</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-between px-2 mb-[5px]">
+                  <div class="w-full text-center px-1"><div class="font-bold text-xs text-emerald-700">A+/A</div></div>
+                  <div class="w-full text-center px-1"><div class="font-bold text-xs text-blue-700">B+</div></div>
+                  <div class="w-full text-center px-1"><div class="font-bold text-xs text-rose-700">B/C</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card rounded-xl border shadow-sm flex flex-col h-auto sm:h-[280px] p-4 mb-1" style="border-color: var(--border);">
+            <h3 class="text-base font-bold flex items-center gap-2 mb-2">
+              <span class="material-symbols-outlined text-[16px] text-blue-500">pie_chart</span>
+              Phân bổ Xếp hạng
+            </h3>
+            <div class="flex-1 flex items-center justify-center">
+              <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 h-full p-2 w-full">
+                <div class="relative w-40 h-40 sm:w-48 sm:h-48 shrink-0">
+                  <svg class="transform -rotate-90" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" fill="none" r="40" stroke="#14b8a6" stroke-dasharray="25.1327412287 251.3274122872" stroke-dashoffset="0" stroke-width="15"></circle>
+                    <circle cx="50" cy="50" fill="none" r="40" stroke="#3b82f6" stroke-dasharray="25.1327412287 251.3274122872" stroke-dashoffset="-25.1327412287" stroke-width="15"></circle>
+                    <circle cx="50" cy="50" fill="none" r="40" stroke="#6366f1" stroke-dasharray="75.3982236862 251.3274122872" stroke-dashoffset="-50.2654824574" stroke-width="15"></circle>
+                    <circle cx="50" cy="50" fill="none" r="40" stroke="#ef4444" stroke-dasharray="125.6637061436 251.3274122872" stroke-dashoffset="-125.6637061436" stroke-width="15"></circle>
+                  </svg>
+                  <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <span class="text-2xl font-bold">10</span>
+                    <span class="text-xs" style="color: var(--text-secondary);">Tổng số</span>
+                  </div>
+                </div>
+                <div class="space-y-2 overflow-y-auto max-h-[220px] w-full sm:max-w-[200px]">
+                  <div class="flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
+                    <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-emerald-500"></div><span class="font-semibold w-6">A+</span></div>
+                    <div class="flex items-center gap-3"><span class="font-bold">0</span><span class="text-xs font-bold w-8 text-right min-w-[50px]" style="color: var(--text-secondary);">0%</span></div>
+                  </div>
+                  <div class="flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
+                    <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-teal-500"></div><span class="font-semibold w-6">A</span></div>
+                    <div class="flex items-center gap-3"><span class="font-bold">1</span><span class="text-xs font-bold w-8 text-right min-w-[50px]" style="color: var(--text-secondary);">10%</span></div>
+                  </div>
+                  <div class="flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
+                    <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-blue-500"></div><span class="font-semibold w-6">B+</span></div>
+                    <div class="flex items-center gap-3"><span class="font-bold">1</span><span class="text-xs font-bold w-8 text-right min-w-[50px]" style="color: var(--text-secondary);">10%</span></div>
+                  </div>
+                  <div class="flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
+                    <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-indigo-500"></div><span class="font-semibold w-6">B</span></div>
+                    <div class="flex items-center gap-3"><span class="font-bold">3</span><span class="text-xs font-bold w-8 text-right min-w-[50px]" style="color: var(--text-secondary);">30%</span></div>
+                  </div>
+                  <div class="flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
+                    <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-rose-500"></div><span class="font-semibold w-6">C</span></div>
+                    <div class="flex items-center gap-3"><span class="font-bold">5</span><span class="text-xs font-bold w-8 text-right min-w-[50px]" style="color: var(--text-secondary);">50%</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card p-4 mb-1">
+            <h2 class="text-sm font-semibold">Nhóm điểm dưới trung bình nhưng xếp hạng cao</h2>
+            <div class="mt-3 space-y-3">
+              <div>
+                <div class="flex items-center justify-between text-xs mb-1"><span>Nguyễn Tùng Anh</span><span>0.68</span></div>
+                <div class="h-2 rounded-full bg-gray-100"><div class="h-2 rounded-full bg-amber-400" style="width:64%;"></div></div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between text-xs mb-1"><span>Phạm Đình Trung</span><span>0.59</span></div>
+                <div class="h-2 rounded-full bg-gray-100"><div class="h-2 rounded-full bg-amber-400" style="width:58%;"></div></div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between text-xs mb-1"><span>Bùi Thị Ngân</span><span>0.56</span></div>
+                <div class="h-2 rounded-full bg-gray-100"><div class="h-2 rounded-full bg-amber-400" style="width:53%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card p-4 mb-1" id="culture-card">
+            <button type="button" id="culture-toggle" class="w-full flex items-center justify-between mb-3 text-left">
+              <h3 class="text-sm font-semibold flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px] text-blue-600">groups</span>
+                Biểu đồ Văn hoá
+              </h3>
+              <span class="inline-flex items-center gap-2">
+                <span class="text-xs px-2 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">75% hoàn thành</span>
+                <span id="culture-chevron" class="material-symbols-outlined text-base transition-transform">expand_more</span>
+              </span>
+            </button>
+            <div class="space-y-3">
+              <div>
+                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Customer Centric</span><span class="shrink-0 font-semibold">4.1/5</span></div>
+                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-blue-500" style="width:82%;"></div></div>
+              </div>
+              <div>
+                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Ownership &amp; Autonomy</span><span class="shrink-0 font-semibold">3.7/5</span></div>
+                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-blue-500" style="width:74%;"></div></div>
+              </div>
+              <div>
+                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Integrity</span><span class="shrink-0 font-semibold">4.0/5</span></div>
+                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-blue-500" style="width:80%;"></div></div>
+              </div>
+              <div>
+                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Growth Mindset</span><span class="shrink-0 font-semibold">3.4/5</span></div>
+                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-blue-500" style="width:68%;"></div></div>
+              </div>
+              <div>
+                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Good Relationship</span><span class="shrink-0 font-semibold">4.3/5</span></div>
+                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-blue-500" style="width:86%;"></div></div>
+              </div>
+            </div>
+            <div id="culture-content-list" class="hidden mt-5 pt-4 border-t space-y-4" style="border-color: var(--border-light);">
+              <div class="flex items-center justify-between gap-2">
+                <p class="text-xs font-semibold uppercase tracking-wide" style="color: var(--text-secondary);">Nội dung văn hoá</p>
+                <div class="inline-flex items-center rounded-lg p-0.5 bg-slate-100">
+                  <button id="culture-view-summary" type="button" class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white shadow-sm text-slate-800">Tóm tắt</button>
+                  <button id="culture-view-detail" type="button" class="px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-500">Chi tiết</button>
+                </div>
+              </div>
+
+              <div id="culture-summary-panel" class="space-y-2.5">
+                <div class="culture-value-card">
+                  <div class="flex items-start gap-2">
+                    <span class="badge">1</span>
+                    <div>
+                      <p class="name">Customer Centric</p>
+                      <p class="hint">Ưu tiên hài lòng khách hàng trong mọi hành động.</p>
+                    </div>
+                  </div>
+                  <span class="text-[11px] font-semibold text-blue-700">4.1/5</span>
+                </div>
+                <div class="culture-value-card">
+                  <div class="flex items-start gap-2">
+                    <span class="badge">2</span>
+                    <div>
+                      <p class="name">Ownership &amp; Autonomy</p>
+                      <p class="hint">Làm chủ mục tiêu, chủ động tìm giải pháp.</p>
+                    </div>
+                  </div>
+                  <span class="text-[11px] font-semibold text-blue-700">3.7/5</span>
+                </div>
+                <div class="culture-value-card">
+                  <div class="flex items-start gap-2">
+                    <span class="badge">3</span>
+                    <div>
+                      <p class="name">Integrity</p>
+                      <p class="hint">Trung thực, làm đúng và giữ cam kết.</p>
+                    </div>
+                  </div>
+                  <span class="text-[11px] font-semibold text-blue-700">4.0/5</span>
+                </div>
+                <div class="culture-value-card">
+                  <div class="flex items-start gap-2">
+                    <span class="badge">4</span>
+                    <div>
+                      <p class="name">Growth Mindset</p>
+                      <p class="hint">Học nhanh và cải tiến liên tục.</p>
+                    </div>
+                  </div>
+                  <span class="text-[11px] font-semibold text-blue-700">3.4/5</span>
+                </div>
+                <div class="culture-value-card">
+                  <div class="flex items-start gap-2">
+                    <span class="badge">5</span>
+                    <div>
+                      <p class="name">Good Relationship</p>
+                      <p class="hint">Kết nối tích cực và hợp tác bền vững.</p>
+                    </div>
+                  </div>
+                  <span class="text-[11px] font-semibold text-blue-700">4.3/5</span>
+                </div>
+              </div>
+
+              <div id="culture-detail-panel" class="hidden space-y-2">
+                <div class="culture-detail-item"><b>1) Customer Centric:</b> Đặt sự hài lòng của khách hàng là ưu tiên số 1 trong mọi suy nghĩ và hành động.</div>
+                <div class="culture-detail-item"><b>2) Ownership &amp; Autonomy:</b> Sở hữu mục tiêu công ty, đội nhóm, cá nhân. Chủ động tìm kiếm nguồn lực và giải pháp. Suy nghĩ và hành động vì lợi ích tốt nhất cho tổ chức.</div>
+                <div class="culture-detail-item"><b>3) Integrity:</b> Trung thực về tiền bạc, hàng hóa, tài sản. Làm đúng, làm đủ theo thiết kế. Giữ lời hứa với khách hàng, đồng nghiệp, đối tác.</div>
+                <div class="culture-detail-item"><b>4) Growth Mindset:</b> Liên tục học hỏi, thử nghiệm, cải tiến và không ngại phản hồi.</div>
+                <div class="culture-detail-item"><b>5) Good Relationship:</b> Hợp tác tích cực, tôn trọng khác biệt và giữ kết nối bền vững trong đội ngũ.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card p-4 mb-1">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-semibold flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px] text-indigo-600">psychology</span>
+                Biểu đồ Năng lực
+              </h3>
+              <span class="text-xs px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">68% đạt chuẩn</span>
+            </div>
+            <div class="space-y-3">
+              <div>
+                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Chuyên môn nghiệp vụ</span><span class="shrink-0 font-semibold">7.2/10</span></div>
+                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-indigo-500" style="width:72%;"></div></div>
+              </div>
+              <div>
+                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Giải quyết vấn đề</span><span class="shrink-0 font-semibold">6.8/10</span></div>
+                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-indigo-500" style="width:68%;"></div></div>
+              </div>
+              <div>
+                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Năng lực quản trị</span><span class="shrink-0 font-semibold">6.2/10</span></div>
+                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-indigo-500" style="width:62%;"></div></div>
+              </div>
+              <div>
+                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Tư duy dữ liệu</span><span class="shrink-0 font-semibold">7.0/10</span></div>
+                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-indigo-500" style="width:70%;"></div></div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <section class="xl:col-span-9 card flex flex-col min-h-0">
+          <div class="p-4 border-b flex items-center justify-between gap-3 flex-wrap" style="border-color: var(--border);">
+            <h2 class="font-semibold">Danh sách đánh giá CFR</h2>
+            <div class="flex items-center gap-2">
+              <select class="h-9 rounded-xl border px-3 text-sm" style="border-color: var(--border);">
+                <option>Tất cả trạng thái</option>
+                <option>Đã hoàn thành</option>
+                <option>Đang chờ đánh giá</option>
+              </select>
+              <button class="h-9 px-3 rounded-xl border text-sm hover:bg-gray-50" style="border-color: var(--border);">Xem đầy đủ</button>
+            </div>
+          </div>
+
+          <div class="overflow-auto min-h-0">
+            <table class="w-full min-w-[1040px] text-sm">
+              <thead class="sticky top-0 z-10" style="background: #f8fafc;">
+                <tr class="border-y" style="border-color: var(--border); color: var(--text-secondary);">
+                  <th class="px-3 py-3 w-10 text-left"><span class="table-check"></span></th>
+                  <th class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-left">Nhân viên</th>
+                  <th id="progress-col-header" class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-left">Tiến trình</th>
+                  <th id="q4-header" class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-center">Q4/2025</th>
+                  <th id="q1-header" class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-center">Q1/2026</th>
+                  <th class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-center">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y" style="--tw-divide-opacity:1; border-color: var(--border-light);">
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="px-3 py-4"><span class="table-check"></span></td>
+                  <td class="px-5 py-4 progress-cell">
+                    <button class="flex items-center gap-3 text-left w-full" type="button">
+                      <div class="emp-avatar">PĐ</div>
+                      <div>
+                        <div class="text-sm font-medium hover:underline">Lê Văn D</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">YD22973</div>
+                      </div>
+                    </button>
+                  </td>
+                  <td class="px-5 py-4 progress-cell">
+                    <div class="stage-wrap">
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Văn hoá</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Năng lực</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">Hiệu suất</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">HOD</span></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap">
+                    <div class="flex flex-col items-center gap-1">
+                      <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-indigo-600/10 text-indigo-600 border-indigo-600/20">B</span>
+                      <span class="text-xs" style="color: var(--text-secondary);">3.3</span>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap">
+                    <div class="flex flex-col items-center gap-1">
+                      <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-rose-600/10 text-rose-600 border-rose-600/20">C</span>
+                      <span class="text-xs" style="color: var(--text-secondary);">0.99</span>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center">
+                    <button class="inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" type="button">
+                      <span class="material-symbols-outlined text-base">expand_more</span>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="px-3 py-4"><span class="table-check"></span></td>
+                  <td class="px-5 py-4 progress-cell">
+                    <button class="flex items-center gap-3 text-left w-full" type="button">
+                      <div class="emp-avatar">LĐ</div>
+                      <div>
+                        <div class="text-sm font-medium hover:underline">Nguyễn Thị A</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">YD5591</div>
+                      </div>
+                    </button>
+                  </td>
+                  <td class="px-5 py-4 progress-cell">
+                    <div class="stage-wrap">
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Văn hoá</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Năng lực</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">Hiệu suất</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">HOD</span></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap">
+                    <div class="flex flex-col items-center gap-1">
+                      <span class="font-medium">-</span>
+                      <span class="text-xs" style="color: var(--text-secondary);"></span>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap">
+                    <div class="flex flex-col items-center gap-1">
+                      <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-rose-600/10 text-rose-600 border-rose-600/20">C</span>
+                      <span class="text-xs" style="color: var(--text-secondary);">1.2</span>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center">
+                    <button class="inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" type="button">
+                      <span class="material-symbols-outlined text-base">expand_more</span>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="px-3 py-4"><span class="table-check opacity-50"></span></td>
+                  <td class="px-5 py-4 progress-cell">
+                    <button class="flex items-center gap-3 text-left w-full" type="button">
+                      <div class="emp-avatar">NT</div>
+                      <div>
+                        <div class="text-sm font-medium hover:underline">Bùi Minh G</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">YD22844</div>
+                      </div>
+                    </button>
+                  </td>
+                  <td class="px-5 py-4 progress-cell">
+                    <div class="stage-wrap">
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Văn hoá</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Năng lực</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">Hiệu suất</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">HOD</span></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap">
+                    <div class="flex flex-col items-center gap-1">
+                      <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-red-600/10 text-red-600 border-red-600/20">C</span>
+                      <span class="text-xs" style="color: var(--text-secondary);">3.39</span>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap">
+                    <div class="flex flex-col items-center gap-1">
+                      <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-rose-600/10 text-rose-600 border-rose-600/20">C</span>
+                      <span class="text-xs" style="color: var(--text-secondary);">0.9</span>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center">
+                    <button class="inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" type="button">
+                      <span class="material-symbols-outlined text-base">expand_more</span>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="px-3 py-4"><span class="table-check"></span></td>
+                  <td class="px-5 py-4 progress-cell">
+                    <button class="flex items-center gap-3 text-left w-full" type="button">
+                      <div class="emp-avatar">ĐT</div>
+                      <div>
+                        <div class="text-sm font-medium hover:underline">Trần Văn H</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">YD2017</div>
+                      </div>
+                    </button>
+                  </td>
+                  <td class="px-5 py-4 progress-cell">
+                    <div class="stage-wrap">
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Văn hoá</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Năng lực</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Hiệu suất</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">HOD</span></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-indigo-600/10 text-indigo-600 border-indigo-600/20">B</span><span class="text-xs" style="color: var(--text-secondary);">1.58</span></div></td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-indigo-600/10 text-indigo-600 border-indigo-600/20">B</span><span class="text-xs" style="color: var(--text-secondary);">1.8</span></div></td>
+                  <td class="px-5 py-4 text-center"><button class="inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" type="button"><span class="material-symbols-outlined text-base">expand_more</span></button></td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="px-3 py-4"><span class="table-check"></span></td>
+                  <td class="px-5 py-4 progress-cell">
+                    <button class="flex items-center gap-3 text-left w-full" type="button">
+                      <div class="emp-avatar">NM</div>
+                      <div>
+                        <div class="text-sm font-medium hover:underline">Phạm Thị K</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">YD22493</div>
+                      </div>
+                    </button>
+                  </td>
+                  <td class="px-5 py-4 progress-cell">
+                    <div class="stage-wrap">
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Văn hoá</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Năng lực</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Hiệu suất</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">HOD</span></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-blue-600/10 text-blue-600 border-blue-600/20">B+</span><span class="text-xs" style="color: var(--text-secondary);">2.1</span></div></td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-blue-600/10 text-blue-600 border-blue-600/20">B+</span><span class="text-xs" style="color: var(--text-secondary);">2.9</span></div></td>
+                  <td class="px-5 py-4 text-center"><button class="inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" type="button"><span class="material-symbols-outlined text-base">expand_more</span></button></td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="px-3 py-4"><span class="table-check"></span></td>
+                  <td class="px-5 py-4">
+                    <button class="flex items-center gap-3 text-left w-full" type="button">
+                      <div class="emp-avatar">NB</div>
+                      <div>
+                        <div class="text-sm font-medium hover:underline">Đinh Văn M</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">YD9861</div>
+                      </div>
+                    </button>
+                  </td>
+                  <td class="px-5 py-4">
+                    <div class="stage-wrap">
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Văn hoá</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Năng lực</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">Hiệu suất</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">HOD</span></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-blue-600/10 text-blue-600 border-blue-600/20">B+</span><span class="text-xs" style="color: var(--text-secondary);">2.1</span></div></td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-indigo-600/10 text-indigo-600 border-indigo-600/20">B</span><span class="text-xs" style="color: var(--text-secondary);">2.1</span></div></td>
+                  <td class="px-5 py-4 text-center"><button class="inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" type="button"><span class="material-symbols-outlined text-base">expand_more</span></button></td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="px-3 py-4"><span class="table-check"></span></td>
+                  <td class="px-5 py-4">
+                    <button class="flex items-center gap-3 text-left w-full" type="button">
+                      <div class="emp-avatar">ĐH</div>
+                      <div>
+                        <div class="text-sm font-medium hover:underline">Hoàng Thị N</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">YD17932</div>
+                      </div>
+                    </button>
+                  </td>
+                  <td class="px-5 py-4">
+                    <div class="stage-wrap">
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Văn hoá</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Năng lực</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">Hiệu suất</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">HOD</span></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-emerald-600/10 text-emerald-600 border-emerald-600/20">A+</span><span class="text-xs" style="color: var(--text-secondary);">2.66</span></div></td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-emerald-600/10 text-emerald-600 border-emerald-600/20">A</span><span class="text-xs" style="color: var(--text-secondary);">3.8</span></div></td>
+                  <td class="px-5 py-4 text-center"><button class="inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" type="button"><span class="material-symbols-outlined text-base">expand_more</span></button></td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="px-3 py-4"><span class="table-check"></span></td>
+                  <td class="px-5 py-4">
+                    <button class="flex items-center gap-3 text-left w-full" type="button">
+                      <div class="emp-avatar">NK</div>
+                      <div>
+                        <div class="text-sm font-medium hover:underline">Lý Minh P</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">FG00991</div>
+                      </div>
+                    </button>
+                  </td>
+                  <td class="px-5 py-4">
+                    <div class="stage-wrap">
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Văn hoá</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Năng lực</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">Hiệu suất</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">HOD</span></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-blue-600/10 text-blue-600 border-blue-600/20">B+</span><span class="text-xs" style="color: var(--text-secondary);">3.79</span></div></td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-rose-600/10 text-rose-600 border-rose-600/20">C</span><span class="text-xs" style="color: var(--text-secondary);">1.0</span></div></td>
+                  <td class="px-5 py-4 text-center"><button class="inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" type="button"><span class="material-symbols-outlined text-base">expand_more</span></button></td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="px-3 py-4"><span class="table-check"></span></td>
+                  <td class="px-5 py-4">
+                    <button class="flex items-center gap-3 text-left w-full" type="button">
+                      <div class="emp-avatar">NN</div>
+                      <div>
+                        <div class="text-sm font-medium hover:underline">Vũ Thị Q</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">YD23168</div>
+                      </div>
+                    </button>
+                  </td>
+                  <td class="px-5 py-4">
+                    <div class="stage-wrap">
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">Văn hoá</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">Năng lực</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">Hiệu suất</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">HOD</span></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-blue-600/10 text-blue-600 border-blue-600/20">B+</span><span class="text-xs" style="color: var(--text-secondary);">2.1</span></div></td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-indigo-600/10 text-indigo-600 border-indigo-600/20">B</span><span class="text-xs" style="color: var(--text-secondary);">2.3</span></div></td>
+                  <td class="px-5 py-4 text-center"><button class="inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" type="button"><span class="material-symbols-outlined text-base">expand_more</span></button></td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="px-3 py-4"><span class="table-check"></span></td>
+                  <td class="px-5 py-4">
+                    <button class="flex items-center gap-3 text-left w-full" type="button">
+                      <div class="emp-avatar">ĐT</div>
+                      <div>
+                        <div class="text-sm font-medium hover:underline">Đặng Văn R</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">YD2000</div>
+                      </div>
+                    </button>
+                  </td>
+                  <td class="px-5 py-4">
+                    <div class="stage-wrap">
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">Văn hoá</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">Năng lực</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="text-emerald-700">Hiệu suất</span></div>
+                      <span class="stage-bar stage-bar-done"></span>
+                      <div class="stage-item"><span class="stage-dot stage-done"><span class="material-symbols-outlined text-[14px]">schedule</span></span><span class="text-emerald-700">HOD</span></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-indigo-600/10 text-indigo-600 border-indigo-600/20">B</span><span class="text-xs" style="color: var(--text-secondary);">3.11</span></div></td>
+                  <td class="px-5 py-4 text-center whitespace-nowrap"><div class="flex flex-col items-center gap-1"><span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold border bg-rose-600/10 text-rose-600 border-rose-600/20">C</span><span class="text-xs" style="color: var(--text-secondary);">1.3</span></div></td>
+                  <td class="px-5 py-4 text-center"><button class="inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" type="button"><span class="material-symbols-outlined text-base">expand_more</span></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="p-3 border-t text-xs flex items-center justify-between" style="border-color: var(--border); color: var(--text-secondary);">
+            <span>Hiển thị 4 / 14 kết quả</span>
+            <span>Trang 1 / 4</span>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      window.addEventListener("message", function (event) {
+        if (event.data && event.data.type === "aixperf-theme") {
+          var theme = event.data.theme || "gray";
+          if (theme === "gray") {
+            document.documentElement.removeAttribute("data-theme");
+          } else {
+            document.documentElement.setAttribute("data-theme", theme);
+          }
+        }
+      });
+      var cultureToggle = document.getElementById("culture-toggle");
+      var cultureList = document.getElementById("culture-content-list");
+      var cultureChevron = document.getElementById("culture-chevron");
+      var cultureViewSummary = document.getElementById("culture-view-summary");
+      var cultureViewDetail = document.getElementById("culture-view-detail");
+      var cultureSummaryPanel = document.getElementById("culture-summary-panel");
+      var cultureDetailPanel = document.getElementById("culture-detail-panel");
+      var progressHeader = document.getElementById("progress-col-header");
+      var q4Header = document.getElementById("q4-header");
+      var q1Header = document.getElementById("q1-header");
+      var isCultureMode = false;
+
+      function clamp(val, min, max) {
+        return Math.max(min, Math.min(max, val));
+      }
+
+      function buildCultureMiniChart(values, coreValues) {
+        var q3_2025 = clamp(values[0], 1, 5);
+        var q4_2025 = clamp(values[1], 1, 5);
+        var q1_2026 = clamp(values[2], 1, 5);
+        var q1 = clamp(q3_2025 - 1.2, 1, 5);
+        var q2 = clamp(q3_2025 - 1.0, 1, 5);
+        var q3 = q3_2025;
+        var q4 = q4_2025;
+        var year = q1_2026;
+        var x = [18, 60, 102, 144, 186];
+        function y(v) { return 62 - ((v - 1) / 4) * 36; }
+        var p1 = x[0] + "," + y(q1);
+        var p2 = x[1] + "," + y(q2);
+        var p3 = x[2] + "," + y(q3);
+        var p4 = x[3] + "," + y(q4);
+        var p5 = x[4] + "," + y(year);
+        var q1Label = q1_2026.toFixed(2);
+        return '' +
+          '<div class="culture-mini-wrap">' +
+            '<div class="culture-mini-title">VH: xu hướng tăng trưởng</div>' +
+            '<div class="culture-trend-row">' +
+              '<svg class="culture-trend-svg" viewBox="0 0 204 78" aria-label="Xu hướng văn hoá theo quý">' +
+                '<line x1="12" y1="62" x2="194" y2="62" stroke="#cbd5e1" stroke-width="1.2"/>' +
+                '<rect x="94" y="' + y(q3) + '" width="16" height="' + (62 - y(q3)) + '" rx="4" fill="#bfdbfe" opacity="0.75"/>' +
+                '<rect x="136" y="' + y(q4) + '" width="16" height="' + (62 - y(q4)) + '" rx="4" fill="#bfdbfe" opacity="0.75"/>' +
+                '<rect x="178" y="' + y(year) + '" width="16" height="' + (62 - y(year)) + '" rx="4" fill="#bfdbfe" opacity="0.75"/>' +
+                '<polyline points="' + p1 + ' ' + p2 + ' ' + p3 + ' ' + p4 + ' ' + p5 + '" fill="none" stroke="#2563eb" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>' +
+                '<circle cx="' + x[0] + '" cy="' + y(q1) + '" r="4.2" fill="#94a3b8"/>' +
+                '<circle cx="' + x[1] + '" cy="' + y(q2) + '" r="4.2" fill="#94a3b8"/>' +
+                '<circle cx="' + x[2] + '" cy="' + y(q3) + '" r="4.6" fill="#2563eb"/>' +
+                '<circle cx="' + x[3] + '" cy="' + y(q4) + '" r="4.6" fill="#2563eb"/>' +
+                '<circle cx="' + x[4] + '" cy="' + y(year) + '" r="4.6" fill="#2563eb"/>' +
+              '</svg>' +
+              '<div class="culture-core-grid">' +
+                '<span class="idx">1</span><span class="idx">2</span><span class="idx">3</span><span class="idx">4</span><span class="idx">5</span>' +
+                '<span class="score">' + coreValues[0].toFixed(1) + '</span><span class="score">' + coreValues[1].toFixed(1) + '</span><span class="score">' + coreValues[2].toFixed(1) + '</span><span class="score">' + coreValues[3].toFixed(1) + '</span><span class="score">' + coreValues[4].toFixed(1) + '</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="culture-quarters">' +
+              '<span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span><span>Cả năm</span>' +
+            '</div>' +
+            '<div class="culture-score-hint">Điểm Q1/2026: ' + q1Label + ' / 5</div>' +
+          '</div>';
+      }
+
+      function getCultureSeriesFromRow(row, idx) {
+        var codeEl = row.querySelector("td:nth-child(2) .text-xs");
+        var code = codeEl ? (codeEl.textContent || "").trim() : "";
+        var seriesByCode = {
+          "YD22973": [3.2, 3.8, 4.1],
+          "YD5591": [2.9, 3.3, 3.7],
+          "YD22844": [2.6, 3.0, 3.4],
+          "YD2017": [3.1, 3.5, 3.9],
+          "YD22493": [2.8, 3.2, 3.6],
+          "YD9861": [3.0, 3.6, 4.0],
+          "YD17932": [2.7, 3.1, 3.5],
+          "FG00991": [2.5, 3.0, 3.3],
+          "YD23168": [3.3, 3.9, 4.3],
+          "YD2000": [2.4, 2.9, 3.2]
+        };
+        if (seriesByCode[code]) return seriesByCode[code];
+        var fallback = [2.8 + (idx % 3) * 0.2, 3.2 + (idx % 3) * 0.2, 3.6 + (idx % 3) * 0.2];
+        return [clamp(fallback[0], 1, 5), clamp(fallback[1], 1, 5), clamp(fallback[2], 1, 5)];
+      }
+
+      function getCultureCoreValues(row, idx) {
+        var codeEl = row.querySelector("td:nth-child(2) .text-xs");
+        var code = codeEl ? (codeEl.textContent || "").trim() : "";
+        var coreByCode = {
+          "YD22973": [4.3, 3.9, 4.0, 3.8, 4.4],
+          "YD5591": [3.8, 3.5, 3.6, 3.3, 3.9],
+          "YD22844": [3.6, 3.2, 3.4, 3.0, 3.7],
+          "YD2017": [4.0, 3.7, 3.9, 3.5, 4.1],
+          "YD22493": [3.7, 3.5, 3.6, 3.3, 3.8],
+          "YD9861": [4.1, 3.8, 3.9, 3.6, 4.2],
+          "YD17932": [3.6, 3.3, 3.4, 3.1, 3.7],
+          "FG00991": [3.4, 3.1, 3.2, 3.0, 3.5],
+          "YD23168": [4.4, 4.0, 4.1, 3.9, 4.5],
+          "YD2000": [3.5, 3.1, 3.3, 3.0, 3.6]
+        };
+        if (coreByCode[code]) return coreByCode[code];
+        var base = 3.2 + (idx % 4) * 0.2;
+        return [base + 0.2, base, base + 0.1, base - 0.1, base + 0.3].map(function (v) { return clamp(v, 1, 5); });
+      }
+
+      function renderCultureMode(enabled) {
+        if (q4Header) q4Header.classList.toggle("hidden", enabled);
+        if (q1Header) q1Header.classList.toggle("hidden", enabled);
+
+        var rows = document.querySelectorAll("tbody tr");
+        rows.forEach(function (row, idx) {
+          var q4Cell = row.querySelector("td:nth-child(4)");
+          var q1Cell = row.querySelector("td:nth-child(5)");
+          if (q4Cell) q4Cell.classList.toggle("hidden", enabled);
+          if (q1Cell) q1Cell.classList.toggle("hidden", enabled);
+
+          var stageWrap = row.querySelector(".stage-wrap");
+          var cell = stageWrap ? stageWrap.parentElement : row.querySelector(".culture-mini-wrap") ? row.querySelector(".culture-mini-wrap").parentElement : null;
+          if (!cell) return;
+
+          if (!cell.dataset.originalStageWrap && stageWrap) {
+            cell.dataset.originalStageWrap = stageWrap.outerHTML;
+          }
+
+          if (enabled) {
+            var cultureSeries = getCultureSeriesFromRow(row, idx);
+            var cultureCoreValues = getCultureCoreValues(row, idx);
+            if (stageWrap) {
+              stageWrap.outerHTML = buildCultureMiniChart(cultureSeries, cultureCoreValues);
+            }
+          } else {
+            var miniChart = cell.querySelector(".culture-mini-wrap");
+            if (miniChart && cell.dataset.originalStageWrap) {
+              miniChart.outerHTML = cell.dataset.originalStageWrap;
+            }
+          }
+        });
+        if (progressHeader) {
+          progressHeader.textContent = enabled ? "Xu hướng Văn hoá riêng (Q3/2025 - Q1/2026)" : "Tiến trình";
+        }
+      }
+
+      if (cultureToggle && cultureList && cultureChevron) {
+        cultureToggle.addEventListener("click", function () {
+          isCultureMode = !isCultureMode;
+          cultureList.classList.toggle("hidden", !isCultureMode);
+          renderCultureMode(isCultureMode);
+          cultureChevron.style.transform = isCultureMode ? "rotate(180deg)" : "rotate(0deg)";
+        });
+      }
+
+      function setCultureView(mode) {
+        if (!cultureViewSummary || !cultureViewDetail || !cultureSummaryPanel || !cultureDetailPanel) return;
+        var isSummary = mode === "summary";
+        cultureSummaryPanel.classList.toggle("hidden", !isSummary);
+        cultureDetailPanel.classList.toggle("hidden", isSummary);
+        cultureViewSummary.className = isSummary
+          ? "px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white shadow-sm text-slate-800"
+          : "px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-500";
+        cultureViewDetail.className = !isSummary
+          ? "px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white shadow-sm text-slate-800"
+          : "px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-500";
+      }
+
+      if (cultureViewSummary && cultureViewDetail) {
+        cultureViewSummary.addEventListener("click", function () { setCultureView("summary"); });
+        cultureViewDetail.addEventListener("click", function () { setCultureView("detail"); });
+        setCultureView("summary");
+      }
+      try { window.parent.postMessage({ type: "aixperf-theme-get" }, "*"); } catch (e) {}
+    })();
+  </script>
+</body>
+</html>

@@ -29,6 +29,13 @@
   </script>
   <style type="text/tailwindcss">
     body { font-family: 'Inter', sans-serif; }
+    html, body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      display: none;
+    }
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     body { min-height: max(884px, 100dvh); }

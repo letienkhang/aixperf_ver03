@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>AIxPerf - Quản lý KPI</title>
+  <title>AIxPerf - Ver3</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <link href="design-system.css" rel="stylesheet"/>
@@ -13,63 +13,23 @@
       theme: {
         extend: {
           colors: {
-            primary: { DEFAULT: 'var(--primary)', hover: 'var(--primary-hover)', light: 'var(--primary-light)' },
-            surface: 'var(--surface)',
-            'border-ds': 'var(--border)',
-            'border-strong': 'var(--border-strong)',
-          },
-        },
-      },
+            primary: { DEFAULT: "var(--primary)", hover: "var(--primary-hover)", light: "var(--primary-light)" }
+          }
+        }
+      }
     };
   </script>
   <style type="text/tailwindcss">
-    body { font-family: 'Inter', sans-serif; }
-    input, select, textarea { color: #000; }
-    .step-active .step-circle {
-      background-color: var(--primary);
-      color: var(--text-on-primary);
-      border-color: var(--border);
-    }
-    .step-active .step-text { color: var(--text-main); font-weight: 600; }
-    .step-completed .step-circle {
-      background-color: var(--primary);
-      color: var(--text-on-primary);
-      border-color: var(--border);
-    }
-    .step-completed .step-text { color: var(--text-main); font-weight: 600; }
-    .step-inactive .step-circle {
-      background-color: var(--surface-solid);
-      color: var(--text-secondary);
-      border: 2px solid var(--border);
-    }
-    .step-inactive .step-text { color: var(--text-secondary); }
-    .peer:checked + div { border-color: var(--border-strong) !important; background-color: var(--primary-light) !important; }
-    .peer:checked + div .w-6.h-6.rounded-full.border-2,
-    .peer:checked + div .w-5.h-5.rounded-full.border-2 { opacity: 1; background: var(--primary) !important; border-color: var(--primary) !important; }
-    .peer:checked + div .w-3.h-3.rounded-full,
-    .peer:checked + div [class*="w-2.5"][class*="h-2.5"].rounded-full { opacity: 1; }
-    .peer:checked + .year-pill { background: var(--primary) !important; color: var(--text-on-primary) !important; border-color: var(--border) !important; }
-    .wizard-btn-primary:hover { background-color: var(--primary-hover) !important; }
-    .ring-yellow-step { --tw-ring-color: rgba(255, 200, 74, 0.35); box-shadow: 0 0 0 4px rgba(255, 200, 74, 0.25); }
-    #kpi-wizard-layer { display: none; }
-    #kpi-wizard-layer.is-open { display: flex; }
-    .nav-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; transition: background 0.2s; border-left: 3px solid transparent; }
-    .nav-item:hover { background: rgba(0,0,0,0.04); }
-    .nav-item.active { background: rgba(0,0,0,0.06); border-left-color: var(--primary); font-weight: 600; }
-    .nav-item { font-size: 14px; }
+    body { font-family: "Inter", sans-serif; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; transition: background 0.2s; border-left: 3px solid transparent; font-size: 14px; }
+    .nav-item:hover { background: rgba(0, 0, 0, 0.04); }
+    .nav-item.active { background: rgba(0, 0, 0, 0.06); border-left-color: var(--primary); font-weight: 600; }
     .nav-item .nav-icon { font-size: 18px; }
     .nav-header-divider { border-bottom: 1px dashed var(--border); }
-    .hr-detail-row .hr-detail-content { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out; }
-    .hr-detail-row.expanded .hr-detail-content { max-height: 520px; transition: max-height 0.4s ease-in; }
-    .hr-detail-btn .hr-detail-icon { display: inline-block; transition: transform 0.3s ease; }
-    .hr-detail-btn.expanded .hr-detail-icon { transform: rotate(180deg); }
-    .hr-person-row.hr-row-expanded { border-left: 3px solid #f97316; background: rgba(249,115,22,0.05); }
     .theme-pill.active { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--primary); outline: none; }
   </style>
 </head>
 <body class="min-h-screen bg-white flex">
-
-  <!-- Cột nav trái (theo ref) -->
   <nav class="w-60 shrink-0 border-r flex flex-col bg-white" style="border-color: var(--border); min-height: 100vh;">
     <div class="h-1 w-full" style="background: #1f2937;"></div>
     <div class="p-4 pb-3 flex items-center justify-between gap-2">
@@ -77,50 +37,18 @@
         <img src="https://aixperf-dev.yody.io/assets/logo-tnGAC7nB.svg" alt="AIxPerf Logo" class="w-8 h-8"/>
         <h1 class="text-sm font-bold" style="color: var(--text-main);">AIxPerf</h1>
       </div>
-      <button type="button" class="p-1 rounded hover:bg-gray-100" aria-label="Thu gọn" style="color: var(--text-secondary);">
-        <span class="material-symbols-outlined text-xl">chevron_left</span>
-      </button>
     </div>
     <div class="mx-2 nav-header-divider"></div>
     <div class="flex-1 py-2">
-      <a href="#" class="nav-item active" data-panel="kpi" style="color: var(--text-main);">
-        <span class="material-symbols-outlined nav-icon">bar_chart</span>
-        KPI
-      </a>
-      <a href="#" class="nav-item" data-panel="ca-nhan" style="color: var(--text-main);">
-        <span class="material-symbols-outlined nav-icon">person_pin</span>
-        Cá nhân
-      </a>
-      <a href="#" class="nav-item" data-panel="ceo" style="color: var(--text-main);">
-        <span class="material-symbols-outlined nav-icon">workspace_premium</span>
-        CEO
-      </a>
-      <a href="#" class="nav-item" data-panel="hieu-suat" style="color: var(--text-main);">
-        <span class="material-symbols-outlined nav-icon">rate_review</span>
-        Đánh giá hiệu suất
-      </a>
-      <a href="#" class="nav-item" data-panel="hieu-suat-nam" style="color: var(--text-main);">
-        <span class="material-symbols-outlined nav-icon">verified_user</span>
-        Đánh giá hiệu suất năm
-      </a>
-      <a href="#" class="nav-item" data-panel="hr" style="color: var(--text-main);">
-        <span class="material-symbols-outlined nav-icon">person</span>
-        HR
-      </a>
-      <a href="#" class="nav-item" data-panel="cfr" style="color: var(--text-main);">
-        <span class="material-symbols-outlined nav-icon">forum</span>
-        CFR
-      </a>
-      <a href="#" class="nav-item" data-panel="ypoint" style="color: var(--text-main);">
-        <span class="material-symbols-outlined nav-icon">stars</span>
-        Ypoint
+      <a href="#" class="nav-item active" data-panel="hieu-suat-ver3" style="color: var(--text-main);">
+        <span class="material-symbols-outlined nav-icon">analytics</span>
+        Đánh giá hiệu suất ver3
       </a>
       <a href="#" class="nav-item" data-panel="ypointv2" style="color: var(--text-main);">
         <span class="material-symbols-outlined nav-icon">stars</span>
         YpointV2
       </a>
     </div>
-    <!-- Đổi màu toàn trang (so sánh theme) -->
     <div class="p-3 border-t" style="border-color: var(--border);">
       <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-secondary);">Màu</p>
       <div class="flex flex-wrap gap-2">
@@ -130,626 +58,30 @@
         <button type="button" class="theme-pill rounded-full w-8 h-8 border-2 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-1" data-theme="emerald" title="Xanh ngọc" style="background: #059669; border-color: #047857;"></button>
       </div>
     </div>
-    <div class="p-3 mt-auto border-t" style="border-color: var(--border);">
-      <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">
-        <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-white shrink-0" style="background: #6b7280;">L</div>
-        <div class="flex-1 min-w-0">
-          <p class="font-semibold truncate text-sm" style="color: var(--text-main);">Lê Tiến Khang</p>
-          <p class="text-xs truncate" style="color: var(--text-secondary);">YD23828</p>
-        </div>
-        <span class="material-symbols-outlined text-lg shrink-0" style="color: var(--text-secondary);">unfold_more</span>
-      </div>
-    </div>
   </nav>
 
-  <!-- Nội dung bên phải -->
   <div class="flex-1 flex flex-col min-w-0">
-    <!-- Panel KPI: màn hình chính + wizard -->
-    <div id="panel-kpi" class="panel flex-1 flex flex-col">
-      <main class="flex-1 flex flex-col items-center justify-center p-6">
-        <div class="text-center mb-10">
-          <h2 class="text-2xl font-bold mb-2" style="color: var(--text-main);">KPI</h2>
-          <p class="text-sm" style="color: var(--text-secondary);">Quản lý KPI đơn giản</p>
-        </div>
-        <button
-          id="btn-tao-kpi"
-          type="button"
-          class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] border-2"
-          style="border-color: var(--border-button); background-color: var(--primary); color: var(--text-on-primary); box-shadow: 0 10px 15px -3px var(--shadow-primary);"
-          onmouseover="this.style.backgroundColor='var(--primary-hover)'"
-          onmouseout="this.style.backgroundColor='var(--primary)'"
-        >
-          <span class="material-symbols-outlined text-2xl">add_circle</span>
-          Tạo KPI
-        </button>
-      </main>
-    </div>
-    <!-- Panel Cá nhân: 4 quý trong năm (file riêng) -->
-    <div id="panel-ca-nhan" class="panel hidden flex-1 flex flex-col overflow-hidden" style="background:#f5f7fb;">
+    <div id="panel-hieu-suat-ver3" class="panel flex-1 flex flex-col overflow-hidden" style="background:#f8fafc;">
       <div class="flex-1 flex px-6 pb-6 pt-6 min-h-0">
         <iframe
-          id="iframe-ca-nhan"
-          src="aixperf-personal.html"
-          title="Cá nhân - 4 quý"
+          id="iframe-hieu-suat-ver3"
+          src="aixperf-hieu-suat-ver3.html"
+          title="Đánh giá hiệu suất Ver3"
           class="w-full h-full"
           style="border: none; background: transparent;"
         ></iframe>
       </div>
     </div>
-    <!-- Panel CEO: dashboard tổng quan (file riêng) -->
-    <div id="panel-ceo" class="panel hidden flex-1 flex flex-col overflow-hidden" style="background:#f5f7fb;">
-      <div class="flex-1 flex px-6 pb-6 pt-6 min-h-0">
-        <iframe
-          id="iframe-ceo"
-          src="aixperf-ceo.html"
-          title="CEO Dashboard"
-          class="w-full h-full"
-          style="border: none; background: transparent;"
-        ></iframe>
-      </div>
-    </div>
-    <!-- Panel Đánh giá hiệu suất -->
-    <div id="panel-hieu-suat" class="panel hidden flex-1 flex items-center justify-center p-6">
-      <div class="text-center" style="color: var(--text-secondary);">
-        <span class="material-symbols-outlined text-5xl mb-4 block">rate_review</span>
-        <p class="font-medium" style="color: var(--text-main);">Đánh giá hiệu suất</p>
-        <p class="text-sm mt-1">Nội dung đang cập nhật.</p>
-      </div>
-    </div>
-    <!-- Panel Đánh giá hiệu suất năm -->
-    <div id="panel-hieu-suat-nam" class="panel hidden flex-1 flex items-center justify-center p-6">
-      <div class="text-center" style="color: var(--text-secondary);">
-        <span class="material-symbols-outlined text-5xl mb-4 block">verified_user</span>
-        <p class="font-medium" style="color: var(--text-main);">Đánh giá hiệu suất năm</p>
-        <p class="text-sm mt-1">Nội dung đang cập nhật.</p>
-      </div>
-    </div>
-    <!-- Panel Ypoint: UI mobile (iframe) -->
-    <div id="panel-ypoint" class="panel hidden flex-1 flex flex-col min-h-0 overflow-hidden bg-gray-100">
-      <div class="flex-1 flex items-start justify-center overflow-auto py-6 min-h-0">
-        <div class="shadow-2xl rounded-[2rem] overflow-hidden border-4 border-gray-800 w-full" style="max-width: 430px;">
-          <iframe src="ypoint.html" title="Y Point - Mobile" class="w-full bg-white" style="height: min(884px, 95vh); min-height: 700px; border: none;"></iframe>
-        </div>
-      </div>
-    </div>
-    <!-- Panel YpointV2: copy từ Ypoint (iframe) -->
+
     <div id="panel-ypointv2" class="panel hidden flex-1 flex flex-col min-h-0 overflow-hidden bg-gray-100">
       <div class="flex-1 flex items-start justify-center overflow-auto py-6 min-h-0">
         <div class="shadow-2xl rounded-[2rem] overflow-hidden border-4 border-gray-800 w-full" style="max-width: 430px;">
-          <iframe src="ypointv2/ypoint.html" title="Y Point - Mobile (V2)" class="w-full bg-white" style="height: min(884px, 95vh); min-height: 700px; border: none;"></iframe>
-        </div>
-      </div>
-    </div>
-    <!-- Panel CFR: full-width giống HR, dùng chung một nền -->
-    <div id="panel-cfr" class="panel hidden flex-1 flex flex-col overflow-hidden" style="background:#f5f7fb;">
-      <div class="flex-1 flex px-6 pb-6 pt-6 min-h-0">
-        <iframe
-          id="iframe-cfr"
-          src="aixperf-cfr.html"
-          title="CFR Dashboard"
-          class="w-full h-full"
-          style="border: none; background: transparent;"
-        ></iframe>
-      </div>
-    </div>
-    <!-- Panel HR -->
-    <div id="panel-hr" class="panel hidden flex-1 flex flex-col overflow-hidden" style="background:#f5f7fb;">
-      <div class="p-6 pb-4">
-        <div class="flex items-start justify-between gap-4 flex-wrap">
-          <div>
-            <h2 class="text-xl font-bold" style="color: var(--text-main);">HR Dashboard</h2>
-            <p class="text-sm mt-1" style="color: var(--text-secondary);">Bảng điều khiển nhân sự toàn màn hình với các tab chức năng.</p>
-          </div>
-          <span class="text-sm shrink-0" style="color: var(--text-secondary);">Cập nhật 5 phút trước</span>
-        </div>
-        <!-- Tabs -->
-        <div class="mt-6">
-          <div class="inline-flex items-center gap-2 bg-white rounded-full p-1 shadow-sm">
-            <button type="button" class="hr-tab px-4 py-1.5 text-xs font-medium rounded-full transition-colors" data-hr-tab="tong-quan" style="color: var(--text-secondary); background: transparent;">Tổng quan</button>
-            <button type="button" class="hr-tab px-4 py-1.5 text-xs font-medium rounded-full transition-colors" data-hr-tab="so-do-to-chuc" style="color: var(--text-secondary); background: transparent;">Sơ đồ tổ chức</button>
-            <button type="button" class="hr-tab hr-tab-active px-4 py-1.5 text-xs font-medium rounded-full transition-colors" data-hr-tab="nhan-vien" style="color: var(--text-main); background: #111827; color:#fff; box-shadow:0 4px 12px rgba(15,23,42,0.18);">Nhân viên</button>
-            <button type="button" class="hr-tab px-4 py-1.5 text-xs font-medium rounded-full transition-colors" data-hr-tab="khao-sat" style="color: var(--text-secondary); background: transparent;">Khảo sát</button>
-            <button type="button" class="hr-tab px-4 py-1.5 text-xs font-medium rounded-full transition-colors" data-hr-tab="cai-dat-quyen" style="color: var(--text-secondary); background: transparent;">Cài đặt quyền</button>
-          </div>
-        </div>
-      </div>
-      <!-- Nội dung tab Sơ đồ tổ chức -->
-      <div class="flex-1 overflow-auto px-6 pb-6">
-        <div class="rounded-2xl border shadow-sm px-6 pt-6 pb-4" style="border-color: var(--border); background: var(--surface-solid);">
-          <div class="flex items-center justify-between gap-4 mb-4 flex-wrap">
-            <div>
-<h3 class="text-base font-semibold" style="color: var(--text-main);">Personnel Directory</h3>
-            <p class="text-xs mt-0.5" style="color: var(--text-secondary);">Listing all active employees by department</p>
-            </div>
-            <div class="flex items-center gap-2">
-              <button type="button" class="w-10 h-10 flex items-center justify-center rounded-full border-2 hover:bg-gray-50 shrink-0" style="border-color: var(--border); color: var(--text-secondary);" aria-label="Tìm kiếm">
-                <span class="material-symbols-outlined text-xl">search</span>
-              </button>
-            </div>
-          </div>
-          <div class="mb-4 flex flex-wrap items-center gap-3">
-            <div class="relative hidden" id="status-filter-wrap">
-              <p class="text-xs font-medium mb-1" style="color: var(--text-secondary);">Trạng thái <span style="color: var(--text-main);">thuộc</span></p>
-              <button type="button" id="status-filter-btn" class="min-w-[180px] text-left px-3 py-2 rounded-lg border-2 bg-white text-sm transition-colors flex items-center justify-between gap-2 hidden" style="border-color: #f97316; color: var(--text-secondary);">
-                <span>Chọn nhiều</span>
-                <span class="material-symbols-outlined text-lg">expand_more</span>
-              </button>
-              <div id="status-filter-dropdown" class="absolute top-full left-0 mt-1 w-full min-w-[220px] rounded-lg border-2 bg-white shadow-lg py-1 z-10 hidden" style="border-color: var(--border); max-height: 280px; overflow-y: auto;">
-                <button type="button" class="status-option w-full text-left px-3 py-2.5 text-sm hover:bg-gray-100 transition-colors" data-status="cho-nhan-viec">Chờ nhận việc</button>
-                <button type="button" class="status-option w-full text-left px-3 py-2.5 text-sm hover:bg-gray-100 transition-colors" data-status="dang-lam-viec">Đang làm việc</button>
-                <button type="button" class="status-option w-full text-left px-3 py-2.5 text-sm hover:bg-gray-100 transition-colors" data-status="nghi-tam-thoi">Nghỉ tạm thời</button>
-                <button type="button" class="status-option w-full text-left px-3 py-2.5 text-sm hover:bg-gray-100 transition-colors" data-status="nghi-thai-san">Nghỉ thai sản</button>
-                <button type="button" class="status-option w-full text-left px-3 py-2.5 text-sm hover:bg-gray-100 transition-colors" data-status="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</button>
-                <button type="button" class="status-option w-full text-left px-3 py-2.5 text-sm hover:bg-gray-100 transition-colors" data-status="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</button>
-                <button type="button" class="status-option w-full text-left px-3 py-2.5 text-sm hover:bg-gray-100 transition-colors" data-status="nghi-di-hoc">Nghỉ đi học</button>
-                <button type="button" class="status-option w-full text-left px-3 py-2.5 text-sm hover:bg-gray-100 transition-colors" data-status="nghi-om-dau">Nghỉ ốm đau</button>
-                <button type="button" class="status-option w-full text-left px-3 py-2.5 text-sm hover:bg-gray-100 transition-colors" data-status="nghi-viec">Nghỉ việc</button>
-              </div>
-            </div>
-          </div>
-          <div class="rounded-xl border overflow-hidden" style="border-color: var(--border-light);">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm">
-              <thead>
-                <tr class="border-b-2" style="border-color: var(--border); background: rgba(0,0,0,0.02);">
-                  <th class="py-3 px-4 font-semibold uppercase tracking-wider" style="color: var(--text-main);">Employee</th>
-                  <th class="py-3 px-4 font-semibold uppercase tracking-wider" style="color: var(--text-main);">Department</th>
-                  <th class="py-3 px-4 font-semibold uppercase tracking-wider" style="color: var(--text-main);">Role</th>
-                  <th class="py-3 px-4 font-semibold uppercase tracking-wider" style="color: var(--text-main);">Status</th>
-                  <th class="py-3 px-4 font-semibold uppercase tracking-wider w-12" style="color: var(--text-main);">Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b hr-person-row" style="border-color: var(--border-light);" data-employee-name="Lê Văn A" data-employee-code="YD24001" data-employee-dept="Công nghệ & chuyển đổi số" data-employee-role="Trưởng nhóm" data-employee-status="Đang làm việc" data-employee-status-class="bg-green-100 text-green-800">
-                  <td class="py-3 px-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-xs shrink-0" style="background: #6b7280;">LA</div>
-                      <div>
-                        <p class="font-medium" style="color: var(--text-main);">Lê Văn A</p>
-                        <p class="text-xs" style="color: var(--text-secondary);">YD24001</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-3 px-4" style="color: var(--text-main);">Công nghệ & chuyển đổi số</td>
-                  <td class="py-3 px-4"><p class="font-medium" style="color: var(--text-main);">Trưởng nhóm</p></td>
-                  <td class="py-3 px-4"><span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-green-100 text-green-800">Đang làm việc</span></td>
-                  <td class="py-3 px-4"><button type="button" class="hr-detail-btn p-1 rounded hover:bg-gray-100 transition-colors" style="color: var(--text-secondary);" aria-label="Chi tiết"><span class="material-symbols-outlined text-xl hr-detail-icon">expand_more</span></button></td>
-                </tr>
-                <tr class="hr-detail-row" style="border-color: var(--border-light);">
-                  <td colspan="5" class="p-0 align-top border-b" style="border-color: var(--border-light);">
-                    <div class="hr-detail-content">
-                      <div class="px-6 py-5 border-t" style="border-color: var(--border-light); background: rgba(0,0,0,0.02);">
-                        <div class="max-w-2xl space-y-5">
-                          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                              <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Full name</label>
-                              <div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-name">—</span></div>
-                            </div>
-                            <div>
-                              <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee ID</label>
-                              <div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-code">—</span></div>
-                            </div>
-                          </div>
-                          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                              <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Department</label>
-                              <select class="hr-expand-dept w-full px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;">
-                                <option value="Công nghệ & chuyển đổi số">Công nghệ & chuyển đổi số</option>
-                                <option value="AI Ops">AI Ops</option>
-                                <option value="Digital Platform">Digital Platform</option>
-                                <option value="Nhân sự hạnh phúc">Nhân sự hạnh phúc</option>
-                                <option value="Khối Kinh doanh">Khối Kinh doanh</option>
-                                <option value="Vận hành">Vận hành</option>
-                                <option value="Marketing">Marketing</option>
-                                <option value="Hành chính">Hành chính</option>
-                              </select>
-                            </div>
-                            <div>
-                              <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Role</label>
-                              <select class="hr-expand-raci w-full px-3 py-2 rounded-lg border-2 text-sm" style="border-color: var(--border); color: var(--text-main);">
-                                <option value="">Choose RACI —</option>
-                                <option value="R">R - Responsible</option>
-                                <option value="A">A - Accountable</option>
-                                <option value="C">C - Consulted</option>
-                                <option value="I">I - Informed</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee Status</label>
-                            <select class="hr-expand-status w-full max-w-xs px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;">
-                              <option value="cho-nhan-viec">Chờ nhận việc</option>
-                              <option value="dang-lam-viec">Đang làm việc</option>
-                              <option value="nghi-tam-thoi">Nghỉ tạm thời</option>
-                              <option value="nghi-thai-san">Nghỉ thai sản</option>
-                              <option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option>
-                              <option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option>
-                              <option value="nghi-di-hoc">Nghỉ đi học</option>
-                              <option value="nghi-om-dau">Nghỉ ốm đau</option>
-                              <option value="nghi-viec">Nghỉ việc</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="flex gap-2 justify-end mt-6 pt-4 border-t" style="border-color: var(--border-light);">
-                          <button type="button" class="hr-expand-cancel px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="border-color: var(--border); color: var(--text-secondary);">Cancel</button>
-                          <button type="button" class="hr-expand-save px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="background-color: #f97316; color: #fff; border-color: #ea580c;">Save Changes</button>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr class="border-b hr-person-row" style="border-color: var(--border-light);" data-employee-name="Nguyễn Văn B" data-employee-code="YD24002" data-employee-dept="AI Ops" data-employee-role="PO" data-employee-status="Đang làm việc" data-employee-status-class="bg-green-100 text-green-800">
-                  <td class="py-3 px-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-xs shrink-0" style="background: #6b7280;">NB</div>
-                      <div>
-                        <p class="font-medium" style="color: var(--text-main);">Nguyễn Văn B</p>
-                        <p class="text-xs" style="color: var(--text-secondary);">YD24002</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-3 px-4" style="color: var(--text-main);">AI Ops</td>
-                  <td class="py-3 px-4"><p class="font-medium" style="color: var(--text-main);">PO</p></td>
-                  <td class="py-3 px-4"><span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-green-100 text-green-800">Đang làm việc</span></td>
-                  <td class="py-3 px-4"><button type="button" class="hr-detail-btn p-1 rounded hover:bg-gray-100 transition-colors" style="color: var(--text-secondary);" aria-label="Chi tiết"><span class="material-symbols-outlined text-xl hr-detail-icon">expand_more</span></button></td>
-                </tr>
-                <tr class="hr-detail-row" style="border-color: var(--border-light);"><td colspan="5" class="p-0 align-top border-b" style="border-color: var(--border-light);"><div class="hr-detail-content"><div class="px-6 py-5 border-t" style="border-color: var(--border-light); background: rgba(0,0,0,0.02);"><div class="max-w-2xl space-y-5"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Full name</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-name">—</span></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee ID</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-code">—</span></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Department</label><select class="hr-expand-dept w-full px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="Công nghệ & chuyển đổi số">Công nghệ & chuyển đổi số</option><option value="AI Ops">AI Ops</option><option value="Digital Platform">Digital Platform</option><option value="Nhân sự hạnh phúc">Nhân sự hạnh phúc</option><option value="Khối Kinh doanh">Khối Kinh doanh</option><option value="Vận hành">Vận hành</option><option value="Marketing">Marketing</option><option value="Hành chính">Hành chính</option></select></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Role</label><select class="hr-expand-raci w-full px-3 py-2 rounded-lg border-2 text-sm" style="border-color: var(--border); color: var(--text-main);"><option value="">Choose RACI —</option><option value="R">R - Responsible</option><option value="A">A - Accountable</option><option value="C">C - Consulted</option><option value="I">I - Informed</option></select></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee Status</label><select class="hr-expand-status w-full max-w-xs px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="cho-nhan-viec">Chờ nhận việc</option><option value="dang-lam-viec">Đang làm việc</option><option value="nghi-tam-thoi">Nghỉ tạm thời</option><option value="nghi-thai-san">Nghỉ thai sản</option><option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option><option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option><option value="nghi-di-hoc">Nghỉ đi học</option><option value="nghi-om-dau">Nghỉ ốm đau</option><option value="nghi-viec">Nghỉ việc</option></select></div></div><div class="flex gap-2 justify-end mt-6 pt-4 border-t" style="border-color: var(--border-light);"><button type="button" class="hr-expand-cancel px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="border-color: var(--border); color: var(--text-secondary);">Cancel</button><button type="button" class="hr-expand-save px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="background-color: #f97316; color: #fff; border-color: #ea580c;">Save Changes</button></div></div></div></td></tr>
-                <tr class="border-b hr-person-row" style="border-color: var(--border-light);" data-employee-name="Trần Văn C" data-employee-code="YD24003" data-employee-dept="Digital Platform" data-employee-role="Nhân viên" data-employee-status="Nghỉ ốm đau" data-employee-status-class="bg-amber-100 text-amber-800">
-                  <td class="py-3 px-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-xs shrink-0" style="background: #6b7280;">TC</div>
-                      <div>
-                        <p class="font-medium" style="color: var(--text-main);">Trần Văn C</p>
-                        <p class="text-xs" style="color: var(--text-secondary);">YD24003</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-3 px-4" style="color: var(--text-main);">Digital Platform</td>
-                  <td class="py-3 px-4"><p class="font-medium" style="color: var(--text-main);">Nhân viên</p></td>
-                  <td class="py-3 px-4"><span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-amber-100 text-amber-800">Nghỉ ốm đau</span></td>
-                  <td class="py-3 px-4"><button type="button" class="hr-detail-btn p-1 rounded hover:bg-gray-100 transition-colors" style="color: var(--text-secondary);" aria-label="Chi tiết"><span class="material-symbols-outlined text-xl hr-detail-icon">expand_more</span></button></td>
-                </tr>
-                <tr class="hr-detail-row" style="border-color: var(--border-light);"><td colspan="5" class="p-0 align-top border-b" style="border-color: var(--border-light);"><div class="hr-detail-content"><div class="px-6 py-5 border-t" style="border-color: var(--border-light); background: rgba(0,0,0,0.02);"><div class="max-w-2xl space-y-5"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Full name</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-name">—</span></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee ID</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-code">—</span></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Department</label><select class="hr-expand-dept w-full px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="Công nghệ & chuyển đổi số">Công nghệ & chuyển đổi số</option><option value="AI Ops">AI Ops</option><option value="Digital Platform">Digital Platform</option><option value="Nhân sự hạnh phúc">Nhân sự hạnh phúc</option><option value="Khối Kinh doanh">Khối Kinh doanh</option><option value="Vận hành">Vận hành</option><option value="Marketing">Marketing</option><option value="Hành chính">Hành chính</option></select></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Role</label><select class="hr-expand-raci w-full px-3 py-2 rounded-lg border-2 text-sm" style="border-color: var(--border); color: var(--text-main);"><option value="">Choose RACI —</option><option value="R">R - Responsible</option><option value="A">A - Accountable</option><option value="C">C - Consulted</option><option value="I">I - Informed</option></select></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee Status</label><select class="hr-expand-status w-full max-w-xs px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="cho-nhan-viec">Chờ nhận việc</option><option value="dang-lam-viec">Đang làm việc</option><option value="nghi-tam-thoi">Nghỉ tạm thời</option><option value="nghi-thai-san">Nghỉ thai sản</option><option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option><option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option><option value="nghi-di-hoc">Nghỉ đi học</option><option value="nghi-om-dau">Nghỉ ốm đau</option><option value="nghi-viec">Nghỉ việc</option></select></div></div><div class="flex gap-2 justify-end mt-6 pt-4 border-t" style="border-color: var(--border-light);"><button type="button" class="hr-expand-cancel px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="border-color: var(--border); color: var(--text-secondary);">Cancel</button><button type="button" class="hr-expand-save px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="background-color: #f97316; color: #fff; border-color: #ea580c;">Save Changes</button></div></div></div></td></tr>
-                <tr class="border-b hr-person-row" style="border-color: var(--border-light);" data-employee-name="Phạm Văn D" data-employee-code="YD24004" data-employee-dept="Nhân sự hạnh phúc" data-employee-role="Nhân viên" data-employee-status="Chờ nhận việc" data-employee-status-class="bg-orange-100 text-orange-800">
-                  <td class="py-3 px-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-xs shrink-0" style="background: #6b7280;">PD</div>
-                      <div>
-                        <p class="font-medium" style="color: var(--text-main);">Phạm Văn D</p>
-                        <p class="text-xs" style="color: var(--text-secondary);">YD24004</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-3 px-4" style="color: var(--text-main);">Nhân sự hạnh phúc</td>
-                  <td class="py-3 px-4"><p class="font-medium" style="color: var(--text-main);">Nhân viên</p></td>
-                  <td class="py-3 px-4"><span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-800">Chờ nhận việc</span></td>
-                  <td class="py-3 px-4"><button type="button" class="hr-detail-btn p-1 rounded hover:bg-gray-100 transition-colors" style="color: var(--text-secondary);" aria-label="Chi tiết"><span class="material-symbols-outlined text-xl hr-detail-icon">expand_more</span></button></td>
-                </tr>
-                <tr class="hr-detail-row" style="border-color: var(--border-light);"><td colspan="5" class="p-0 align-top border-b" style="border-color: var(--border-light);"><div class="hr-detail-content"><div class="px-6 py-5 border-t" style="border-color: var(--border-light); background: rgba(0,0,0,0.02);"><div class="max-w-2xl space-y-5"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Full name</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-name">—</span></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee ID</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-code">—</span></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Department</label><select class="hr-expand-dept w-full px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="Công nghệ & chuyển đổi số">Công nghệ & chuyển đổi số</option><option value="AI Ops">AI Ops</option><option value="Digital Platform">Digital Platform</option><option value="Nhân sự hạnh phúc">Nhân sự hạnh phúc</option><option value="Khối Kinh doanh">Khối Kinh doanh</option><option value="Vận hành">Vận hành</option><option value="Marketing">Marketing</option><option value="Hành chính">Hành chính</option></select></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Role</label><select class="hr-expand-raci w-full px-3 py-2 rounded-lg border-2 text-sm" style="border-color: var(--border); color: var(--text-main);"><option value="">Choose RACI —</option><option value="R">R - Responsible</option><option value="A">A - Accountable</option><option value="C">C - Consulted</option><option value="I">I - Informed</option></select></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee Status</label><select class="hr-expand-status w-full max-w-xs px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="cho-nhan-viec">Chờ nhận việc</option><option value="dang-lam-viec">Đang làm việc</option><option value="nghi-tam-thoi">Nghỉ tạm thời</option><option value="nghi-thai-san">Nghỉ thai sản</option><option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option><option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option><option value="nghi-di-hoc">Nghỉ đi học</option><option value="nghi-om-dau">Nghỉ ốm đau</option><option value="nghi-viec">Nghỉ việc</option></select></div></div><div class="flex gap-2 justify-end mt-6 pt-4 border-t" style="border-color: var(--border-light);"><button type="button" class="hr-expand-cancel px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="border-color: var(--border); color: var(--text-secondary);">Cancel</button><button type="button" class="hr-expand-save px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="background-color: #f97316; color: #fff; border-color: #ea580c;">Save Changes</button></div></div></div></td></tr>
-                <tr class="border-b hr-person-row" style="border-color: var(--border-light);" data-employee-name="Hoàng Văn E" data-employee-code="YD24005" data-employee-dept="Khối Kinh doanh" data-employee-role="Trưởng nhóm" data-employee-status="Đang làm việc" data-employee-status-class="bg-green-100 text-green-800">
-                  <td class="py-3 px-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-xs shrink-0" style="background: #6b7280;">HE</div>
-                      <div>
-                        <p class="font-medium" style="color: var(--text-main);">Hoàng Văn E</p>
-                        <p class="text-xs" style="color: var(--text-secondary);">YD24005</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-3 px-4" style="color: var(--text-main);">Khối Kinh doanh</td>
-                  <td class="py-3 px-4"><p class="font-medium" style="color: var(--text-main);">Trưởng nhóm</p></td>
-                  <td class="py-3 px-4"><span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-green-100 text-green-800">Đang làm việc</span></td>
-                  <td class="py-3 px-4"><button type="button" class="hr-detail-btn p-1 rounded hover:bg-gray-100 transition-colors" style="color: var(--text-secondary);" aria-label="Chi tiết"><span class="material-symbols-outlined text-xl hr-detail-icon">expand_more</span></button></td>
-                </tr>
-                <tr class="hr-detail-row" style="border-color: var(--border-light);"><td colspan="5" class="p-0 align-top border-b" style="border-color: var(--border-light);"><div class="hr-detail-content"><div class="px-6 py-5 border-t" style="border-color: var(--border-light); background: rgba(0,0,0,0.02);"><div class="max-w-2xl space-y-5"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Full name</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-name">—</span></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee ID</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-code">—</span></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Department</label><select class="hr-expand-dept w-full px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="Công nghệ & chuyển đổi số">Công nghệ & chuyển đổi số</option><option value="AI Ops">AI Ops</option><option value="Digital Platform">Digital Platform</option><option value="Nhân sự hạnh phúc">Nhân sự hạnh phúc</option><option value="Khối Kinh doanh">Khối Kinh doanh</option><option value="Vận hành">Vận hành</option><option value="Marketing">Marketing</option><option value="Hành chính">Hành chính</option></select></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Role</label><select class="hr-expand-raci w-full px-3 py-2 rounded-lg border-2 text-sm" style="border-color: var(--border); color: var(--text-main);"><option value="">Choose RACI —</option><option value="R">R - Responsible</option><option value="A">A - Accountable</option><option value="C">C - Consulted</option><option value="I">I - Informed</option></select></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee Status</label><select class="hr-expand-status w-full max-w-xs px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="cho-nhan-viec">Chờ nhận việc</option><option value="dang-lam-viec">Đang làm việc</option><option value="nghi-tam-thoi">Nghỉ tạm thời</option><option value="nghi-thai-san">Nghỉ thai sản</option><option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option><option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option><option value="nghi-di-hoc">Nghỉ đi học</option><option value="nghi-om-dau">Nghỉ ốm đau</option><option value="nghi-viec">Nghỉ việc</option></select></div></div><div class="flex gap-2 justify-end mt-6 pt-4 border-t" style="border-color: var(--border-light);"><button type="button" class="hr-expand-cancel px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="border-color: var(--border); color: var(--text-secondary);">Cancel</button><button type="button" class="hr-expand-save px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="background-color: #f97316; color: #fff; border-color: #ea580c;">Save Changes</button></div></div></div></td></tr>
-                <tr class="border-b hr-person-row" style="border-color: var(--border-light);" data-employee-name="Phan Văn F" data-employee-code="YD24006" data-employee-dept="Vận hành" data-employee-role="Nhân viên" data-employee-status="Nghỉ tạm thời" data-employee-status-class="bg-gray-100 text-gray-700">
-                  <td class="py-3 px-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-xs shrink-0" style="background: #6b7280;">PF</div>
-                      <div>
-                        <p class="font-medium" style="color: var(--text-main);">Phan Văn F</p>
-                        <p class="text-xs" style="color: var(--text-secondary);">YD24006</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-3 px-4" style="color: var(--text-main);">Vận hành</td>
-                  <td class="py-3 px-4"><p class="font-medium" style="color: var(--text-main);">Nhân viên</p></td>
-                  <td class="py-3 px-4"><span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700">Nghỉ tạm thời</span></td>
-                  <td class="py-3 px-4"><button type="button" class="hr-detail-btn p-1 rounded hover:bg-gray-100 transition-colors" style="color: var(--text-secondary);" aria-label="Chi tiết"><span class="material-symbols-outlined text-xl hr-detail-icon">expand_more</span></button></td>
-                </tr>
-                <tr class="hr-detail-row" style="border-color: var(--border-light);"><td colspan="5" class="p-0 align-top border-b" style="border-color: var(--border-light);"><div class="hr-detail-content"><div class="px-6 py-5 border-t" style="border-color: var(--border-light); background: rgba(0,0,0,0.02);"><div class="max-w-2xl space-y-5"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Full name</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-name">—</span></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee ID</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-code">—</span></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Department</label><select class="hr-expand-dept w-full px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="Công nghệ & chuyển đổi số">Công nghệ & chuyển đổi số</option><option value="AI Ops">AI Ops</option><option value="Digital Platform">Digital Platform</option><option value="Nhân sự hạnh phúc">Nhân sự hạnh phúc</option><option value="Khối Kinh doanh">Khối Kinh doanh</option><option value="Vận hành">Vận hành</option><option value="Marketing">Marketing</option><option value="Hành chính">Hành chính</option></select></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Role</label><select class="hr-expand-raci w-full px-3 py-2 rounded-lg border-2 text-sm" style="border-color: var(--border); color: var(--text-main);"><option value="">Choose RACI —</option><option value="R">R - Responsible</option><option value="A">A - Accountable</option><option value="C">C - Consulted</option><option value="I">I - Informed</option></select></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee Status</label><select class="hr-expand-status w-full max-w-xs px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="cho-nhan-viec">Chờ nhận việc</option><option value="dang-lam-viec">Đang làm việc</option><option value="nghi-tam-thoi">Nghỉ tạm thời</option><option value="nghi-thai-san">Nghỉ thai sản</option><option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option><option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option><option value="nghi-di-hoc">Nghỉ đi học</option><option value="nghi-om-dau">Nghỉ ốm đau</option><option value="nghi-viec">Nghỉ việc</option></select></div></div><div class="flex gap-2 justify-end mt-6 pt-4 border-t" style="border-color: var(--border-light);"><button type="button" class="hr-expand-cancel px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="border-color: var(--border); color: var(--text-secondary);">Cancel</button><button type="button" class="hr-expand-save px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="background-color: #f97316; color: #fff; border-color: #ea580c;">Save Changes</button></div></div></div></td></tr>
-                <tr class="border-b hr-person-row" style="border-color: var(--border-light);" data-employee-name="Võ Văn G" data-employee-code="YD24007" data-employee-dept="Marketing" data-employee-role="PO" data-employee-status="Nghỉ không lương dài hạn" data-employee-status-class="bg-slate-100 text-slate-700">
-                  <td class="py-3 px-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-xs shrink-0" style="background: #6b7280;">VG</div>
-                      <div>
-                        <p class="font-medium" style="color: var(--text-main);">Võ Văn G</p>
-                        <p class="text-xs" style="color: var(--text-secondary);">YD24007</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-3 px-4" style="color: var(--text-main);">Marketing</td>
-                  <td class="py-3 px-4"><p class="font-medium" style="color: var(--text-main);">PO</p></td>
-                  <td class="py-3 px-4"><span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700">Nghỉ không lương dài hạn</span></td>
-                  <td class="py-3 px-4"><button type="button" class="hr-detail-btn p-1 rounded hover:bg-gray-100 transition-colors" style="color: var(--text-secondary);" aria-label="Chi tiết"><span class="material-symbols-outlined text-xl hr-detail-icon">expand_more</span></button></td>
-                </tr>
-                <tr class="hr-detail-row" style="border-color: var(--border-light);"><td colspan="5" class="p-0 align-top border-b" style="border-color: var(--border-light);"><div class="hr-detail-content"><div class="px-6 py-5 border-t" style="border-color: var(--border-light); background: rgba(0,0,0,0.02);"><div class="max-w-2xl space-y-5"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Full name</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-name">—</span></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee ID</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-code">—</span></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Department</label><select class="hr-expand-dept w-full px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="Công nghệ & chuyển đổi số">Công nghệ & chuyển đổi số</option><option value="AI Ops">AI Ops</option><option value="Digital Platform">Digital Platform</option><option value="Nhân sự hạnh phúc">Nhân sự hạnh phúc</option><option value="Khối Kinh doanh">Khối Kinh doanh</option><option value="Vận hành">Vận hành</option><option value="Marketing">Marketing</option><option value="Hành chính">Hành chính</option></select></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Role</label><select class="hr-expand-raci w-full px-3 py-2 rounded-lg border-2 text-sm" style="border-color: var(--border); color: var(--text-main);"><option value="">Choose RACI —</option><option value="R">R - Responsible</option><option value="A">A - Accountable</option><option value="C">C - Consulted</option><option value="I">I - Informed</option></select></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee Status</label><select class="hr-expand-status w-full max-w-xs px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="cho-nhan-viec">Chờ nhận việc</option><option value="dang-lam-viec">Đang làm việc</option><option value="nghi-tam-thoi">Nghỉ tạm thời</option><option value="nghi-thai-san">Nghỉ thai sản</option><option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option><option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option><option value="nghi-di-hoc">Nghỉ đi học</option><option value="nghi-om-dau">Nghỉ ốm đau</option><option value="nghi-viec">Nghỉ việc</option></select></div></div><div class="flex gap-2 justify-end mt-6 pt-4 border-t" style="border-color: var(--border-light);"><button type="button" class="hr-expand-cancel px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="border-color: var(--border); color: var(--text-secondary);">Cancel</button><button type="button" class="hr-expand-save px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="background-color: #f97316; color: #fff; border-color: #ea580c;">Save Changes</button></div></div></div></td></tr>
-                <tr class="border-b hr-person-row" style="border-color: var(--border-light);" data-employee-name="Đặng Văn H" data-employee-code="YD24008" data-employee-dept="Công nghệ & chuyển đổi số" data-employee-role="Nhân viên" data-employee-status="Nghỉ đi nghĩa vụ quân sự" data-employee-status-class="bg-blue-100 text-blue-800">
-                  <td class="py-3 px-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-xs shrink-0" style="background: #6b7280;">ĐH</div>
-                      <div>
-                        <p class="font-medium" style="color: var(--text-main);">Đặng Văn H</p>
-                        <p class="text-xs" style="color: var(--text-secondary);">YD24008</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-3 px-4" style="color: var(--text-main);">Công nghệ & chuyển đổi số</td>
-                  <td class="py-3 px-4"><p class="font-medium" style="color: var(--text-main);">Nhân viên</p></td>
-                  <td class="py-3 px-4"><span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">Nghỉ đi nghĩa vụ quân sự</span></td>
-                  <td class="py-3 px-4"><button type="button" class="hr-detail-btn p-1 rounded hover:bg-gray-100 transition-colors" style="color: var(--text-secondary);" aria-label="Chi tiết"><span class="material-symbols-outlined text-xl hr-detail-icon">expand_more</span></button></td>
-                </tr>
-                <tr class="hr-detail-row" style="border-color: var(--border-light);"><td colspan="5" class="p-0 align-top border-b" style="border-color: var(--border-light);"><div class="hr-detail-content"><div class="px-6 py-5 border-t" style="border-color: var(--border-light); background: rgba(0,0,0,0.02);"><div class="max-w-2xl space-y-5"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Full name</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-name">—</span></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee ID</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-code">—</span></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Department</label><select class="hr-expand-dept w-full px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="Công nghệ & chuyển đổi số">Công nghệ & chuyển đổi số</option><option value="AI Ops">AI Ops</option><option value="Digital Platform">Digital Platform</option><option value="Nhân sự hạnh phúc">Nhân sự hạnh phúc</option><option value="Khối Kinh doanh">Khối Kinh doanh</option><option value="Vận hành">Vận hành</option><option value="Marketing">Marketing</option><option value="Hành chính">Hành chính</option></select></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Role</label><select class="hr-expand-raci w-full px-3 py-2 rounded-lg border-2 text-sm" style="border-color: var(--border); color: var(--text-main);"><option value="">Choose RACI —</option><option value="R">R - Responsible</option><option value="A">A - Accountable</option><option value="C">C - Consulted</option><option value="I">I - Informed</option></select></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee Status</label><select class="hr-expand-status w-full max-w-xs px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="cho-nhan-viec">Chờ nhận việc</option><option value="dang-lam-viec">Đang làm việc</option><option value="nghi-tam-thoi">Nghỉ tạm thời</option><option value="nghi-thai-san">Nghỉ thai sản</option><option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option><option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option><option value="nghi-di-hoc">Nghỉ đi học</option><option value="nghi-om-dau">Nghỉ ốm đau</option><option value="nghi-viec">Nghỉ việc</option></select></div></div><div class="flex gap-2 justify-end mt-6 pt-4 border-t" style="border-color: var(--border-light);"><button type="button" class="hr-expand-cancel px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="border-color: var(--border); color: var(--text-secondary);">Cancel</button><button type="button" class="hr-expand-save px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="background-color: #f97316; color: #fff; border-color: #ea580c;">Save Changes</button></div></div></div></td></tr>
-                <tr class="border-b hr-person-row" style="border-color: var(--border-light);" data-employee-name="Bùi Văn I" data-employee-code="YD24009" data-employee-dept="AI Ops" data-employee-role="Trưởng nhóm" data-employee-status="Nghỉ thai sản" data-employee-status-class="bg-purple-100 text-purple-800">
-                  <td class="py-3 px-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-xs shrink-0" style="background: #6b7280;">BI</div>
-                      <div>
-                        <p class="font-medium" style="color: var(--text-main);">Bùi Văn I</p>
-                        <p class="text-xs" style="color: var(--text-secondary);">YD24009</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-3 px-4" style="color: var(--text-main);">AI Ops</td>
-                  <td class="py-3 px-4"><p class="font-medium" style="color: var(--text-main);">Trưởng nhóm</p></td>
-                  <td class="py-3 px-4"><span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-purple-100 text-purple-800">Nghỉ thai sản</span></td>
-                  <td class="py-3 px-4"><button type="button" class="hr-detail-btn p-1 rounded hover:bg-gray-100 transition-colors" style="color: var(--text-secondary);" aria-label="Chi tiết"><span class="material-symbols-outlined text-xl hr-detail-icon">expand_more</span></button></td>
-                </tr>
-                <tr class="hr-detail-row" style="border-color: var(--border-light);"><td colspan="5" class="p-0 align-top border-b" style="border-color: var(--border-light);"><div class="hr-detail-content"><div class="px-6 py-5 border-t" style="border-color: var(--border-light); background: rgba(0,0,0,0.02);"><div class="max-w-2xl space-y-5"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Full name</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-name">—</span></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee ID</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-code">—</span></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Department</label><select class="hr-expand-dept w-full px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="Công nghệ & chuyển đổi số">Công nghệ & chuyển đổi số</option><option value="AI Ops">AI Ops</option><option value="Digital Platform">Digital Platform</option><option value="Nhân sự hạnh phúc">Nhân sự hạnh phúc</option><option value="Khối Kinh doanh">Khối Kinh doanh</option><option value="Vận hành">Vận hành</option><option value="Marketing">Marketing</option><option value="Hành chính">Hành chính</option></select></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Role</label><select class="hr-expand-raci w-full px-3 py-2 rounded-lg border-2 text-sm" style="border-color: var(--border); color: var(--text-main);"><option value="">Choose RACI —</option><option value="R">R - Responsible</option><option value="A">A - Accountable</option><option value="C">C - Consulted</option><option value="I">I - Informed</option></select></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee Status</label><select class="hr-expand-status w-full max-w-xs px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="cho-nhan-viec">Chờ nhận việc</option><option value="dang-lam-viec">Đang làm việc</option><option value="nghi-tam-thoi">Nghỉ tạm thời</option><option value="nghi-thai-san">Nghỉ thai sản</option><option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option><option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option><option value="nghi-di-hoc">Nghỉ đi học</option><option value="nghi-om-dau">Nghỉ ốm đau</option><option value="nghi-viec">Nghỉ việc</option></select></div></div><div class="flex gap-2 justify-end mt-6 pt-4 border-t" style="border-color: var(--border-light);"><button type="button" class="hr-expand-cancel px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="border-color: var(--border); color: var(--text-secondary);">Cancel</button><button type="button" class="hr-expand-save px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="background-color: #f97316; color: #fff; border-color: #ea580c;">Save Changes</button></div></div></div></td></tr>
-                <tr class="border-b hr-person-row" style="border-color: var(--border-light);" data-employee-name="Dương Văn K" data-employee-code="YD24010" data-employee-dept="Digital Platform" data-employee-role="Nhân viên" data-employee-status="Nghỉ đi học" data-employee-status-class="bg-indigo-100 text-indigo-800">
-                  <td class="py-3 px-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-xs shrink-0" style="background: #6b7280;">DK</div>
-                      <div>
-                        <p class="font-medium" style="color: var(--text-main);">Dương Văn K</p>
-                        <p class="text-xs" style="color: var(--text-secondary);">YD24010</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-3 px-4" style="color: var(--text-main);">Digital Platform</td>
-                  <td class="py-3 px-4"><p class="font-medium" style="color: var(--text-main);">Nhân viên</p></td>
-                  <td class="py-3 px-4"><span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-indigo-100 text-indigo-800">Nghỉ đi học</span></td>
-                  <td class="py-3 px-4"><button type="button" class="hr-detail-btn p-1 rounded hover:bg-gray-100 transition-colors" style="color: var(--text-secondary);" aria-label="Chi tiết"><span class="material-symbols-outlined text-xl hr-detail-icon">expand_more</span></button></td>
-                </tr>
-                <tr class="hr-detail-row" style="border-color: var(--border-light);"><td colspan="5" class="p-0 align-top border-b" style="border-color: var(--border-light);"><div class="hr-detail-content"><div class="px-6 py-5 border-t" style="border-color: var(--border-light); background: rgba(0,0,0,0.02);"><div class="max-w-2xl space-y-5"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Full name</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-name">—</span></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee ID</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-code">—</span></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Department</label><select class="hr-expand-dept w-full px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="Công nghệ & chuyển đổi số">Công nghệ & chuyển đổi số</option><option value="AI Ops">AI Ops</option><option value="Digital Platform">Digital Platform</option><option value="Nhân sự hạnh phúc">Nhân sự hạnh phúc</option><option value="Khối Kinh doanh">Khối Kinh doanh</option><option value="Vận hành">Vận hành</option><option value="Marketing">Marketing</option><option value="Hành chính">Hành chính</option></select></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Role</label><select class="hr-expand-raci w-full px-3 py-2 rounded-lg border-2 text-sm" style="border-color: var(--border); color: var(--text-main);"><option value="">Choose RACI —</option><option value="R">R - Responsible</option><option value="A">A - Accountable</option><option value="C">C - Consulted</option><option value="I">I - Informed</option></select></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee Status</label><select class="hr-expand-status w-full max-w-xs px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="cho-nhan-viec">Chờ nhận việc</option><option value="dang-lam-viec">Đang làm việc</option><option value="nghi-tam-thoi">Nghỉ tạm thời</option><option value="nghi-thai-san">Nghỉ thai sản</option><option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option><option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option><option value="nghi-di-hoc">Nghỉ đi học</option><option value="nghi-om-dau">Nghỉ ốm đau</option><option value="nghi-viec">Nghỉ việc</option></select></div></div><div class="flex gap-2 justify-end mt-6 pt-4 border-t" style="border-color: var(--border-light);"><button type="button" class="hr-expand-cancel px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="border-color: var(--border); color: var(--text-secondary);">Cancel</button><button type="button" class="hr-expand-save px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="background-color: #f97316; color: #fff; border-color: #ea580c;">Save Changes</button></div></div></div></td></tr>
-                <tr class="border-b hr-person-row" style="border-color: var(--border-light);" data-employee-name="Nguyễn Thị L" data-employee-code="YD24011" data-employee-dept="Hành chính" data-employee-role="Nhân viên" data-employee-status="Nghỉ việc" data-employee-status-class="bg-red-100 text-red-800">
-                  <td class="py-3 px-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-xs shrink-0" style="background: #6b7280;">NL</div>
-                      <div>
-                        <p class="font-medium" style="color: var(--text-main);">Nguyễn Thị L</p>
-                        <p class="text-xs" style="color: var(--text-secondary);">YD24011</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-3 px-4" style="color: var(--text-main);">Hành chính</td>
-                  <td class="py-3 px-4"><p class="font-medium" style="color: var(--text-main);">Nhân viên</p></td>
-                  <td class="py-3 px-4"><span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-red-100 text-red-800">Nghỉ việc</span></td>
-                  <td class="py-3 px-4"><button type="button" class="hr-detail-btn p-1 rounded hover:bg-gray-100 transition-colors" style="color: var(--text-secondary);" aria-label="Chi tiết"><span class="material-symbols-outlined text-xl hr-detail-icon">expand_more</span></button></td>
-                </tr>
-                <tr class="hr-detail-row" style="border-color: var(--border-light);"><td colspan="5" class="p-0 align-top border-b" style="border-color: var(--border-light);"><div class="hr-detail-content"><div class="px-6 py-5 border-t" style="border-color: var(--border-light); background: rgba(0,0,0,0.02);"><div class="max-w-2xl space-y-5"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Full name</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-name">—</span></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee ID</label><div class="px-3 py-2 rounded-lg border-2 text-sm bg-gray-50" style="border-color: var(--border); color: var(--text-main);"><span class="hr-expand-code">—</span></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Department</label><select class="hr-expand-dept w-full px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="Công nghệ & chuyển đổi số">Công nghệ & chuyển đổi số</option><option value="AI Ops">AI Ops</option><option value="Digital Platform">Digital Platform</option><option value="Nhân sự hạnh phúc">Nhân sự hạnh phúc</option><option value="Khối Kinh doanh">Khối Kinh doanh</option><option value="Vận hành">Vận hành</option><option value="Marketing">Marketing</option><option value="Hành chính">Hành chính</option></select></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Role</label><select class="hr-expand-raci w-full px-3 py-2 rounded-lg border-2 text-sm" style="border-color: var(--border); color: var(--text-main);"><option value="">Choose RACI —</option><option value="R">R - Responsible</option><option value="A">A - Accountable</option><option value="C">C - Consulted</option><option value="I">I - Informed</option></select></div></div><div><label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" style="color: var(--text-secondary);">Employee Status</label><select class="hr-expand-status w-full max-w-xs px-3 py-2 rounded-lg border-2 text-sm bg-white" style="border-color: var(--border); color: var(--text-main); background-color: #fff;"><option value="cho-nhan-viec">Chờ nhận việc</option><option value="dang-lam-viec">Đang làm việc</option><option value="nghi-tam-thoi">Nghỉ tạm thời</option><option value="nghi-thai-san">Nghỉ thai sản</option><option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option><option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option><option value="nghi-di-hoc">Nghỉ đi học</option><option value="nghi-om-dau">Nghỉ ốm đau</option><option value="nghi-viec">Nghỉ việc</option></select></div></div><div class="flex gap-2 justify-end mt-6 pt-4 border-t" style="border-color: var(--border-light);"><button type="button" class="hr-expand-cancel px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="border-color: var(--border); color: var(--text-secondary);">Cancel</button><button type="button" class="hr-expand-save px-4 py-2.5 rounded-lg text-sm font-semibold border-2" style="background-color: #f97316; color: #fff; border-color: #ea580c;">Save Changes</button></div></div></div></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="py-2 text-center">
-            <span class="text-gray-400">...</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal chi tiết nhân viên: thông tin + chỉnh RACI & trạng thái -->
-  <div id="hr-detail-modal" class="fixed inset-0 z-40 hidden items-center justify-center p-4" style="background: rgba(0,0,0,0.4);" aria-hidden="true">
-    <div class="relative rounded-2xl shadow-2xl w-full max-w-md border-2 bg-white overflow-hidden" style="border-color: var(--border);" role="dialog" aria-modal="true" aria-labelledby="hr-detail-title">
-      <div class="p-6 border-b-2" style="border-color: var(--border);">
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <h2 id="hr-detail-title" class="text-lg font-bold" style="color: var(--text-main);">Chi tiết nhân viên</h2>
-            <p id="hr-detail-subtitle" class="text-sm mt-0.5" style="color: var(--text-secondary);">—</p>
-          </div>
-          <button type="button" id="hr-detail-close" class="p-2 rounded-full hover:bg-gray-100" style="color: var(--text-secondary);" aria-label="Đóng">
-            <span class="material-symbols-outlined">close</span>
-          </button>
-        </div>
-      </div>
-      <div class="p-6 space-y-5">
-        <div class="rounded-xl border-2 p-4" style="border-color: var(--border); background: rgba(0,0,0,0.02);">
-          <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-secondary);">Thông tin</p>
-          <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-            <span style="color: var(--text-secondary);">Họ tên</span>
-            <span id="hr-detail-name" style="color: var(--text-main);">—</span>
-            <span style="color: var(--text-secondary);">Mã NV</span>
-            <span id="hr-detail-code" style="color: var(--text-main);">—</span>
-            <span style="color: var(--text-secondary);">Phòng ban</span>
-            <span id="hr-detail-dept" style="color: var(--text-main);">—</span>
-            <span style="color: var(--text-secondary);">Role</span>
-            <span id="hr-detail-role" style="color: var(--text-main);">—</span>
-          </div>
-        </div>
-        <div>
-          <label class="block text-sm font-semibold mb-2" style="color: var(--text-main);">Quyền RACI</label>
-          <select id="hr-detail-raci" class="w-full px-4 py-2.5 rounded-xl border-2 text-sm" style="border-color: var(--border); color: var(--text-main);">
-            <option value="">— Chọn vai trò RACI —</option>
-            <option value="R">R - Responsible (Chịu trách nhiệm thực hiện)</option>
-            <option value="A">A - Accountable (Chịu trách nhiệm phê duyệt)</option>
-            <option value="C">C - Consulted (Được tham vấn)</option>
-            <option value="I">I - Informed (Được thông báo)</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-semibold mb-2" style="color: var(--text-main);">Trạng thái nhân sự</label>
-          <select id="hr-detail-status" class="w-full px-4 py-2.5 rounded-xl border-2 text-sm" style="border-color: var(--border); color: var(--text-main);">
-            <option value="cho-nhan-viec">Chờ nhận việc</option>
-            <option value="dang-lam-viec">Đang làm việc</option>
-            <option value="nghi-tam-thoi">Nghỉ tạm thời</option>
-            <option value="nghi-thai-san">Nghỉ thai sản</option>
-            <option value="nghi-khong-luong-dai-han">Nghỉ không lương dài hạn</option>
-            <option value="nghi-di-nghia-vu-quan-su">Nghỉ đi nghĩa vụ quân sự</option>
-            <option value="nghi-di-hoc">Nghỉ đi học</option>
-            <option value="nghi-om-dau">Nghỉ ốm đau</option>
-            <option value="nghi-viec">Nghỉ việc</option>
-          </select>
-        </div>
-      </div>
-      <div class="p-6 pt-0 flex gap-3 justify-end border-t-2 pt-4" style="border-color: var(--border);">
-        <button type="button" id="hr-detail-cancel" class="px-4 py-2.5 rounded-xl font-semibold text-sm border-2" style="border-color: var(--border); color: var(--text-secondary);">Hủy</button>
-        <button type="button" id="hr-detail-save" class="px-4 py-2.5 rounded-xl font-semibold text-sm border-2" style="background-color: var(--primary); color: var(--text-on-primary); border-color: var(--border-button);">Lưu</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Layer popup: backdrop + wizard -->
-  <div id="kpi-wizard-layer" class="fixed inset-0 z-40 items-center justify-center p-4 backdrop-blur-sm" style="background: rgba(0,0,0,0.4);" aria-hidden="true">
-    <div class="relative rounded-2xl shadow-2xl w-full max-w-5xl z-50 flex flex-col overflow-hidden border-2 bg-white" style="height: min(90vh, 720px); border-color: var(--border);" role="dialog" aria-modal="true" aria-labelledby="wizard-title">
-      <div class="flex items-center justify-between p-6 border-b-2 shrink-0 bg-white" style="border-color: var(--border);">
-        <div>
-          <h2 id="wizard-title" class="text-xl font-bold" style="color: var(--text-main);">Tạo KPI Mới</h2>
-          <p class="text-sm mt-1" style="color: var(--text-secondary);">Thiết lập các thông số cho KPI của bạn</p>
-        </div>
-        <button id="wizard-close" type="button" class="p-2 rounded-full transition-colors border-2 border-transparent hover:border-[var(--primary)]" style="color: var(--text-secondary);" aria-label="Đóng">
-          <span class="material-symbols-outlined">close</span>
-        </button>
-      </div>
-      <div class="flex flex-1 overflow-hidden">
-        <div class="w-72 border-r-2 p-8 flex flex-col gap-10 shrink-0" id="wizard-sidebar" class="bg-white" style="border-color: var(--border);">
-          <div class="flex items-center gap-4 relative" id="wizard-step-1-indicator" data-step="1">
-            <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-semibold transition-all duration-300 step-circle z-10">1</div>
-            <div class="flex flex-col">
-              <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #000;">Bước 01</span>
-              <span class="text-sm step-text">Thông tin chung</span>
-            </div>
-            <div class="absolute left-5 top-10 w-0.5 h-10 step-connector" id="connector-1-2" style="background-color: var(--border);"></div>
-          </div>
-          <div class="flex items-center gap-4 relative" id="wizard-step-2-indicator" data-step="2">
-            <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-semibold transition-all duration-300 step-circle z-10">2</div>
-            <div class="flex flex-col">
-              <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #000;">Bước 02</span>
-              <span class="text-sm step-text">Phạm vi & Thời gian</span>
-            </div>
-          </div>
-        </div>
-        <div class="flex-1 overflow-y-auto bg-white">
-          <form class="pt-4 px-10 pb-10 max-w-2xl mx-auto space-y-10" id="kpi-wizard-form">
-            <!-- Bước 1: Thông tin chung -->
-            <div class="wizard-panel hidden" id="wizard-panel-1" data-step="1">
-              <div class="bg-white rounded-xl">
-                <h3 class="text-lg font-semibold mb-6 flex items-center gap-3" style="color: var(--text-main);">
-                  <span class="material-symbols-outlined p-2 rounded-lg border-2" style="color: var(--primary); background-color: var(--primary-light); border-color: var(--border);">business</span>
-                  Thông tin chung
-                </h3>
-                <label class="block text-sm font-medium mb-2" style="color: var(--text-main);">Khối Org (Org Block)</label>
-                <div class="relative mb-4" id="org-block-dropdown-wrap">
-                  <input type="hidden" name="orgBlock" id="wizard-org-block" value=""/>
-                  <button type="button" id="org-block-trigger" class="w-full rounded-lg border-2 py-3 px-4 shadow-sm text-left flex items-center justify-between focus:ring-2 focus:ring-offset-0 focus:ring-[var(--primary)]" style="border-color: var(--border); background-color: var(--surface-solid); color: #000;">
-                    <span id="org-block-label">Chọn khối tổ chức...</span>
-                    <span class="material-symbols-outlined text-xl" style="color: var(--text-secondary);">expand_more</span>
-                  </button>
-                  <div id="org-block-panel" class="absolute left-0 right-0 top-full mt-1 rounded-lg border-2 shadow-lg z-50 hidden bg-white" style="border-color: var(--border); max-height: 320px; display: none;">
-                    <div class="p-2 border-b" style="border-color: var(--border);">
-                      <input type="text" id="org-block-search" placeholder="Tìm nhóm, phòng, bộ phận..." class="w-full rounded-lg border-2 py-2.5 px-3 text-sm focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent" style="border-color: var(--border); color: #000;" autocomplete="off"/>
-                    </div>
-                    <ul id="org-block-list" class="overflow-y-auto py-1 max-h-64 list-none m-0 p-0">
-                      <!-- options rendered by JS -->
-                    </ul>
-                    <p id="org-block-empty" class="hidden py-3 px-3 text-sm" style="color: var(--text-secondary);">Không có kết quả.</p>
-                  </div>
-                </div>
-                <div class="h-px w-full mt-6 mb-6" style="background: var(--border-light);"></div>
-                <div class="rounded-xl border-2 p-4" style="background-color: var(--surface-solid); border-color: var(--border);">
-                  <h3 class="text-lg font-semibold mb-6 flex items-center gap-3" style="color: var(--text-main);">
-                    <span class="material-symbols-outlined p-2 rounded-lg border-2" style="color: var(--primary); background-color: var(--primary-light); border-color: var(--border);">calendar_today</span>
-                    Năm áp dụng
-                  </h3>
-                  <div class="flex flex-wrap gap-4">
-                    <label class="cursor-pointer">
-                      <input checked class="peer sr-only" name="year" type="radio" value="2026"/>
-                      <div class="year-pill px-8 py-3 rounded-xl border-2 font-semibold text-sm transition-all" style="color: var(--text-secondary); border-color: var(--border); background: var(--surface-solid);">2026</div>
-                    </label>
-                    <label class="cursor-pointer">
-                      <input class="peer sr-only" name="year" type="radio" value="2027"/>
-                      <div class="year-pill px-8 py-3 rounded-xl border-2 font-semibold text-sm transition-all" style="color: var(--text-secondary); border-color: var(--border); background: var(--surface-solid);">2027</div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Bước 2: Phạm vi & Thời gian -->
-            <div class="wizard-panel hidden" id="wizard-panel-2" data-step="2">
-            <div class="space-y-3">
-              <div class="bg-white rounded-xl">
-                <h3 class="text-lg font-semibold mb-3 flex items-center gap-3" style="color: var(--text-main);">
-                  <span class="material-symbols-outlined p-1.5 rounded-lg border-2 text-lg" style="color: var(--primary); background-color: var(--primary-light); border-color: var(--border);">domain</span>
-                  Phạm vi áp dụng
-                </h3>
-                <div class="space-y-2">
-                  <label class="cursor-pointer block group">
-                    <input checked class="peer sr-only" name="scope" type="radio" value="company"/>
-                    <div class="p-3 rounded-xl border-2 transition-all flex items-center gap-3 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
-                      <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
-                        <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
-                      </div>
-                      <div>
-                        <span class="block font-semibold text-sm" style="color: var(--text-main);">Toàn bộ công ty</span>
-                        <span class="block text-xs mt-0.5" style="color: var(--text-secondary);">Áp dụng KPI cho tất cả phòng ban và đơn vị</span>
-                      </div>
-                    </div>
-                  </label>
-                  <label class="cursor-pointer block group">
-                    <input class="peer sr-only" name="scope" type="radio" value="department"/>
-                    <div class="p-3 rounded-xl border-2 transition-all flex items-center gap-3 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
-                      <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
-                        <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
-                      </div>
-                      <div>
-                        <span class="block font-semibold text-sm" style="color: var(--text-main);">Bộ phận / Phòng ban</span>
-                        <span class="block text-xs mt-0.5" style="color: var(--text-secondary);">Chỉ định cụ thể từng đơn vị trực thuộc tổ chức</span>
-                      </div>
-                    </div>
-                  </label>
-                  <label class="cursor-pointer block group">
-                    <input class="peer sr-only" name="scope" type="radio" value="individual"/>
-                    <div class="p-3 rounded-xl border-2 transition-all flex items-center gap-3 peer-checked:shadow-sm bg-[var(--surface-solid)] scope-card" style="border-color: var(--border-light);">
-                      <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-opacity peer-checked:opacity-100 opacity-0" style="border-color: var(--border); background: var(--primary);">
-                        <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
-                      </div>
-                      <div>
-                        <span class="block font-semibold text-sm" style="color: var(--text-main);">Cá nhân</span>
-                        <span class="block text-xs mt-0.5" style="color: var(--text-secondary);">Giao KPI trực tiếp cho nhân viên cụ thể</span>
-                      </div>
-                    </div>
-                  </label>
-                </div>
-              </div>
-            </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="p-6 border-t-2 flex items-center justify-between shrink-0 bg-white" style="border-color: var(--border);">
-        <button type="button" id="wizard-prev" class="px-6 py-2.5 rounded-xl border-2 font-semibold transition-colors flex items-center gap-2" style="border-color: var(--border); color: var(--text-main);" onmouseover="this.style.backgroundColor='rgba(255,200,74,0.15)'" onmouseout="this.style.backgroundColor='transparent'">
-          <span class="material-symbols-outlined text-lg">arrow_back</span>
-          Quay lại
-        </button>
-        <div class="flex gap-3">
-          <button type="button" id="wizard-next" class="wizard-btn-primary px-8 py-2.5 rounded-xl border-2 font-semibold shadow-lg transition-all flex items-center gap-2" style="background-color: var(--primary); color: var(--text-on-primary); border-color: var(--border-button); box-shadow: 0 10px 15px -3px var(--shadow-primary);">
-            Tiếp theo
-            <span class="material-symbols-outlined text-lg">arrow_forward</span>
-          </button>
-          <button type="submit" form="kpi-wizard-form" id="wizard-submit" class="hidden wizard-btn-primary px-10 py-2.5 rounded-xl border-2 font-semibold shadow-xl transition-all flex items-center gap-2" style="background-color: var(--primary); color: var(--text-on-primary); border-color: var(--border-button); box-shadow: 0 10px 15px -3px var(--shadow-primary);">
-            <span class="material-symbols-outlined text-lg">check</span>
-            Xác nhận
-          </button>
+          <iframe
+            src="ypointv2/ypoint.html"
+            title="Y Point - Mobile (V2)"
+            class="w-full bg-white"
+            style="height: min(884px, 95vh); min-height: 700px; border: none;"
+          ></iframe>
         </div>
       </div>
     </div>
@@ -757,409 +89,65 @@
 
   <script>
     (function () {
-      // ---- Đổi màu toàn trang (theme): lưu localStorage, áp dụng index + gửi iframe CFR (trừ Ypoint) ----
-      var THEME_KEY = 'aixperf-theme';
-      var currentTheme = 'gray';
-      function applyTheme(theme) {
-        theme = theme || 'gray';
-        currentTheme = theme;
-        var root = document.documentElement;
-        if (theme === 'gray') {
-          root.removeAttribute('data-theme');
-        } else {
-          root.setAttribute('data-theme', theme);
-        }
-        try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
-        document.querySelectorAll('.theme-pill').forEach(function (btn) {
-          btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
-        });
-        var cfriframe = document.getElementById('iframe-cfr');
-        if (cfriframe && cfriframe.contentWindow) {
-          try { cfriframe.contentWindow.postMessage({ type: 'aixperf-theme', theme: theme }, '*'); } catch (e) {}
-        }
-        var personalIframe = document.getElementById('iframe-ca-nhan');
-        if (personalIframe && personalIframe.contentWindow) {
-          try { personalIframe.contentWindow.postMessage({ type: 'aixperf-theme', theme: theme }, '*'); } catch (e) {}
-        }
-        var ceoIframe = document.getElementById('iframe-ceo');
-        if (ceoIframe && ceoIframe.contentWindow) {
-          try { ceoIframe.contentWindow.postMessage({ type: 'aixperf-theme', theme: theme }, '*'); } catch (e) {}
+      var THEME_KEY = "aixperf-theme";
+      var currentTheme = "gray";
+
+      function broadcastTheme(theme) {
+        var ver3 = document.getElementById("iframe-hieu-suat-ver3");
+        if (ver3 && ver3.contentWindow) {
+          try { ver3.contentWindow.postMessage({ type: "aixperf-theme", theme: theme }, "*"); } catch (e) {}
         }
       }
-      window.addEventListener('message', function (e) {
-        if (e.data && e.data.type === 'aixperf-theme-get') {
-          try { e.source.postMessage({ type: 'aixperf-theme', theme: currentTheme }, '*'); } catch (err) {}
+
+      function applyTheme(theme) {
+        theme = theme || "gray";
+        currentTheme = theme;
+        var root = document.documentElement;
+        if (theme === "gray") root.removeAttribute("data-theme");
+        else root.setAttribute("data-theme", theme);
+        try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+        document.querySelectorAll(".theme-pill").forEach(function (btn) {
+          btn.classList.toggle("active", btn.getAttribute("data-theme") === theme);
+        });
+        broadcastTheme(theme);
+      }
+
+      window.addEventListener("message", function (e) {
+        if (e.data && e.data.type === "aixperf-theme-get") {
+          try { e.source.postMessage({ type: "aixperf-theme", theme: currentTheme }, "*"); } catch (err) {}
         }
       });
-      document.querySelectorAll('.theme-pill').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var t = this.getAttribute('data-theme');
+
+      document.querySelectorAll(".theme-pill").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var t = this.getAttribute("data-theme");
           if (t) applyTheme(t);
         });
       });
+
       var saved = null;
       try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
-      applyTheme(saved === 'yody' || saved === 'blue' || saved === 'emerald' ? saved : 'gray');
+      applyTheme(saved === "yody" || saved === "blue" || saved === "emerald" ? saved : "gray");
 
-      function setHrTabActive(value) {
-        document.querySelectorAll('.hr-tab').forEach(function (btn) {
-          var isActive = btn.getAttribute('data-hr-tab') === value;
-          btn.classList.toggle('hr-tab-active', isActive);
-          btn.style.color = isActive ? '#fff' : 'var(--text-secondary)';
-          btn.style.background = isActive ? '#111827' : 'transparent';
-          btn.style.boxShadow = isActive ? '0 4px 12px rgba(15,23,42,0.18)' : 'none';
+      var ver3Frame = document.getElementById("iframe-hieu-suat-ver3");
+      if (ver3Frame) {
+        ver3Frame.addEventListener("load", function () {
+          broadcastTheme(currentTheme);
         });
       }
 
-      document.querySelectorAll('.hr-tab').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var value = this.getAttribute('data-hr-tab');
-          if (value) setHrTabActive(value);
-        });
-      });
-
-      // ---- Nav: chuyển panel KPI / Hiệu suất / Hiệu suất năm / HR / Ypoint ----
-      document.querySelectorAll('.nav-item').forEach(function (link) {
-        link.addEventListener('click', function (e) {
+      document.querySelectorAll(".nav-item").forEach(function (link) {
+        link.addEventListener("click", function (e) {
           e.preventDefault();
-          var panelId = this.getAttribute('data-panel');
+          var panelId = this.getAttribute("data-panel");
           if (!panelId) return;
-          document.querySelectorAll('.nav-item').forEach(function (l) { l.classList.remove('active'); });
-          this.classList.add('active');
-          document.querySelectorAll('.panel').forEach(function (p) { p.classList.add('hidden'); });
-          var panel = document.getElementById('panel-' + panelId);
-          if (panel) panel.classList.remove('hidden');
-          if (panelId === 'hr') setHrTabActive('nhan-vien');
+          document.querySelectorAll(".nav-item").forEach(function (l) { l.classList.remove("active"); });
+          this.classList.add("active");
+          document.querySelectorAll(".panel").forEach(function (p) { p.classList.add("hidden"); });
+          var panel = document.getElementById("panel-" + panelId);
+          if (panel) panel.classList.remove("hidden");
         });
       });
-
-      var statusFilterBtn = document.getElementById('status-filter-btn');
-      var statusFilterDropdown = document.getElementById('status-filter-dropdown');
-      if (statusFilterBtn && statusFilterDropdown) {
-        statusFilterBtn.addEventListener('click', function (e) {
-          e.stopPropagation();
-          statusFilterDropdown.classList.toggle('hidden');
-        });
-        document.addEventListener('click', function () {
-          statusFilterDropdown.classList.add('hidden');
-        });
-        statusFilterDropdown.addEventListener('click', function (e) {
-          e.stopPropagation();
-        });
-      }
-
-      var statusLabelToValue = {
-        'Chờ nhận việc': 'cho-nhan-viec',
-        'Đang làm việc': 'dang-lam-viec',
-        'Nghỉ tạm thời': 'nghi-tam-thoi',
-        'Nghỉ thai sản': 'nghi-thai-san',
-        'Nghỉ không lương dài hạn': 'nghi-khong-luong-dai-han',
-        'Nghỉ đi nghĩa vụ quân sự': 'nghi-di-nghia-vu-quan-su',
-        'Nghỉ đi học': 'nghi-di-hoc',
-        'Nghỉ ốm đau': 'nghi-om-dau',
-        'Nghỉ việc': 'nghi-viec'
-      };
-      var statusValueToInfo = {
-        'cho-nhan-viec': { label: 'Chờ nhận việc', class: 'bg-orange-100 text-orange-800' },
-        'dang-lam-viec': { label: 'Đang làm việc', class: 'bg-green-100 text-green-800' },
-        'nghi-tam-thoi': { label: 'Nghỉ tạm thời', class: 'bg-gray-100 text-gray-700' },
-        'nghi-thai-san': { label: 'Nghỉ thai sản', class: 'bg-purple-100 text-purple-800' },
-        'nghi-khong-luong-dai-han': { label: 'Nghỉ không lương dài hạn', class: 'bg-slate-100 text-slate-700' },
-        'nghi-di-nghia-vu-quan-su': { label: 'Nghỉ đi nghĩa vụ quân sự', class: 'bg-blue-100 text-blue-800' },
-        'nghi-di-hoc': { label: 'Nghỉ đi học', class: 'bg-indigo-100 text-indigo-800' },
-        'nghi-om-dau': { label: 'Nghỉ ốm đau', class: 'bg-amber-100 text-amber-800' },
-        'nghi-viec': { label: 'Nghỉ việc', class: 'bg-red-100 text-red-800' }
-      };
-
-      function collapseAllHrDetail() {
-        document.querySelectorAll('.hr-detail-row.expanded').forEach(function (tr) { tr.classList.remove('expanded'); });
-        document.querySelectorAll('.hr-detail-btn.expanded').forEach(function (b) { b.classList.remove('expanded'); });
-        document.querySelectorAll('.hr-person-row.hr-row-expanded').forEach(function (r) { r.classList.remove('hr-row-expanded'); });
-      }
-
-      function fillHrDetailRow(detailRow, personRow) {
-        var name = personRow.getAttribute('data-employee-name') || '—';
-        var code = personRow.getAttribute('data-employee-code') || '—';
-        var dept = personRow.getAttribute('data-employee-dept') || '—';
-        var role = personRow.getAttribute('data-employee-role') || '—';
-        var status = personRow.getAttribute('data-employee-status') || '';
-        var raci = personRow.getAttribute('data-employee-raci') || '';
-        var nameEl = detailRow.querySelector('.hr-expand-name');
-        var codeEl = detailRow.querySelector('.hr-expand-code');
-        var deptEl = detailRow.querySelector('.hr-expand-dept');
-        var statusEl = detailRow.querySelector('.hr-expand-status');
-        var raciEl = detailRow.querySelector('.hr-expand-raci');
-        if (nameEl) nameEl.textContent = name;
-        if (codeEl) codeEl.textContent = code;
-        if (deptEl) { if (deptEl.tagName === 'SELECT') deptEl.value = dept; else deptEl.textContent = dept; }
-        if (statusEl) statusEl.value = statusLabelToValue[status] || '';
-        if (raciEl) raciEl.value = raci;
-      }
-
-      document.addEventListener('click', function (e) {
-        var btn = e.target.closest('.hr-detail-btn');
-        if (btn) {
-          var personRow = btn.closest('.hr-person-row');
-          if (!personRow) return;
-          var detailRow = personRow.nextElementSibling;
-          if (!detailRow || !detailRow.classList.contains('hr-detail-row')) return;
-          if (detailRow.classList.contains('expanded')) {
-            detailRow.classList.remove('expanded');
-            btn.classList.remove('expanded');
-            personRow.classList.remove('hr-row-expanded');
-            return;
-          }
-          collapseAllHrDetail();
-          fillHrDetailRow(detailRow, personRow);
-          detailRow.classList.add('expanded');
-          btn.classList.add('expanded');
-          personRow.classList.add('hr-row-expanded');
-          return;
-        }
-        var cancelBtn = e.target.closest('.hr-expand-cancel');
-        if (cancelBtn) {
-          var detailRow = cancelBtn.closest('.hr-detail-row');
-          if (detailRow) {
-            detailRow.classList.remove('expanded');
-            var personRow = detailRow.previousElementSibling;
-            if (personRow) {
-              personRow.classList.remove('hr-row-expanded');
-              var expandBtn = personRow.querySelector('.hr-detail-btn');
-              if (expandBtn) expandBtn.classList.remove('expanded');
-            }
-          }
-          return;
-        }
-        var saveBtn = e.target.closest('.hr-expand-save');
-        if (saveBtn) {
-          var detailRow = saveBtn.closest('.hr-detail-row');
-          var personRow = detailRow ? detailRow.previousElementSibling : null;
-          if (!personRow || !personRow.classList.contains('hr-person-row')) return;
-          var statusEl = detailRow.querySelector('.hr-expand-status');
-          var raciEl = detailRow.querySelector('.hr-expand-raci');
-          if (statusEl) {
-            var value = statusEl.value;
-            var info = statusValueToInfo[value];
-            if (info) {
-              var badge = personRow.querySelector('td:nth-child(4) span');
-              if (badge) {
-                badge.textContent = info.label;
-                badge.className = 'inline-block px-2.5 py-1 rounded-md text-xs font-medium ' + info.class;
-              }
-              personRow.setAttribute('data-employee-status', info.label);
-              personRow.setAttribute('data-employee-status-class', info.class);
-            }
-          }
-          if (raciEl) personRow.setAttribute('data-employee-raci', raciEl.value);
-          var deptEl = detailRow.querySelector('.hr-expand-dept');
-          if (deptEl && deptEl.tagName === 'SELECT') {
-            var newDept = deptEl.value;
-            personRow.setAttribute('data-employee-dept', newDept);
-            var deptCell = personRow.querySelector('td:nth-child(2)');
-            if (deptCell) deptCell.textContent = newDept;
-          }
-          detailRow.classList.remove('expanded');
-          personRow.classList.remove('hr-row-expanded');
-          var expandBtn = personRow.querySelector('.hr-detail-btn');
-          if (expandBtn) expandBtn.classList.remove('expanded');
-        }
-      });
-
-      var TOTAL_STEPS = 2;
-      var layer = document.getElementById('kpi-wizard-layer');
-      var btnOpen = document.getElementById('btn-tao-kpi');
-      var btnClose = document.getElementById('wizard-close');
-      var btnPrev = document.getElementById('wizard-prev');
-      var btnNext = document.getElementById('wizard-next');
-      var btnSubmit = document.getElementById('wizard-submit');
-      var form = document.getElementById('kpi-wizard-form');
-
-      var currentStep = 1;
-      var panels = document.querySelectorAll('.wizard-panel');
-      var indicators = document.querySelectorAll('[id^="wizard-step-"][id$="-indicator"]');
-
-      function openWizard() {
-        currentStep = 1;
-        goToStep(1);
-        layer.classList.add('is-open');
-        layer.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeWizard() {
-        layer.classList.remove('is-open');
-        layer.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
-
-      function goToStep(step) {
-        if (step < 1 || step > TOTAL_STEPS) return;
-        currentStep = step;
-
-        panels.forEach(function (panel) {
-          var panelStep = parseInt(panel.getAttribute('data-step'), 10);
-          panel.classList.toggle('hidden', panelStep !== step);
-        });
-
-        indicators.forEach(function (indicator) {
-          var stepNum = parseInt(indicator.getAttribute('data-step'), 10);
-          indicator.classList.remove('step-active', 'step-completed', 'step-inactive');
-          if (stepNum < step) {
-            indicator.classList.add('step-completed');
-          } else if (stepNum === step) {
-            indicator.classList.add('step-active');
-            var circle = indicator.querySelector('.step-circle');
-            if (circle) { circle.classList.add('ring-4', 'ring-yellow-step'); }
-          } else {
-            indicator.classList.add('step-inactive');
-            var circle = indicator.querySelector('.step-circle');
-            if (circle) { circle.classList.remove('ring-4', 'ring-yellow-step'); }
-          }
-        });
-
-        var connector = document.getElementById('connector-1-2');
-        if (connector) {
-        if (step >= 2) {
-          connector.style.backgroundColor = 'var(--border)';
-        } else {
-          connector.style.backgroundColor = 'var(--border)';
-        }
-        }
-
-        btnNext.classList.toggle('hidden', step === TOTAL_STEPS);
-        btnSubmit.classList.toggle('hidden', step !== TOTAL_STEPS);
-      }
-
-      btnOpen.addEventListener('click', openWizard);
-
-      btnClose.addEventListener('click', function () {
-        closeWizard();
-      });
-
-      layer.addEventListener('click', function (e) {
-        if (e.target === layer) closeWizard();
-      });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && layer.classList.contains('is-open')) closeWizard();
-      });
-
-      btnPrev.addEventListener('click', function () {
-        if (currentStep === 1) {
-          closeWizard();
-        } else {
-          goToStep(currentStep - 1);
-        }
-      });
-
-      btnNext.addEventListener('click', function () {
-        if (currentStep < TOTAL_STEPS) {
-          goToStep(currentStep + 1);
-        }
-      });
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var orgBlock = (form.querySelector('[name="orgBlock"]') || {}).value;
-        var scope = (form.querySelector('[name="scope"]:checked') || {}).value;
-        var year = (form.querySelector('[name="year"]:checked') || {}).value;
-        var payload = { orgBlock: orgBlock, scope: scope, year: year };
-        console.log('KPI wizard submit:', payload);
-        closeWizard();
-      });
-
-      // ---- Org Block dropdown: danh sách phòng ban + search (nhóm, phòng, bộ phận) ----
-      var orgBlockData = [
-        { id: 'sales-1', group: 'Khối Kinh Doanh', department: 'Phòng Kinh doanh Dự án', division: 'KD Dự án' },
-        { id: 'sales-2', group: 'Khối Kinh Doanh', department: 'Phòng Bán hàng', division: 'Bán hàng' },
-        { id: 'sales-3', group: 'Khối Kinh Doanh', department: 'Phòng Marketing', division: 'Marketing' },
-        { id: 'ops-1', group: 'Khối Vận Hành', department: 'Phòng Vận hành Hệ thống', division: 'Vận hành' },
-        { id: 'ops-2', group: 'Khối Vận Hành', department: 'Phòng Hỗ trợ Khách hàng', division: 'Hỗ trợ' },
-        { id: 'ops-3', group: 'Khối Vận Hành', department: 'Phòng Hành chính Nhân sự', division: 'HCNS' },
-        { id: 'tech-1', group: 'Khối Công Nghệ', department: 'Phòng Phát triển Sản phẩm', division: 'Dev' },
-        { id: 'tech-2', group: 'Khối Công Nghệ', department: 'Phòng QA & Testing', division: 'QA' },
-        { id: 'tech-3', group: 'Khối Công Nghệ', department: 'Phòng Infrastructure', division: 'Infra' }
-      ];
-      var orgTrigger = document.getElementById('org-block-trigger');
-      var orgPanel = document.getElementById('org-block-panel');
-      var orgSearch = document.getElementById('org-block-search');
-      var orgList = document.getElementById('org-block-list');
-      var orgLabel = document.getElementById('org-block-label');
-      var orgHidden = document.getElementById('wizard-org-block');
-      var orgEmpty = document.getElementById('org-block-empty');
-
-      function renderOrgList(items) {
-        orgList.innerHTML = '';
-        orgEmpty.classList.add('hidden');
-        if (!items.length) {
-          orgEmpty.classList.remove('hidden');
-          return;
-        }
-        items.forEach(function (item) {
-          var li = document.createElement('li');
-          li.setAttribute('role', 'option');
-          li.setAttribute('data-id', item.id);
-          li.className = 'px-3 py-2.5 cursor-pointer border-b last:border-0 transition-colors';
-          li.style.borderColor = 'var(--border-light)';
-          li.style.color = 'var(--text-main)';
-          li.innerHTML = '<span class="font-medium">' + item.department + '</span><br><span class="text-xs" style="color: var(--text-secondary);">' + item.group + ' · ' + item.division + '</span>';
-          li.addEventListener('mouseenter', function () { this.style.backgroundColor = 'rgba(255,200,74,0.12)'; });
-          li.addEventListener('mouseleave', function () { this.style.backgroundColor = ''; });
-          li.addEventListener('click', function () {
-            orgHidden.value = item.id;
-            orgLabel.textContent = item.group + ' - ' + item.department;
-            orgPanel.style.display = 'none';
-            orgPanel.classList.add('hidden');
-          });
-          orgList.appendChild(li);
-        });
-      }
-
-      function filterOrgList() {
-        var q = (orgSearch.value || '').trim().toLowerCase();
-        if (!q) {
-          renderOrgList(orgBlockData);
-          return;
-        }
-        var filtered = orgBlockData.filter(function (item) {
-          return item.group.toLowerCase().indexOf(q) !== -1 ||
-            item.department.toLowerCase().indexOf(q) !== -1 ||
-            item.division.toLowerCase().indexOf(q) !== -1;
-        });
-        renderOrgList(filtered);
-      }
-
-      orgTrigger.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var isOpen = orgPanel.style.display === 'block';
-        if (isOpen) {
-          orgPanel.style.display = 'none';
-          orgPanel.classList.add('hidden');
-        } else {
-          orgPanel.style.display = 'block';
-          orgPanel.classList.remove('hidden');
-          orgSearch.value = '';
-          orgSearch.focus();
-          renderOrgList(orgBlockData);
-        }
-      });
-
-      orgSearch.addEventListener('input', filterOrgList);
-      orgSearch.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-          orgPanel.style.display = 'none';
-          orgPanel.classList.add('hidden');
-        }
-      });
-
-      document.addEventListener('click', function (e) {
-        if (!document.getElementById('org-block-dropdown-wrap').contains(e.target)) {
-          orgPanel.style.display = 'none';
-          orgPanel.classList.add('hidden');
-        }
-      });
-
-      renderOrgList(orgBlockData);
     })();
   </script>
 </body>
