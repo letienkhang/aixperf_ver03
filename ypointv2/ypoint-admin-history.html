@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Lịch sử tặng điểm (Admin) - Y Point</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#221f6d",
+            "background-light": "#f8fafc",
+            "background-dark": "#0f172a"
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+          }
+        }
+      }
+    };
+  </script>
+  <style type="text/tailwindcss">
+    body { font-family: 'Inter', sans-serif; min-height: max(884px, 100dvh); }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 flex flex-col">
+  <div class="flex justify-between items-center px-8 py-3 w-full shrink-0">
+    <span class="text-sm font-semibold text-slate-900 dark:text-white">13:23</span>
+    <div class="flex items-center space-x-1.5 text-slate-900 dark:text-white">
+      <span class="material-icons-round text-sm">signal_cellular_alt</span>
+      <span class="material-icons-round text-sm">wifi</span>
+      <span class="material-icons-round text-sm rotate-90">battery_full</span>
+    </div>
+  </div>
+
+  <header class="sticky top-0 z-50 bg-background-light/90 dark:bg-background-dark/90 ios-blur">
+    <div class="px-4 py-3 flex items-center gap-3 w-full">
+      <a class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform"
+        href="ypoint-admin.html" aria-label="Quay lại trang tặng điểm">
+        <span class="material-icons-round text-primary dark:text-white">arrow_back</span>
+      </a>
+      <h1 class="flex-1 min-w-0 text-primary dark:text-white text-xl font-bold truncate">Lịch sử tặng điểm (Admin)</h1>
+    </div>
+  </header>
+
+  <main class="flex-1 px-4 pt-4 pb-10 space-y-4">
+    <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm p-4 space-y-3">
+      <div class="relative">
+        <span class="material-icons-round pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+        <input id="history-search" type="search" autocomplete="off" placeholder="Tìm theo tên, mã NV, lý do, email…"
+          class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm pl-10 pr-3 py-2.5 text-slate-900 dark:text-white placeholder:text-slate-400" />
+      </div>
+      <select id="history-time-filter"
+        class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm px-3 py-2.5 text-slate-900 dark:text-white">
+        <option value="all">Tất cả thời gian</option>
+        <option value="today">Hôm nay</option>
+        <option value="7d">7 ngày gần đây</option>
+        <option value="30d">30 ngày gần đây</option>
+      </select>
+    </div>
+
+    <section class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
+      <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900/40">
+        <h2 class="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+          <span class="material-icons-round text-primary text-lg">history</span>
+          Bạn đã cho ai điểm gì
+        </h2>
+      </div>
+      <div id="history-list" class="divide-y divide-slate-100 dark:divide-slate-700 max-h-[min(70vh,560px)] overflow-y-auto hide-scrollbar"></div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var HISTORY_STORAGE_KEY = 'ypointAdminHistoryDemo';
+      var searchEl = document.getElementById('history-search');
+      var timeFilterEl = document.getElementById('history-time-filter');
+      var listEl = document.getElementById('history-list');
+
+      function escapeHtml(s) {
+        if (!s) return '';
+        return String(s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function formatNum(n) {
+        return (n || 0).toLocaleString('vi-VN');
+      }
+
+      function readHistory() {
+        try {
+          var data = JSON.parse(localStorage.getItem(HISTORY_STORAGE_KEY) || '[]');
+          return Array.isArray(data) ? data : [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function withinRange(ts, mode, nowMs) {
+        if (mode === 'all') return true;
+        var d = new Date(ts);
+        if (mode === 'today') {
+          var now = new Date(nowMs);
+          return d.getFullYear() === now.getFullYear() &&
+            d.getMonth() === now.getMonth() &&
+            d.getDate() === now.getDate();
+        }
+        var diff = nowMs - ts;
+        if (mode === '7d') return diff <= 7 * 24 * 3600 * 1000;
+        if (mode === '30d') return diff <= 30 * 24 * 3600 * 1000;
+        return true;
+      }
+
+      function renderHistory() {
+        var rows = readHistory();
+        if (!rows.length) {
+          listEl.innerHTML = '<div class="px-4 py-6 text-center text-sm text-slate-500 dark:text-slate-400">Chưa có lịch sử tặng điểm.</div>';
+          return;
+        }
+
+        var q = (searchEl.value || '').trim().toLowerCase();
+        var mode = timeFilterEl.value || 'all';
+        var nowMs = Date.now();
+
+        var filtered = rows.filter(function (row) {
+          var haystack = ([
+            row.name, row.id, row.reason, row.email, row.dept, row.txId
+          ].join(' ')).toLowerCase();
+          return (!q || haystack.indexOf(q) !== -1) && withinRange(row.createdAt, mode, nowMs);
+        });
+
+        if (!filtered.length) {
+          listEl.innerHTML = '<div class="px-4 py-6 text-center text-sm text-slate-500 dark:text-slate-400">Không có dữ liệu khớp bộ lọc.</div>';
+          return;
+        }
+
+        listEl.innerHTML = filtered.map(function (row) {
+          var timeText = new Date(row.createdAt).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
+          return (
+            '<div class="px-4 py-3.5 flex gap-3">' +
+            '<span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary text-sm font-extrabold">' +
+            escapeHtml((row.name || '?').split(/\s+/).map(function (p) { return p[0] || ''; }).slice(-2).join('').toUpperCase()) +
+            '</span>' +
+            '<div class="min-w-0 flex-1 space-y-1.5">' +
+            '<div class="flex flex-wrap items-baseline gap-x-2 gap-y-0">' +
+            '<span class="text-sm font-extrabold text-slate-900 dark:text-white">' + escapeHtml(row.name || '—') + '</span>' +
+            '<span class="text-[11px] font-semibold text-slate-400">' + escapeHtml(row.id || '—') + '</span>' +
+            '</div>' +
+            '<p class="text-[11px] text-slate-500 dark:text-slate-400"><span class="font-semibold">Thời gian:</span> ' + escapeHtml(timeText) + '</p>' +
+            '<p class="text-[11px] text-slate-500 dark:text-slate-400"><span class="font-semibold">Lý do:</span> ' + escapeHtml(row.reason || '—') + '</p>' +
+            '<p class="text-[11px] text-slate-500 dark:text-slate-400"><span class="font-semibold">Mã giao dịch:</span> ' + escapeHtml(row.txId || '—') + '</p>' +
+            '<div class="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 dark:bg-amber-900/25 px-2.5 py-1 w-fit">' +
+            '<span class="material-icons-round text-amber-600 dark:text-amber-400 text-base">stars</span>' +
+            '<span class="text-xs font-extrabold text-amber-800 dark:text-amber-200">' + formatNum(row.per) + ' pts đã cộng</span>' +
+            '</div>' +
+            '</div>' +
+            '</div>'
+          );
+        }).join('');
+      }
+
+      searchEl.addEventListener('input', renderHistory);
+      timeFilterEl.addEventListener('change', renderHistory);
+      renderHistory();
+    })();
+  </script>
+</body>
+</html>
