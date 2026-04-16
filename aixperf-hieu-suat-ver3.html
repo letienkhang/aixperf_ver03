@@ -126,40 +126,38 @@
     .stage-bar-doing { background: #93c5fd; }
     .stage-bar-done { background: #6ee7b7; }
     .culture-mini-wrap {
-      min-width: 300px;
-      max-width: 340px;
-      padding: 6px 8px 6px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      gap: 8px 10px;
+      min-width: 0;
+      max-width: none;
+      width: 100%;
+      padding: 8px 10px;
       border-radius: 8px;
       background: #ffffff;
       border: 1px solid #e2e8f0;
+      box-sizing: border-box;
     }
-    .culture-mini-title {
-      font-size: 11px;
-      color: #64748b;
-      font-weight: 600;
-      margin-bottom: 2px;
+    .culture-trend-svg {
+      width: 112px;
+      height: auto;
+      max-height: 46px;
+      aspect-ratio: 204 / 78;
+      display: block;
+      flex: 0 0 112px;
+      min-width: 0;
     }
-    .culture-trend-svg { width: 100%; height: 78px; display: block; }
     .culture-trend-row {
       display: flex;
+      flex-direction: row;
       align-items: center;
-      gap: 10px;
-    }
-    .culture-quarters {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      font-size: 10px;
-      font-weight: 600;
-      color: #64748b;
-      margin-top: -2px;
-      text-align: center;
-    }
-    .culture-score-hint {
-      font-size: 10px;
-      color: #0f766e;
-      font-weight: 600;
-      margin-top: 2px;
-      text-align: right;
+      justify-content: flex-start;
+      gap: 10px 14px;
+      flex: 1 1 0;
+      min-width: 0;
+      width: 100%;
     }
     .culture-core-grid {
       margin-top: 0;
@@ -167,27 +165,31 @@
       padding-top: 0;
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 4px;
-      min-width: 132px;
-      flex-shrink: 0;
+      column-gap: clamp(6px, 2.5vw, 18px);
+      row-gap: 6px;
+      flex: 1 1 0;
+      min-width: 0;
+      width: 100%;
+      max-width: 100%;
     }
     .culture-core-grid .idx {
-      font-size: 9px;
+      font-size: 10px;
       color: #64748b;
       font-weight: 700;
-      line-height: 1.1;
+      line-height: 1.15;
       text-align: center;
     }
     .culture-core-grid .score {
-      font-size: 10px;
+      font-size: 11px;
       color: #0f172a;
       font-weight: 700;
-      line-height: 1.2;
+      line-height: 1.25;
       text-align: center;
       background: #f1f5f9;
       border: 1px solid #e2e8f0;
       border-radius: 6px;
-      padding: 2px 0;
+      padding: 4px 2px;
+      min-width: 0;
     }
     .culture-value-card {
       border: 1px solid #e2e8f0;
@@ -384,100 +386,66 @@
                 Biểu đồ Văn hoá
               </h3>
               <span class="inline-flex items-center gap-2">
-                <span class="text-xs px-2 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">75% hoàn thành</span>
                 <span id="culture-chevron" class="material-symbols-outlined text-base transition-transform">expand_more</span>
               </span>
             </button>
             <div class="space-y-3">
-              <div>
-                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Customer Centric</span><span class="shrink-0 font-semibold">4.1/5</span></div>
-                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-blue-500" style="width:82%;"></div></div>
-              </div>
-              <div>
-                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Ownership &amp; Autonomy</span><span class="shrink-0 font-semibold">3.7/5</span></div>
-                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-blue-500" style="width:74%;"></div></div>
-              </div>
-              <div>
-                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Integrity</span><span class="shrink-0 font-semibold">4.0/5</span></div>
-                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-blue-500" style="width:80%;"></div></div>
-              </div>
-              <div>
-                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Growth Mindset</span><span class="shrink-0 font-semibold">3.4/5</span></div>
-                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-blue-500" style="width:68%;"></div></div>
-              </div>
-              <div>
-                <div class="flex items-start justify-between gap-3 text-xs mb-1 leading-5"><span class="pr-2">Good Relationship</span><span class="shrink-0 font-semibold">4.3/5</span></div>
-                <div class="h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-blue-500" style="width:86%;"></div></div>
-              </div>
-            </div>
-            <div id="culture-content-list" class="hidden mt-5 pt-4 border-t space-y-4" style="border-color: var(--border-light);">
-              <div class="flex items-center justify-between gap-2">
-                <p class="text-xs font-semibold uppercase tracking-wide" style="color: var(--text-secondary);">Nội dung văn hoá</p>
-                <div class="inline-flex items-center rounded-lg p-0.5 bg-slate-100">
-                  <button id="culture-view-summary" type="button" class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white shadow-sm text-slate-800">Tóm tắt</button>
-                  <button id="culture-view-detail" type="button" class="px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-500">Chi tiết</button>
+              <div class="flex items-center justify-between text-[11px] text-slate-500 font-medium">
+                <span>Giá trị</span>
+                <div class="flex items-center gap-2">
+                  <span>Điểm</span>
+                  <span>So với quý trước</span>
                 </div>
               </div>
-
-              <div id="culture-summary-panel" class="space-y-2.5">
-                <div class="culture-value-card">
-                  <div class="flex items-start gap-2">
-                    <span class="badge">1</span>
-                    <div>
-                      <p class="name">Customer Centric</p>
-                      <p class="hint">Ưu tiên hài lòng khách hàng trong mọi hành động.</p>
-                    </div>
+              <div class="rounded-lg border border-slate-200 p-2.5 bg-slate-50/60">
+                <div class="flex items-start justify-between gap-3 text-xs mb-1.5 leading-5">
+                  <span class="pr-2 font-medium">Good Relationship</span>
+                  <div class="shrink-0 flex items-center gap-2">
+                    <span class="font-semibold">4.3/5</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 border border-emerald-200">+0.4</span>
                   </div>
-                  <span class="text-[11px] font-semibold text-blue-700">4.1/5</span>
                 </div>
-                <div class="culture-value-card">
-                  <div class="flex items-start gap-2">
-                    <span class="badge">2</span>
-                    <div>
-                      <p class="name">Ownership &amp; Autonomy</p>
-                      <p class="hint">Làm chủ mục tiêu, chủ động tìm giải pháp.</p>
-                    </div>
-                  </div>
-                  <span class="text-[11px] font-semibold text-blue-700">3.7/5</span>
-                </div>
-                <div class="culture-value-card">
-                  <div class="flex items-start gap-2">
-                    <span class="badge">3</span>
-                    <div>
-                      <p class="name">Integrity</p>
-                      <p class="hint">Trung thực, làm đúng và giữ cam kết.</p>
-                    </div>
-                  </div>
-                  <span class="text-[11px] font-semibold text-blue-700">4.0/5</span>
-                </div>
-                <div class="culture-value-card">
-                  <div class="flex items-start gap-2">
-                    <span class="badge">4</span>
-                    <div>
-                      <p class="name">Growth Mindset</p>
-                      <p class="hint">Học nhanh và cải tiến liên tục.</p>
-                    </div>
-                  </div>
-                  <span class="text-[11px] font-semibold text-blue-700">3.4/5</span>
-                </div>
-                <div class="culture-value-card">
-                  <div class="flex items-start gap-2">
-                    <span class="badge">5</span>
-                    <div>
-                      <p class="name">Good Relationship</p>
-                      <p class="hint">Kết nối tích cực và hợp tác bền vững.</p>
-                    </div>
-                  </div>
-                  <span class="text-[11px] font-semibold text-blue-700">4.3/5</span>
-                </div>
+                <div class="h-2 rounded-full bg-slate-200"><div class="h-2 rounded-full bg-emerald-500" style="width:86%;"></div></div>
               </div>
-
-              <div id="culture-detail-panel" class="hidden space-y-2">
-                <div class="culture-detail-item"><b>1) Customer Centric:</b> Đặt sự hài lòng của khách hàng là ưu tiên số 1 trong mọi suy nghĩ và hành động.</div>
-                <div class="culture-detail-item"><b>2) Ownership &amp; Autonomy:</b> Sở hữu mục tiêu công ty, đội nhóm, cá nhân. Chủ động tìm kiếm nguồn lực và giải pháp. Suy nghĩ và hành động vì lợi ích tốt nhất cho tổ chức.</div>
-                <div class="culture-detail-item"><b>3) Integrity:</b> Trung thực về tiền bạc, hàng hóa, tài sản. Làm đúng, làm đủ theo thiết kế. Giữ lời hứa với khách hàng, đồng nghiệp, đối tác.</div>
-                <div class="culture-detail-item"><b>4) Growth Mindset:</b> Liên tục học hỏi, thử nghiệm, cải tiến và không ngại phản hồi.</div>
-                <div class="culture-detail-item"><b>5) Good Relationship:</b> Hợp tác tích cực, tôn trọng khác biệt và giữ kết nối bền vững trong đội ngũ.</div>
+              <div class="rounded-lg border border-slate-200 p-2.5">
+                <div class="flex items-start justify-between gap-3 text-xs mb-1.5 leading-5">
+                  <span class="pr-2 font-medium">Customer Centric</span>
+                  <div class="shrink-0 flex items-center gap-2">
+                    <span class="font-semibold">4.1/5</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 border border-emerald-200">+0.3</span>
+                  </div>
+                </div>
+                <div class="h-2 rounded-full bg-slate-200"><div class="h-2 rounded-full bg-emerald-500" style="width:82%;"></div></div>
+              </div>
+              <div class="rounded-lg border border-slate-200 p-2.5">
+                <div class="flex items-start justify-between gap-3 text-xs mb-1.5 leading-5">
+                  <span class="pr-2 font-medium">Integrity</span>
+                  <div class="shrink-0 flex items-center gap-2">
+                    <span class="font-semibold">4.0/5</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 border border-emerald-200">0.0</span>
+                  </div>
+                </div>
+                <div class="h-2 rounded-full bg-slate-200"><div class="h-2 rounded-full bg-emerald-500" style="width:80%;"></div></div>
+              </div>
+              <div class="rounded-lg border border-slate-200 p-2.5">
+                <div class="flex items-start justify-between gap-3 text-xs mb-1.5 leading-5">
+                  <span class="pr-2 font-medium">Ownership &amp; Autonomy</span>
+                  <div class="shrink-0 flex items-center gap-2">
+                    <span class="font-semibold">3.7/5</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 border border-rose-200">-0.1</span>
+                  </div>
+                </div>
+                <div class="h-2 rounded-full bg-slate-200"><div class="h-2 rounded-full bg-rose-500" style="width:74%;"></div></div>
+              </div>
+              <div class="rounded-lg border border-rose-200 p-2.5 bg-rose-50/50">
+                <div class="flex items-start justify-between gap-3 text-xs mb-1.5 leading-5">
+                  <span class="pr-2 font-medium">Growth Mindset</span>
+                  <div class="shrink-0 flex items-center gap-2">
+                    <span class="font-semibold">3.4/5</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 border border-rose-200">-0.3</span>
+                  </div>
+                </div>
+                <div class="h-2 rounded-full bg-slate-200"><div class="h-2 rounded-full bg-rose-500" style="width:68%;"></div></div>
               </div>
             </div>
           </div>
@@ -515,17 +483,19 @@
           <div class="p-4 border-b flex items-center justify-between gap-3 flex-wrap" style="border-color: var(--border);">
             <h2 class="font-semibold">Danh sách đánh giá CFR</h2>
             <div class="flex items-center gap-2">
-              <select class="h-9 rounded-xl border px-3 text-sm" style="border-color: var(--border);">
-                <option>Tất cả trạng thái</option>
-                <option>Đã hoàn thành</option>
-                <option>Đang chờ đánh giá</option>
+              <select id="culture-metric-filter" class="h-9 rounded-xl border px-3 text-sm bg-white" style="border-color: var(--border);">
+                <option value="all">Tất cả giá trị văn hoá</option>
+                <option value="0">Giá trị văn hoá 1</option>
+                <option value="1">Giá trị văn hoá 2</option>
+                <option value="2">Giá trị văn hoá 3</option>
+                <option value="3">Giá trị văn hoá 4</option>
+                <option value="4">Giá trị văn hoá 5</option>
               </select>
-              <button class="h-9 px-3 rounded-xl border text-sm hover:bg-gray-50" style="border-color: var(--border);">Xem đầy đủ</button>
             </div>
           </div>
 
-          <div class="overflow-auto min-h-0">
-            <table class="w-full min-w-[1040px] text-sm">
+          <div id="cfr-table-wrap" class="overflow-auto min-h-0">
+            <table id="cfr-main-table" class="w-full min-w-[1040px] text-sm">
               <thead class="sticky top-0 z-10" style="background: #f8fafc;">
                 <tr class="border-y" style="border-color: var(--border); color: var(--text-secondary);">
                   <th class="px-3 py-3 w-10 text-left"><span class="table-check"></span></th>
@@ -865,16 +835,16 @@
         }
       });
       var cultureToggle = document.getElementById("culture-toggle");
-      var cultureList = document.getElementById("culture-content-list");
       var cultureChevron = document.getElementById("culture-chevron");
-      var cultureViewSummary = document.getElementById("culture-view-summary");
-      var cultureViewDetail = document.getElementById("culture-view-detail");
-      var cultureSummaryPanel = document.getElementById("culture-summary-panel");
-      var cultureDetailPanel = document.getElementById("culture-detail-panel");
       var progressHeader = document.getElementById("progress-col-header");
       var q4Header = document.getElementById("q4-header");
       var q1Header = document.getElementById("q1-header");
+      var cultureMetricFilter = document.getElementById("culture-metric-filter");
+      var cfrTableWrap = document.getElementById("cfr-table-wrap");
+      var cfrMainTable = document.getElementById("cfr-main-table");
       var isCultureMode = false;
+      var cultureSortState = { metricIdx: null, direction: "asc" };
+      var cultureMetricFilterState = "all";
 
       function clamp(val, min, max) {
         return Math.max(min, Math.min(max, val));
@@ -896,10 +866,8 @@
         var p3 = x[2] + "," + y(q3);
         var p4 = x[3] + "," + y(q4);
         var p5 = x[4] + "," + y(year);
-        var q1Label = q1_2026.toFixed(2);
         return '' +
           '<div class="culture-mini-wrap">' +
-            '<div class="culture-mini-title">VH: xu hướng tăng trưởng</div>' +
             '<div class="culture-trend-row">' +
               '<svg class="culture-trend-svg" viewBox="0 0 204 78" aria-label="Xu hướng văn hoá theo quý">' +
                 '<line x1="12" y1="62" x2="194" y2="62" stroke="#cbd5e1" stroke-width="1.2"/>' +
@@ -918,10 +886,6 @@
                 '<span class="score">' + coreValues[0].toFixed(1) + '</span><span class="score">' + coreValues[1].toFixed(1) + '</span><span class="score">' + coreValues[2].toFixed(1) + '</span><span class="score">' + coreValues[3].toFixed(1) + '</span><span class="score">' + coreValues[4].toFixed(1) + '</span>' +
               '</div>' +
             '</div>' +
-            '<div class="culture-quarters">' +
-              '<span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span><span>Cả năm</span>' +
-            '</div>' +
-            '<div class="culture-score-hint">Điểm Q1/2026: ' + q1Label + ' / 5</div>' +
           '</div>';
       }
 
@@ -929,19 +893,23 @@
         var codeEl = row.querySelector("td:nth-child(2) .text-xs");
         var code = codeEl ? (codeEl.textContent || "").trim() : "";
         var seriesByCode = {
-          "YD22973": [3.2, 3.8, 4.1],
-          "YD5591": [2.9, 3.3, 3.7],
-          "YD22844": [2.6, 3.0, 3.4],
-          "YD2017": [3.1, 3.5, 3.9],
-          "YD22493": [2.8, 3.2, 3.6],
-          "YD9861": [3.0, 3.6, 4.0],
-          "YD17932": [2.7, 3.1, 3.5],
-          "FG00991": [2.5, 3.0, 3.3],
-          "YD23168": [3.3, 3.9, 4.3],
-          "YD2000": [2.4, 2.9, 3.2]
+          // [Q3/2025, Q4/2025, Q1/2026]
+          "YD22973": [3.2, 3.8, 4.1], // tang deu
+          "YD5591": [2.9, 3.5, 3.2], // tang roi giam
+          "YD22844": [3.6, 3.2, 2.8], // giam ro ret
+          "YD2017": [3.1, 3.5, 3.9], // tang deu
+          "YD22493": [2.8, 3.3, 3.0], // tang roi giam
+          "YD9861": [3.9, 3.6, 3.1], // giam ro ret
+          "YD17932": [2.7, 3.2, 3.6], // tang deu
+          "FG00991": [3.0, 3.4, 3.0], // tang roi giam
+          "YD23168": [4.0, 4.3, 4.6], // tang deu
+          "YD2000": [3.1, 2.7, 2.3] // giam ro ret
         };
         if (seriesByCode[code]) return seriesByCode[code];
-        var fallback = [2.8 + (idx % 3) * 0.2, 3.2 + (idx % 3) * 0.2, 3.6 + (idx % 3) * 0.2];
+        var pattern = idx % 3;
+        var fallback = pattern === 0
+          ? [2.8, 3.2, 3.6] // tang
+          : (pattern === 1 ? [3.2, 3.6, 3.3] : [3.4, 3.0, 2.6]); // tang roi giam / giam
         return [clamp(fallback[0], 1, 5), clamp(fallback[1], 1, 5), clamp(fallback[2], 1, 5)];
       }
 
@@ -965,70 +933,450 @@
         return [base + 0.2, base, base + 0.1, base - 0.1, base + 0.3].map(function (v) { return clamp(v, 1, 5); });
       }
 
-      function renderCultureMode(enabled) {
-        if (q4Header) q4Header.classList.toggle("hidden", enabled);
-        if (q1Header) q1Header.classList.toggle("hidden", enabled);
-
-        var rows = document.querySelectorAll("tbody tr");
-        rows.forEach(function (row, idx) {
-          var q4Cell = row.querySelector("td:nth-child(4)");
-          var q1Cell = row.querySelector("td:nth-child(5)");
-          if (q4Cell) q4Cell.classList.toggle("hidden", enabled);
-          if (q1Cell) q1Cell.classList.toggle("hidden", enabled);
-
-          var stageWrap = row.querySelector(".stage-wrap");
-          var cell = stageWrap ? stageWrap.parentElement : row.querySelector(".culture-mini-wrap") ? row.querySelector(".culture-mini-wrap").parentElement : null;
-          if (!cell) return;
-
-          if (!cell.dataset.originalStageWrap && stageWrap) {
-            cell.dataset.originalStageWrap = stageWrap.outerHTML;
-          }
-
-          if (enabled) {
-            var cultureSeries = getCultureSeriesFromRow(row, idx);
-            var cultureCoreValues = getCultureCoreValues(row, idx);
-            if (stageWrap) {
-              stageWrap.outerHTML = buildCultureMiniChart(cultureSeries, cultureCoreValues);
-            }
-          } else {
-            var miniChart = cell.querySelector(".culture-mini-wrap");
-            if (miniChart && cell.dataset.originalStageWrap) {
-              miniChart.outerHTML = cell.dataset.originalStageWrap;
-            }
-          }
-        });
-        if (progressHeader) {
-          progressHeader.textContent = enabled ? "Xu hướng Văn hoá riêng (Q3/2025 - Q1/2026)" : "Tiến trình";
-        }
+      function getCultureTrendLabel(series) {
+        var from = series[0];
+        var to = series[2];
+        var pct = ((to - from) / from) * 100;
+        if (Math.abs(pct) < 1) return { text: "Stable", color: "text-slate-700", badge: "bg-slate-100 border-slate-200" };
+        if (pct > 0) return { text: "+" + pct.toFixed(1) + "%", color: "text-blue-700", badge: "bg-blue-50 border-blue-200" };
+        return { text: pct.toFixed(1) + "%", color: "text-rose-700", badge: "bg-rose-50 border-rose-200" };
       }
 
-      if (cultureToggle && cultureList && cultureChevron) {
+      function getTrendBars(series) {
+        // Q2/2025: no data, then Q3/2025, Q4/2025, Q1/2026
+        var points = [null, clamp(series[0], 1, 5), clamp(series[1], 1, 5), clamp(series[2], 1, 5)];
+        var quarterLabels = ["Q2/2025", "Q3/2025", "Q4/2025", "Q1/2026"];
+        return points.map(function (v, i) {
+          if (v === null) {
+            return { height: 20, colorClass: "bg-slate-300", title: quarterLabels[i] + ": no data" };
+          }
+          var prev = null;
+          for (var j = i - 1; j >= 0; j -= 1) {
+            if (points[j] !== null) { prev = points[j]; break; }
+          }
+          var direction = prev === null ? "base" : (v > prev ? "up" : (v < prev ? "down" : "flat"));
+          var colorClass = "bg-blue-500";
+          if (direction === "up") colorClass = "bg-blue-600";
+          if (direction === "down") colorClass = "bg-rose-500";
+          if (direction === "flat") colorClass = "bg-amber-500";
+          return {
+            // Scale by max 5 points to reflect difference more clearly
+            height: Math.round((v / 5) * 84 + 16),
+            colorClass: colorClass,
+            title: quarterLabels[i] + ": " + v.toFixed(1)
+          };
+        });
+      }
+
+      function buildTrendBarsHtml(trendBars) {
+        return trendBars.map(function (bar, i) {
+          var opacityClass = "/55";
+          if (i === trendBars.length - 1) opacityClass = "";
+          else if (i >= 2) opacityClass = "/75";
+          var color = bar.colorClass + opacityClass;
+          if (bar.colorClass.indexOf("amber") >= 0 || bar.colorClass.indexOf("slate") >= 0) color = bar.colorClass;
+          return '<div class="w-1.5 ' + color + ' rounded-full" title="' + bar.title + '" style="height:' + bar.height + '%"></div>';
+        }).join("");
+      }
+
+      function formatCulturePoint(value) {
+        var normalized = Math.round(value * 10) / 10;
+        if (Math.abs(normalized - Math.round(normalized)) < 0.001) {
+          return String(Math.round(normalized));
+        }
+        return normalized.toFixed(1);
+      }
+
+      function getCultureScoreTone(value) {
+        if (value >= 4.2) return "bg-white text-slate-800";
+        if (value >= 3.6) return "bg-white text-slate-800";
+        if (value >= 3.0) return "bg-slate-50 text-slate-800";
+        return "bg-slate-50 text-slate-800";
+      }
+
+      function getCultureProgressStatus(idx) {
+        var statusByIdx = ["draft", "employee_done", "manager_done"];
+        return statusByIdx[idx % statusByIdx.length];
+      }
+
+      function getStatusBorderClass(status) {
+        return "border-slate-300";
+      }
+
+      function getStatusBadgeText(status) {
+        if (status === "employee_done") return "NV đã bấm";
+        if (status === "manager_done") return "QL đã làm";
+        return "Nháp";
+      }
+
+      function getStatusBadgeClass(status) {
+        if (status === "employee_done") return { employee: "bg-blue-500", manager: "bg-slate-400" };
+        if (status === "manager_done") return { employee: "bg-blue-500", manager: "bg-emerald-500" };
+        return { employee: "bg-slate-400", manager: "bg-slate-400" };
+      }
+
+      function getPreviousQuarterCoreValues(coreValues, idx) {
+        return coreValues.map(function (value, metricIdx) {
+          var movement = ((idx + metricIdx) % 3) - 1; // -1, 0, +1
+          var delta = movement * 0.2;
+          return clamp(Math.round((value - delta) * 10) / 10, 1, 5);
+        });
+      }
+
+      function buildCultureScoreCell(value, prevValue, status) {
+        var tone = getCultureScoreTone(value);
+        return '' +
+          '<div class="inline-flex items-center justify-center min-w-[50px] px-2 py-1 rounded-md ' + tone + '">' +
+            '<span class="font-bold text-[12px] leading-none">' + formatCulturePoint(value) + '</span>' +
+          '</div>';
+      }
+
+      function getCultureMetricNames() {
+        return [
+          "Lấy khách hàng làm trung tâm",
+          "Tinh thần làm chủ & tự chủ",
+          "Chính trực",
+          "Tư duy phát triển",
+          "Hợp tác tích cực"
+        ];
+      }
+
+      function getCultureMetricSubItems() {
+        return {
+          0: [
+            "Lắng nghe phản hồi và ưu tiên nhu cầu khách hàng trong công việc hằng ngày."
+          ],
+          1: [
+            "Sở hữu mục tiêu công ty, đội nhóm, cá nhân.",
+            "Chủ động tìm kiếm nguồn lực và giải pháp.",
+            "Suy nghĩ và hành động vì lợi ích tốt nhất cho tổ chức."
+          ],
+          2: [
+            "Trung thực trong báo cáo công việc và trao đổi với đồng đội.",
+            "Minh bạch khi sử dụng nguồn lực, ngân sách và tài sản công ty.",
+            "Giữ cam kết với khách hàng, đồng nghiệp và quản lý."
+          ],
+          3: [
+            "Sẵn sàng học hỏi và tiếp nhận góp ý từ đồng đội.",
+            "Chủ động thử nghiệm giải pháp mới để nâng hiệu quả công việc.",
+            "Duy trì thói quen tự đánh giá và cải tiến định kỳ."
+          ],
+          4: [
+            "Phối hợp tích cực và hỗ trợ đồng đội hoàn thành mục tiêu chung.",
+            "Tôn trọng khác biệt và giữ giao tiếp rõ ràng trong nhóm.",
+            "Xử lý bất đồng theo hướng hợp tác và xây dựng."
+          ]
+        };
+      }
+
+      function getManagerCoreValues(coreValues, idx) {
+        return coreValues.map(function (value, metricIdx) {
+          var offsetPattern = [0.2, 0.1, -0.1, 0.0, 0.2];
+          var offset = offsetPattern[(idx + metricIdx) % offsetPattern.length];
+          return clamp(Math.round((value + offset) * 10) / 10, 1, 5);
+        });
+      }
+
+      function buildCultureDetailRows(employeeValues, managerValues) {
+        var names = getCultureMetricNames();
+        var subItemsByMetric = getCultureMetricSubItems();
+        var scoreOptions = [
+          { value: 1, label: "Hiếm khi" },
+          { value: 2, label: "Đôi khi" },
+          { value: 3, label: "Thường xuyên" },
+          { value: 4, label: "Luôn luôn" },
+          { value: 5, label: "Hình mẫu" }
+        ];
+        function buildScoreSelect(cls, metricIdx, rawValue, disabled, compact) {
+          var selectedValue = clamp(Math.round(rawValue), 1, 5);
+          var optionsHtml = scoreOptions.map(function (opt) {
+            var selected = opt.value === selectedValue ? ' selected' : '';
+            return '<option value="' + opt.value + '"' + selected + '>' + opt.label + '</option>';
+          }).join("");
+          var disabledAttr = disabled ? ' disabled' : '';
+          var compactClass = compact ? " max-w-[130px]" : "";
+          var disabledClass = disabled ? " bg-slate-100 text-slate-500 cursor-not-allowed" : " bg-white";
+          return '<select class="' + cls + ' w-full h-8 rounded-md border border-slate-200 text-xs px-2' + compactClass + disabledClass + '" data-metric="' + metricIdx + '"' + disabledAttr + '>' + optionsHtml + '</select>';
+        }
+        return names.map(function (metricName, idx) {
+          // Demo mode: only show first 2 competencies in detail panel
+          if (cultureMetricFilterState === "all" && idx > 1) return "";
+          if (cultureMetricFilterState !== "all" && Number(cultureMetricFilterState) !== idx) {
+            return "";
+          }
+          var subItems = subItemsByMetric[idx] || [metricName];
+          var headerBadge = idx === 1 ? '<span class="ml-2 px-2 py-0.5 text-[11px] rounded-md bg-emerald-100 text-emerald-700 border border-emerald-300">Đã duyệt</span>' : '';
+          var subItemsHtml = subItems.map(function (desc, subIdx) {
+            return '' +
+              '<div class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5">' +
+                '<p class="text-sm text-slate-800 mb-2 leading-5"><span class="text-slate-500 mr-1">-</span>' + desc + '</p>' +
+                '<div class="flex items-center gap-4 flex-wrap">' +
+                  '<label class="flex items-center gap-2">' +
+                    '<span class="text-[11px] text-slate-700 font-semibold min-w-[28px]">NV:</span>' +
+                    buildScoreSelect("culture-input-employee", idx + "-" + subIdx, employeeValues[idx], true, true) +
+                  '</label>' +
+                  '<label class="flex items-center gap-2">' +
+                    '<span class="text-[11px] text-slate-700 font-semibold min-w-[40px]">QLTT:</span>' +
+                    buildScoreSelect("culture-input-manager", idx + "-" + subIdx, managerValues[idx], false, false) +
+                  '</label>' +
+                '</div>' +
+              '</div>';
+          }).join("");
+          return '' +
+            '<div class="py-2.5 border-b border-slate-100 last:border-b-0">' +
+              '<div class="flex items-center text-sm font-semibold text-slate-800 mb-2.5">' + (idx + 1) + '. ' + metricName + headerBadge + '</div>' +
+              '<div class="space-y-2">' + subItemsHtml + '</div>' +
+            '</div>';
+        }).join("");
+      }
+
+      function initCultureTableInteractions() {
+        if (!cfrTableWrap || cfrTableWrap.dataset.cultureEventsBound === "1") return;
+        cfrTableWrap.dataset.cultureEventsBound = "1";
+        cfrTableWrap.addEventListener("click", function (event) {
+          var sortBtn = event.target.closest(".culture-sort-btn");
+          if (sortBtn) {
+            var metricIdx = Number(sortBtn.getAttribute("data-sort-metric"));
+            if (!isNaN(metricIdx)) {
+              if (cultureSortState.metricIdx === metricIdx) {
+                cultureSortState.direction = cultureSortState.direction === "asc" ? "desc" : "asc";
+              } else {
+                cultureSortState.metricIdx = metricIdx;
+                cultureSortState.direction = "asc";
+              }
+              cfrTableWrap.innerHTML = buildCultureAssessmentTable();
+            }
+            return;
+          }
+
+          var toggleBtn = event.target.closest(".culture-row-toggle");
+          if (toggleBtn) {
+            var detailId = toggleBtn.getAttribute("data-detail-id");
+            if (!detailId) return;
+            var detailRow = cfrTableWrap.querySelector('#' + detailId);
+            if (!detailRow) return;
+            var isHidden = detailRow.classList.contains("hidden");
+            detailRow.classList.toggle("hidden", !isHidden);
+            var icon = toggleBtn.querySelector(".culture-row-chevron");
+            if (icon) icon.style.transform = isHidden ? "rotate(180deg)" : "rotate(0deg)";
+            return;
+          }
+
+          var saveBtn = event.target.closest(".culture-save-draft");
+          if (saveBtn) {
+            var panel = saveBtn.closest(".culture-detail-panel");
+            if (!panel) return;
+            var employeeVals = Array.prototype.slice.call(panel.querySelectorAll(".culture-input-employee")).map(function (input) { return Number(input.value || 0); });
+            var managerVals = Array.prototype.slice.call(panel.querySelectorAll(".culture-input-manager")).map(function (input) { return Number(input.value || 0); });
+            var code = saveBtn.getAttribute("data-emp-code") || "N/A";
+            saveBtn.textContent = "Đã lưu nháp";
+            saveBtn.classList.remove("bg-blue-600", "hover:bg-blue-700");
+            saveBtn.classList.add("bg-emerald-600", "hover:bg-emerald-700");
+            saveBtn.disabled = true;
+            setTimeout(function () {
+              saveBtn.textContent = "Lưu nháp";
+              saveBtn.classList.remove("bg-emerald-600", "hover:bg-emerald-700");
+              saveBtn.classList.add("bg-blue-600", "hover:bg-blue-700");
+              saveBtn.disabled = false;
+            }, 1600);
+            try {
+              localStorage.setItem("culture-draft-" + code, JSON.stringify({ employee: employeeVals, manager: managerVals, savedAt: Date.now() }));
+            } catch (e) {}
+          }
+        });
+      }
+
+      function buildCultureAssessmentTable() {
+        var sourceHost = document.createElement("div");
+        sourceHost.innerHTML = cfrTableWrap && cfrTableWrap.dataset.originalHtml ? cfrTableWrap.dataset.originalHtml : (cfrTableWrap ? cfrTableWrap.innerHTML : "");
+        var sourceRows = Array.prototype.slice.call(sourceHost.querySelectorAll("tbody tr")).map(function (row, idx) {
+          return { row: row, idx: idx };
+        });
+
+        if (cultureMetricFilterState === "all" && cultureSortState.metricIdx !== null) {
+          sourceRows.sort(function (a, b) {
+            var av = getCultureCoreValues(a.row, a.idx)[cultureSortState.metricIdx];
+            var bv = getCultureCoreValues(b.row, b.idx)[cultureSortState.metricIdx];
+            return cultureSortState.direction === "asc" ? av - bv : bv - av;
+          });
+        }
+
+        function getMetricColumns(coreValues, prevCoreValues) {
+          var metricNames = getCultureMetricNames();
+          var metricSubItems = getCultureMetricSubItems();
+          if (cultureMetricFilterState === "all") {
+            return coreValues.map(function (value, idx) {
+              return {
+                label: String(idx + 1),
+                value: value,
+                prevValue: prevCoreValues[idx]
+              };
+            });
+          }
+          var metricIdx = Number(cultureMetricFilterState);
+          var subItems = metricSubItems[metricIdx] || [metricNames[metricIdx] || ("Giá trị " + (metricIdx + 1))];
+          var base = coreValues[metricIdx];
+          var prevBase = prevCoreValues[metricIdx];
+          var offsets = subItems.length === 1 ? [0] : (subItems.length === 2 ? [-0.1, 0.1] : [-0.1, 0, 0.1]);
+          return subItems.map(function (label, idx) {
+            var offset = offsets[idx] !== undefined ? offsets[idx] : 0;
+            return {
+              label: label,
+              value: clamp(Math.round((base + offset) * 10) / 10, 1, 5),
+              prevValue: clamp(Math.round((prevBase + offset) * 10) / 10, 1, 5)
+            };
+          });
+        }
+
+        var body = sourceRows.map(function (item) {
+          var row = item.row;
+          var idx = item.idx;
+          var nameEl = row.querySelector("td:nth-child(2) .text-sm");
+          var codeEl = row.querySelector("td:nth-child(2) .text-xs");
+          var name = nameEl ? (nameEl.textContent || "").trim() : "Nhân viên";
+          var code = codeEl ? (codeEl.textContent || "").trim() : "N/A";
+          var role = ["Project Manager", "UI/UX Designer", "DevOps Lead", "Marketing Strategist", "Business Analyst"][idx % 5];
+          var coreValues = getCultureCoreValues(row, idx);
+          var prevCoreValues = getPreviousQuarterCoreValues(coreValues, idx);
+          var status = getCultureProgressStatus(idx);
+          var statusDotClass = getStatusBadgeClass(status);
+          var managerCoreValues = getManagerCoreValues(coreValues, idx);
+          var trendSeries = getCultureSeriesFromRow(row, idx);
+          var trendBars = getTrendBars(trendSeries);
+          var trendLabel = getCultureTrendLabel(trendSeries);
+          var trendBarsHtml = buildTrendBarsHtml(trendBars);
+          var detailId = "culture-detail-row-" + idx;
+          var detailRowsHtml = buildCultureDetailRows(coreValues, managerCoreValues);
+          var metricColumns = getMetricColumns(coreValues, prevCoreValues);
+          var metricCellsHtml = metricColumns.map(function (col) {
+            return '<td class="px-4 py-4 text-center">' + buildCultureScoreCell(col.value, col.prevValue, status) + '</td>';
+          }).join("");
+
+          return '' +
+            '<tr class="hover:bg-slate-50/70 transition-colors">' +
+              '<td class="px-6 py-4">' +
+                '<div class="flex flex-col">' +
+                  '<div class="text-sm font-semibold text-slate-800">' + name + '</div>' +
+                  '<div class="mt-1 flex items-center gap-2">' +
+                    '<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">#' + code + '</span>' +
+                    '<span class="text-[10px] font-semibold uppercase text-slate-400">' + role + '</span>' +
+                    '<span class="inline-flex items-center gap-1" title="CNNV / QLTT">' +
+                      '<span class="inline-block w-2.5 h-2.5 rounded-full ' + statusDotClass.employee + '" title="CNNV"></span>' +
+                      '<span class="inline-block w-2.5 h-2.5 rounded-full ' + statusDotClass.manager + '" title="QLTT"></span>' +
+                    '</span>' +
+                  '</div>' +
+                '</div>' +
+              '</td>' +
+              metricCellsHtml +
+              '<td class="px-6 py-4">' +
+                '<div class="flex items-end gap-1.5 h-8">' +
+                  trendBarsHtml +
+                  '<span class="text-[11px] font-bold ml-2 px-2 py-0.5 rounded border ' + trendLabel.color + ' ' + trendLabel.badge + '">' + trendLabel.text + '</span>' +
+                '</div>' +
+              '</td>' +
+              '<td class="px-4 py-4 text-right">' +
+                '<button type="button" class="culture-row-toggle inline-flex items-center justify-center h-8 w-8 rounded hover:bg-slate-100" data-detail-id="' + detailId + '">' +
+                  '<span class="culture-row-chevron material-symbols-outlined text-base transition-transform">expand_more</span>' +
+                '</button>' +
+              '</td>' +
+            '</tr>' +
+            '<tr id="' + detailId + '" class="hidden bg-slate-50/50">' +
+              '<td colspan="8" class="px-6 py-4">' +
+                '<div class="culture-detail-panel rounded-lg border border-slate-200 bg-white p-4">' +
+                  '<div class="flex items-center justify-between mb-3">' +
+                    '<p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Chi tiết giá trị cốt lõi</p>' +
+                    '<button type="button" data-emp-code="' + code + '" class="culture-save-draft h-8 px-3 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold">Lưu nháp</button>' +
+                  '</div>' +
+                  detailRowsHtml +
+                '</div>' +
+              '</td>' +
+            '</tr>';
+        }).join("");
+
+        function buildSortHeader(metricIdx, label) {
+          if (cultureMetricFilterState !== "all") {
+            return '' +
+              '<span class="relative inline-flex group align-middle">' +
+                '<span class="inline-block text-[10px] normal-case leading-4 text-slate-600 max-w-[150px] truncate">' + label + '</span>' +
+                '<span class="pointer-events-none absolute left-0 top-full mt-1 z-20 hidden group-hover:block whitespace-normal w-[260px] rounded-md border border-slate-200 bg-white px-2 py-1 text-[11px] text-slate-700 shadow-lg normal-case">' + label + '</span>' +
+              '</span>';
+          }
+          var isActive = cultureSortState.metricIdx === metricIdx;
+          var activeClass = isActive ? "text-slate-700" : "text-slate-400";
+          var arrow = isActive ? (cultureSortState.direction === "asc" ? "arrow_upward" : "arrow_downward") : "filter_alt";
+          return '' +
+            '<button type="button" class="culture-sort-btn inline-flex items-center gap-1 ' + activeClass + '" data-sort-metric="' + metricIdx + '" title="Sắp xếp cột ' + label + ' (thấp đến cao)">' +
+              '<span>' + label + '</span>' +
+              '<span class="material-symbols-outlined text-[13px] opacity-70">' + arrow + '</span>' +
+            '</button>';
+        }
+
+        return '' +
+          '<table class="w-full min-w-[1080px] text-sm">' +
+            '<thead class="sticky top-0 z-10" style="background:#f8fafc;">' +
+              '<tr class="border-y" style="border-color: var(--border); color: var(--text-secondary);">' +
+                '<th class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-left">Nhân viên</th>' +
+                (function () {
+                  var metricNames = getCultureMetricNames();
+                  var metricSubItems = getCultureMetricSubItems();
+                  if (cultureMetricFilterState === "all") {
+                    return '' +
+                      '<th class="font-semibold px-4 py-3 text-xs uppercase tracking-wide text-center">' + buildSortHeader(0, "1") + '</th>' +
+                      '<th class="font-semibold px-4 py-3 text-xs uppercase tracking-wide text-center">' + buildSortHeader(1, "2") + '</th>' +
+                      '<th class="font-semibold px-4 py-3 text-xs uppercase tracking-wide text-center">' + buildSortHeader(2, "3") + '</th>' +
+                      '<th class="font-semibold px-4 py-3 text-xs uppercase tracking-wide text-center">' + buildSortHeader(3, "4") + '</th>' +
+                      '<th class="font-semibold px-4 py-3 text-xs uppercase tracking-wide text-center">' + buildSortHeader(4, "5") + '</th>';
+                  }
+                  var metricIdx = Number(cultureMetricFilterState);
+                  var labels = metricSubItems[metricIdx] || [metricNames[metricIdx] || ("Giá trị " + (metricIdx + 1))];
+                  return labels.map(function (label, idx) {
+                    return '<th class="font-semibold px-4 py-3 text-xs tracking-wide text-left">' + buildSortHeader(idx, label) + '</th>';
+                  }).join("");
+                })() +
+                '<th class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-left">Tổng điểm (5 quý gần nhất)</th>' +
+                '<th class="font-semibold px-4 py-3 text-xs uppercase tracking-wide text-center">Chi tiết</th>' +
+              '</tr>' +
+            '</thead>' +
+            '<tbody class="divide-y" style="--tw-divide-opacity:1; border-color: var(--border-light);">' + body + '</tbody>' +
+          '</table>';
+      }
+
+      function showCultureAssessmentTable() {
+        if (!cfrTableWrap) return;
+        if (cfrTableWrap.dataset.originalHtml) {
+          cfrTableWrap.innerHTML = buildCultureAssessmentTable();
+        } else {
+          cfrTableWrap.dataset.originalHtml = cfrTableWrap.innerHTML;
+          cfrTableWrap.innerHTML = buildCultureAssessmentTable();
+        }
+        initCultureTableInteractions();
+      }
+
+      function restoreDefaultTableIfNeeded() {
+        if (!cfrTableWrap || !cfrTableWrap.dataset.originalHtml) return;
+        cfrTableWrap.innerHTML = cfrTableWrap.dataset.originalHtml;
+      }
+
+      if (cultureToggle && cultureChevron) {
         cultureToggle.addEventListener("click", function () {
           isCultureMode = !isCultureMode;
-          cultureList.classList.toggle("hidden", !isCultureMode);
-          renderCultureMode(isCultureMode);
+          if (isCultureMode) {
+            showCultureAssessmentTable();
+          } else {
+            restoreDefaultTableIfNeeded();
+          }
           cultureChevron.style.transform = isCultureMode ? "rotate(180deg)" : "rotate(0deg)";
         });
       }
 
-      function setCultureView(mode) {
-        if (!cultureViewSummary || !cultureViewDetail || !cultureSummaryPanel || !cultureDetailPanel) return;
-        var isSummary = mode === "summary";
-        cultureSummaryPanel.classList.toggle("hidden", !isSummary);
-        cultureDetailPanel.classList.toggle("hidden", isSummary);
-        cultureViewSummary.className = isSummary
-          ? "px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white shadow-sm text-slate-800"
-          : "px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-500";
-        cultureViewDetail.className = !isSummary
-          ? "px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white shadow-sm text-slate-800"
-          : "px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-500";
+      if (cultureMetricFilter) {
+        cultureMetricFilter.addEventListener("change", function () {
+          cultureMetricFilterState = cultureMetricFilter.value || "all";
+          if (isCultureMode) showCultureAssessmentTable();
+        });
       }
 
-      if (cultureViewSummary && cultureViewDetail) {
-        cultureViewSummary.addEventListener("click", function () { setCultureView("summary"); });
-        cultureViewDetail.addEventListener("click", function () { setCultureView("detail"); });
-        setCultureView("summary");
-      }
+      // Culture mode now switches the right table immediately from the main toggle.
       try { window.parent.postMessage({ type: "aixperf-theme-get" }, "*"); } catch (e) {}
     })();
   </script>

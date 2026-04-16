@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CFR Precision | Danh sách đánh giá CFR</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#cadde9",
+                        "on-secondary": "#f7f9ff",
+                        "on-tertiary": "#faf8ff",
+                        "surface-tint": "#2b5cad",
+                        "on-surface-variant": "#52616a",
+                        "surface-container-low": "#eef4fa",
+                        "on-primary-container": "#184f9f",
+                        "primary-fixed-dim": "#c3d4ff",
+                        "primary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed": "#383c55",
+                        "error-dim": "#4e0309",
+                        "secondary-container": "#e1e2e8",
+                        "tertiary-fixed-dim": "#ccd0ef",
+                        "on-tertiary-container": "#4a4f69",
+                        "tertiary-dim": "#4d526c",
+                        "surface-bright": "#f6fafe",
+                        "on-surface": "#26343d",
+                        "on-error": "#fff7f6",
+                        "inverse-on-surface": "#999da1",
+                        "on-background": "#26343d",
+                        "secondary": "#5c5f64",
+                        "secondary-dim": "#505358",
+                        "secondary-fixed": "#e1e2e8",
+                        "on-secondary-container": "#4f5257",
+                        "surface-variant": "#d5e5ef",
+                        "on-error-container": "#752121",
+                        "tertiary-fixed": "#dadefe",
+                        "surface-container": "#e5eff7",
+                        "inverse-surface": "#0a0f12",
+                        "on-primary": "#f7f7ff",
+                        "outline": "#6e7d86",
+                        "outline-variant": "#a4b4be",
+                        "error": "#9f403d",
+                        "surface-container-high": "#ddeaf3",
+                        "inverse-primary": "#7ca8fe",
+                        "surface": "#f6fafe",
+                        "tertiary-container": "#dadefe",
+                        "surface-container-highest": "#d5e5ef",
+                        "on-primary-fixed": "#003d85",
+                        "tertiary": "#595e78",
+                        "primary-container": "#d8e2ff",
+                        "on-primary-fixed-variant": "#2759aa",
+                        "on-secondary-fixed": "#3d3f44",
+                        "on-secondary-fixed-variant": "#595c61",
+                        "error-container": "#fe8983",
+                        "secondary-fixed-dim": "#d2d4da",
+                        "background": "#f6fafe",
+                        "primary-dim": "#1a50a0",
+                        "on-tertiary-fixed-variant": "#545873",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#2b5cad"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d5e5ef;
+            border-radius: 10px;
+        }
+
+        .tooltip-trigger:hover .tooltip-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface antialiased">
+    <!-- TopAppBar -->
+    <header class="fixed top-0 w-full z-50 bg-[#f6fafe]/80 dark:bg-slate-950/80 backdrop-blur-xl">
+        <div class="flex justify-between items-center px-8 py-4 max-w-[1920px] mx-auto">
+            <div class="flex items-center gap-8">
+                <span class="text-lg font-bold tracking-tighter text-[#102A43] dark:text-white">CFR Precision</span>
+                <nav class="hidden md:flex items-center gap-6">
+                    <a class="text-slate-500 dark:text-slate-400 hover:text-[#102A43] transition-colors duration-200 font-medium text-sm"
+                        href="#">Dashboard</a>
+                    <a class="text-[#2b5cad] dark:text-blue-400 border-b-2 border-[#2b5cad] pb-1 transition-colors duration-200 font-medium text-sm"
+                        href="#">Assessments</a>
+                    <a class="text-slate-500 dark:text-slate-400 hover:text-[#102A43] transition-colors duration-200 font-medium text-sm"
+                        href="#">Analytics</a>
+                    <a class="text-slate-500 dark:text-slate-400 hover:text-[#102A43] transition-colors duration-200 font-medium text-sm"
+                        href="#">Directory</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="relative hidden sm:block">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+                    <input
+                        class="bg-surface-container border-none rounded-lg pl-10 pr-4 py-2 text-sm w-64 focus:ring-2 focus:ring-primary/20"
+                        placeholder="Tìm kiếm nhân viên..." type="text" />
+                </div>
+                <button class="p-2 rounded-lg hover:bg-[#eef4fa] transition-all"><span
+                        class="material-symbols-outlined text-on-surface-variant">notifications</span></button>
+                <button class="p-2 rounded-lg hover:bg-[#eef4fa] transition-all"><span
+                        class="material-symbols-outlined text-on-surface-variant">settings</span></button>
+                <img alt="Executive Profile" class="w-8 h-8 rounded-full border border-surface-variant"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD14n4o4v3_IL8K3MOLVxS7Ix9LQszf9RWqSRtCQvStW6BdqiOzCDt7Z2mDsI9zPGKfZ9AuY7mmFqv0NLKzcibsPZjN7h3hzG7bf12ISM_SKUR17QQC-Vxsd9lS1vWA43s0prI98TFxp2WZ8P9NqvEo9Pe-CyWiverePtoRbaGsMq7C69bFGqodJ-ECJA1_CxjzB6flGkW0K7qpWf0DpUC5yA-sL5Sia9TYdNHamCUdg9w1Yn37F0uV1BQDRRelituZ0AHMxs8FjSg" />
+            </div>
+        </div>
+    </header>
+    <!-- SideNavBar -->
+    <aside class="h-screen w-64 fixed left-0 top-0 pt-20 bg-[#f6fafe] border-r-0 hidden lg:flex flex-col">
+        <div class="px-6 py-4">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary"
+                        style="font-variation-settings: 'FILL' 1;">analytics</span>
+                </div>
+                <div>
+                    <h2 class="text-sm font-black text-[#102A43] uppercase tracking-widest">EXECUTIVE LEDGER</h2>
+                    <p class="text-[10px] text-outline font-medium uppercase tracking-tighter">Precision Framework</p>
+                </div>
+            </div>
+            <nav class="space-y-1">
+                <a class="flex items-center gap-3 text-slate-500 px-4 py-3 hover:bg-[#eef4fa]/50 transition-all rounded-lg font-medium text-sm"
+                    href="#">
+                    <span class="material-symbols-outlined text-lg">dashboard</span> Overview
+                </a>
+                <a class="flex items-center gap-3 bg-[#eef4fa] text-[#2b5cad] px-4 py-3 rounded-r-full font-semibold text-sm"
+                    href="#">
+                    <span class="material-symbols-outlined text-lg"
+                        style="font-variation-settings: 'FILL' 1;">equalizer</span> Performance
+                </a>
+                <a class="flex items-center gap-3 text-slate-500 px-4 py-3 hover:bg-[#eef4fa]/50 transition-all rounded-lg font-medium text-sm"
+                    href="#">
+                    <span class="material-symbols-outlined text-lg">group</span> Teams
+                </a>
+                <a class="flex items-center gap-3 text-slate-500 px-4 py-3 hover:bg-[#eef4fa]/50 transition-all rounded-lg font-medium text-sm"
+                    href="#">
+                    <span class="material-symbols-outlined text-lg">verified_user</span> Compliance
+                </a>
+                <a class="flex items-center gap-3 text-slate-500 px-4 py-3 hover:bg-[#eef4fa]/50 transition-all rounded-lg font-medium text-sm"
+                    href="#">
+                    <span class="material-symbols-outlined text-lg">inventory_2</span> Archive
+                </a>
+            </nav>
+            <button
+                class="mt-8 w-full bg-gradient-to-r from-primary to-primary-dim text-on-primary py-3 rounded-lg font-bold text-sm shadow-sm active:scale-95 transition-all">
+                New Assessment
+            </button>
+        </div>
+        <div class="mt-auto px-6 py-6 border-t border-surface-container">
+            <a class="flex items-center gap-3 text-slate-500 px-4 py-2 hover:bg-[#eef4fa]/50 transition-all rounded-lg font-medium text-sm"
+                href="#">
+                <span class="material-symbols-outlined text-lg">help_outline</span> Help Center
+            </a>
+        </div>
+    </aside>
+    <!-- Main Content -->
+    <main class="lg:ml-64 pt-24 min-h-screen px-8 pb-12">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header Section -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold text-on-surface tracking-tight mb-2">Danh sách đánh giá CFR</h1>
+                    <p class="text-on-surface-variant font-medium">Báo cáo hiệu suất định kỳ và phân tích xu hướng văn
+                        hóa doanh nghiệp.</p>
+                </div>
+                <div class="flex gap-3">
+                    <button
+                        class="bg-surface-container-high px-4 py-2 rounded-lg text-sm font-bold text-on-surface hover:bg-surface-container-highest transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined text-base">filter_list</span>
+                        Bộ lọc
+                    </button>
+                    <button
+                        class="bg-surface-container-high px-4 py-2 rounded-lg text-sm font-bold text-on-surface hover:bg-surface-container-highest transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined text-base">file_download</span>
+                        Xuất báo cáo
+                    </button>
+                </div>
+            </div>
+            <!-- Dashboard Stats Bento -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                <div class="bg-surface-container-low p-6 rounded-xl border-none">
+                    <p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Tổng nhân viên</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-bold text-on-surface">1,284</h3>
+                        <span class="text-primary text-xs font-bold flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">trending_up</span> +12%
+                        </span>
+                    </div>
+                </div>
+                <div class="bg-surface-container-low p-6 rounded-xl border-none">
+                    <p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Hoàn thành CFR</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-bold text-on-surface">92.4%</h3>
+                        <div class="w-16 h-1 bg-surface-container-highest rounded-full overflow-hidden mb-2">
+                            <div class="bg-primary h-full w-[92%]"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-surface-container-low p-6 rounded-xl border-none">
+                    <p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Điểm TB Hệ Thống</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-bold text-on-surface">4.2</h3>
+                        <div class="flex text-primary">
+                            <span class="material-symbols-outlined text-sm"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined text-sm"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined text-sm"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined text-sm"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined text-sm">star_half</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-surface-container-low p-6 rounded-xl border-none">
+                    <p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Cần đánh giá</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-bold text-on-surface">18</h3>
+                        <span
+                            class="bg-error-container text-on-error-container text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Cấp
+                            bách</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Table Section -->
+            <div
+                class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm border border-surface-container-low">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-surface-container-low/50 border-b border-surface-container-low">
+                            <th class="px-8 py-5 text-[11px] font-bold text-outline uppercase tracking-widest">NHÂN VIÊN
+                            </th>
+                            <!-- Value Columns with tooltips -->
+                            <th
+                                class="px-4 py-5 text-[11px] font-bold text-outline uppercase tracking-widest text-center relative group/tip">
+                                <span class="cursor-help border-b border-dotted border-outline">1</span>
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tip:block bg-inverse-surface text-on-primary text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 shadow-lg">
+                                    Trực chính trực (Integrity)</div>
+                            </th>
+                            <th
+                                class="px-4 py-5 text-[11px] font-bold text-outline uppercase tracking-widest text-center relative group/tip">
+                                <span class="cursor-help border-b border-dotted border-outline">2</span>
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tip:block bg-inverse-surface text-on-primary text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 shadow-lg">
+                                    Tinh thần hợp tác (Collaboration)</div>
+                            </th>
+                            <th
+                                class="px-4 py-5 text-[11px] font-bold text-outline uppercase tracking-widest text-center relative group/tip">
+                                <span class="cursor-help border-b border-dotted border-outline">3</span>
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tip:block bg-inverse-surface text-on-primary text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 shadow-lg">
+                                    Khả năng thích ứng (Adaptability)</div>
+                            </th>
+                            <th
+                                class="px-4 py-5 text-[11px] font-bold text-outline uppercase tracking-widest text-center relative group/tip">
+                                <span class="cursor-help border-b border-dotted border-outline">4</span>
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tip:block bg-inverse-surface text-on-primary text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 shadow-lg">
+                                    Tính kỷ luật (Discipline)</div>
+                            </th>
+                            <th
+                                class="px-4 py-5 text-[11px] font-bold text-outline uppercase tracking-widest text-center relative group/tip">
+                                <span class="cursor-help border-b border-dotted border-outline">5</span>
+                                <div
+                                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tip:block bg-inverse-surface text-on-primary text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 shadow-lg">
+                                    Sáng tạo đổi mới (Innovation)</div>
+                            </th>
+                            <th class="px-8 py-5 text-[11px] font-bold text-outline uppercase tracking-widest">TỔNG ĐIỂM
+                                (5 QUÝ GẦN NHẤT)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-container-low">
+                        <!-- Row 1 -->
+                        <tr class="hover:bg-surface-container-low/30 transition-colors cursor-pointer group">
+                            <td class="px-8 py-5">
+                                <div class="flex flex-col">
+                                    <div
+                                        class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">
+                                        Trần Minh Quân</div>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span
+                                            class="font-mono text-[10px] text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded leading-none">#EMP-2094</span>
+                                        <span class="text-[10px] font-bold text-outline uppercase leading-none">Project
+                                            Manager</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    4</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    5</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    4</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    4</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    3</div>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex items-end gap-1.5 h-8">
+                                    <div class="w-1.5 bg-primary/40 rounded-full h-[60%]" title="Q1 Score"></div>
+                                    <div class="w-1.5 bg-primary/60 rounded-full h-[70%]" title="Q2 Score"></div>
+                                    <div class="w-1.5 bg-primary/70 rounded-full h-[75%]" title="Q3 Score"></div>
+                                    <div class="w-1.5 bg-primary/80 rounded-full h-[85%]" title="Q4 Score"></div>
+                                    <div class="w-1.5 bg-primary rounded-full h-[95%]" title="Current Quarter Score">
+                                    </div>
+                                    <span class="text-[10px] font-bold text-primary ml-2">+15.2%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Row 2 -->
+                        <tr class="hover:bg-surface-container-low/30 transition-colors cursor-pointer group">
+                            <td class="px-8 py-5">
+                                <div class="flex flex-col">
+                                    <div
+                                        class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">
+                                        Nguyễn Thu Hà</div>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span
+                                            class="font-mono text-[10px] text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded leading-none">#EMP-2102</span>
+                                        <span class="text-[10px] font-bold text-outline uppercase leading-none">UI/UX
+                                            Designer</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    5</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    5</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    5</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    4</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    5</div>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex items-end gap-1.5 h-8">
+                                    <div class="w-1.5 bg-primary rounded-full h-[90%]"></div>
+                                    <div class="w-1.5 bg-primary rounded-full h-[95%]"></div>
+                                    <div class="w-1.5 bg-primary rounded-full h-[92%]"></div>
+                                    <div class="w-1.5 bg-primary rounded-full h-[98%]"></div>
+                                    <div class="w-1.5 bg-primary rounded-full h-[100%]"></div>
+                                    <span class="text-[10px] font-bold text-primary ml-2">Stable</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Row 3 -->
+                        <tr class="hover:bg-surface-container-low/30 transition-colors cursor-pointer group">
+                            <td class="px-8 py-5">
+                                <div class="flex flex-col">
+                                    <div
+                                        class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">
+                                        Lê Hoàng Nam</div>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span
+                                            class="font-mono text-[10px] text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded leading-none">#EMP-1988</span>
+                                        <span class="text-[10px] font-bold text-outline uppercase leading-none">DevOps
+                                            Lead</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    3</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    4</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    3</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-error/10 text-error flex items-center justify-center font-bold text-sm mx-auto">
+                                    2</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    3</div>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex items-end gap-1.5 h-8">
+                                    <div class="w-1.5 bg-error/60 rounded-full h-[60%]"></div>
+                                    <div class="w-1.5 bg-error/70 rounded-full h-[55%]"></div>
+                                    <div class="w-1.5 bg-error/80 rounded-full h-[45%]"></div>
+                                    <div class="w-1.5 bg-error/90 rounded-full h-[35%]"></div>
+                                    <div class="w-1.5 bg-error rounded-full h-[30%]"></div>
+                                    <span class="text-[10px] font-bold text-error ml-2">-8.4%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Row 4 -->
+                        <tr class="hover:bg-surface-container-low/30 transition-colors cursor-pointer group">
+                            <td class="px-8 py-5">
+                                <div class="flex flex-col">
+                                    <div
+                                        class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">
+                                        Phạm Tuyết Lan</div>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span
+                                            class="font-mono text-[10px] text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded leading-none">#EMP-2215</span>
+                                        <span
+                                            class="text-[10px] font-bold text-outline uppercase leading-none">Marketing
+                                            Strategist</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    4</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    4</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    4</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    4</div>
+                            </td>
+                            <td class="px-4 py-5 text-center">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center font-bold text-sm mx-auto">
+                                    5</div>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex items-end gap-1.5 h-8">
+                                    <div class="w-1.5 bg-primary/40 rounded-full h-[40%]"></div>
+                                    <div class="w-1.5 bg-primary/50 rounded-full h-[55%]"></div>
+                                    <div class="w-1.5 bg-primary/60 rounded-full h-[70%]"></div>
+                                    <div class="w-1.5 bg-primary/80 rounded-full h-[85%]" title="Q4 Score"></div>
+                                    <div class="w-1.5 bg-primary rounded-full h-[95%]" title="Current Quarter Score">
+                                    </div>
+                                    <span class="text-[10px] font-bold text-primary ml-2">+22.1%</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="px-8 py-4 bg-surface-container-low/30 flex justify-between items-center">
+                    <span class="text-xs font-medium text-outline">Hiển thị 1-4 trên tổng số 1,284 nhân viên</span>
+                    <div class="flex gap-2">
+                        <button class="p-2 rounded hover:bg-surface-container transition-all text-outline"><span
+                                class="material-symbols-outlined text-sm">chevron_left</span></button>
+                        <button class="w-8 h-8 rounded bg-primary text-on-primary text-xs font-bold">1</button>
+                        <button class="w-8 h-8 rounded hover:bg-surface-container text-xs font-bold">2</button>
+                        <button class="w-8 h-8 rounded hover:bg-surface-container text-xs font-bold">3</button>
+                        <span class="text-outline self-center">...</span>
+                        <button class="w-8 h-8 rounded hover:bg-surface-container text-xs font-bold">32</button>
+                        <button class="p-2 rounded hover:bg-surface-container transition-all text-outline"><span
+                                class="material-symbols-outlined text-sm">chevron_right</span></button>
+                    </div>
+                </div>
+            </div>
+            <!-- Legend Section -->
+            <div class="mt-8">
+                <h4 class="text-[11px] font-black text-[#102A43] uppercase tracking-widest mb-4">CHÚ THÍCH GIÁ TRỊ VĂN
+                    HÓA</h4>
+                <div class="flex flex-wrap gap-x-8 gap-y-3 text-on-surface-variant">
+                    <div class="flex items-center gap-2">
+                        <span
+                            class="w-5 h-5 flex items-center justify-center bg-surface-container-high rounded-md text-[10px] font-bold text-primary">1</span>
+                        <span class="text-[11px] font-bold uppercase tracking-tighter">Trực chính trực
+                            (Integrity)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span
+                            class="w-5 h-5 flex items-center justify-center bg-surface-container-high rounded-md text-[10px] font-bold text-primary">2</span>
+                        <span class="text-[11px] font-bold uppercase tracking-tighter">Tinh thần hợp tác
+                            (Collaboration)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span
+                            class="w-5 h-5 flex items-center justify-center bg-surface-container-high rounded-md text-[10px] font-bold text-primary">3</span>
+                        <span class="text-[11px] font-bold uppercase tracking-tighter">Khả năng thích ứng
+                            (Adaptability)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span
+                            class="w-5 h-5 flex items-center justify-center bg-surface-container-high rounded-md text-[10px] font-bold text-primary">4</span>
+                        <span class="text-[11px] font-bold uppercase tracking-tighter">Tính kỷ luật (Discipline)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span
+                            class="w-5 h-5 flex items-center justify-center bg-surface-container-high rounded-md text-[10px] font-bold text-primary">5</span>
+                        <span class="text-[11px] font-bold uppercase tracking-tighter">Sáng tạo đổi mới
+                            (Innovation)</span>
+                    </div>
+                </div>
+                <div
+                    class="mt-6 p-4 bg-surface-container-low/50 rounded-lg border border-surface-container flex items-center gap-4">
+                    <span class="material-symbols-outlined text-primary">info</span>
+                    <p class="text-xs text-on-surface-variant leading-relaxed">
+                        Biểu đồ xu hướng thể hiện <strong>Giá trị tổng (Total Score)</strong> được tính toán dựa trên
+                        trọng số của 5 giá trị văn hóa cốt lõi qua <strong>5 quý gần nhất</strong>.
+                        Dữ liệu được cập nhật tự động sau mỗi kỳ đánh giá hiệu suất.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- BottomNavBar for Mobile -->
+    <div
+        class="md:hidden fixed bottom-0 left-0 right-0 bg-[#f6fafe]/95 backdrop-blur-lg flex justify-around items-center py-3 border-t-0 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-50 px-4">
+        <button class="flex flex-col items-center gap-1 text-outline">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="text-[10px] font-bold">TỔNG QUAN</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-primary">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">equalizer</span>
+            <span class="text-[10px] font-bold">HIỆU SUẤT</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-outline">
+            <span class="material-symbols-outlined">group</span>
+            <span class="text-[10px] font-bold">ĐỘI NGŨ</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-outline">
+            <span class="material-symbols-outlined">settings</span>
+            <span class="text-[10px] font-bold">CÀI ĐẶT</span>
+        </button>
+    </div>
+</body>
+
+</html>
