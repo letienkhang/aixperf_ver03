@@ -48,6 +48,12 @@
       border: 1px solid transparent;
       white-space: nowrap;
     }
+    .cfr-dash-card {
+      border-radius: 14px;
+      border: 1px solid var(--border-light);
+      background: #fff;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+    }
     .progress-step {
       width: 18px;
       height: 18px;
@@ -474,6 +480,10 @@
             <h2 id="list-title" class="font-semibold">Danh sách CFR</h2>
             <div class="flex items-center gap-2 flex-wrap">
               <div class="inline-flex items-center p-1 rounded-xl border bg-white" style="border-color: var(--border);">
+                <button type="button" id="view-chart-btn" class="h-8 px-3 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">Biểu đồ</button>
+                <button type="button" id="view-list-btn" class="h-8 px-3 rounded-lg text-xs font-semibold bg-slate-900 text-white">Danh sách</button>
+              </div>
+              <div class="inline-flex items-center p-1 rounded-xl border bg-white" style="border-color: var(--border);">
                 <button type="button" id="mode-default-btn" class="mode-tab-btn h-8 px-3 rounded-lg text-xs font-semibold bg-slate-900 text-white">CFR</button>
                 <button type="button" id="mode-culture-btn" class="mode-tab-btn h-8 px-3 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">Văn hoá</button>
                 <button type="button" id="mode-competency-btn" class="mode-tab-btn h-8 px-3 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">Năng lực</button>
@@ -507,6 +517,7 @@
             </div>
           </div>
 
+          <div id="cfr-chart-view" class="hidden p-4 overflow-auto min-h-0"></div>
           <div id="cfr-table-wrap" class="overflow-auto min-h-0">
             <table id="cfr-main-table" class="w-full min-w-[1040px] text-sm">
               <thead class="sticky top-0 z-10" style="background: #f8fafc;">
@@ -877,6 +888,9 @@
       var competencyItemBtn = document.getElementById("competency-item-btn");
       var competencyItemSummary = document.getElementById("competency-item-summary");
       var competencyItemMenu = document.getElementById("competency-item-menu");
+      var viewChartBtn = document.getElementById("view-chart-btn");
+      var viewListBtn = document.getElementById("view-list-btn");
+      var cfrChartView = document.getElementById("cfr-chart-view");
       var rankDistributionCard = document.getElementById("rank-distribution-card");
       var modeDefaultBtn = document.getElementById("mode-default-btn");
       var modeCultureBtn = document.getElementById("mode-culture-btn");
@@ -886,11 +900,32 @@
       var cfrMainTable = document.getElementById("cfr-main-table");
       var selectedRankFromChart = null;
       var cfrSortState = { column: null, direction: "asc" };
+      var activeContentTab = "list";
       var activeTableMode = "default";
       var cultureSortState = { metricIdx: null, direction: "asc" };
       var cultureMetricFilterState = "all";
       var competencyTypeFilterState = ["chuyen_mon", "lanh_dao"];
       var competencyItemFilterState = [];
+      /** Hàng CFR parse được — dùng cho drill-down so sánh quý. */
+      var cfrDashboardRowsSnapshot = [];
+      /** 0: theo Phòng; 1: Bộ phận trong Phòng; 2: Nhóm trong Bộ phận. */
+      var cfrQuarterDrillState = { level: 0, phong: "", boPhan: "" };
+      /**
+       * Gán Phòng / Bộ phận / Nhóm mặc định theo thứ tự dòng CFR (có thể ghi đè bằng data-cfr-phong|bo-phan|nhom trên <tr>).
+       */
+      var CFR_DEFAULT_ORG_BY_ROW = [
+        ["Phòng Công nghệ", "Bộ phận Sản phẩm", "Nhóm Platform"],
+        ["Phòng Công nghệ", "Bộ phận Sản phẩm", "Nhóm Platform"],
+        ["Phòng Công nghệ", "Bộ phận Sản phẩm", "Nhóm Growth"],
+        ["Phòng Công nghệ", "Bộ phận Sản phẩm", "Nhóm Growth"],
+        ["Phòng Hành chính", "Bộ phận Nhân sự", "Nhóm C&B"],
+        ["Phòng Hành chính", "Bộ phận Nhân sự", "Nhóm C&B"],
+        ["Phòng Hành chính", "Bộ phận Nhân sự", "Nhóm Tuyển dụng"],
+        ["Phòng Kinh doanh", "Bộ phận Kênh B2B", "Nhóm Key account"],
+        ["Phòng Kinh doanh", "Bộ phận Kênh B2B", "Nhóm Key account"],
+        ["Phòng Kinh doanh", "Bộ phận Kênh Online", "Nhóm Performance"],
+        ["Phòng Kinh doanh", "Bộ phận Kênh Online", "Nhóm Performance"]
+      ];
 
       function clamp(val, min, max) {
         return Math.max(min, Math.min(max, val));
@@ -1309,6 +1344,643 @@
         if (cfrQ1SortIcon) cfrQ1SortIcon.textContent = "filter_alt";
         var icon = cfrSortState.column === "q4" ? cfrQ4SortIcon : (cfrSortState.column === "q1" ? cfrQ1SortIcon : null);
         if (icon) icon.textContent = cfrSortState.direction === "asc" ? "arrow_upward" : "arrow_downward";
+      }
+
+      function parseCfrMainRowsForCharts() {
+        var wrap = document.createElement("div");
+        var liveTable = cfrTableWrap && cfrTableWrap.querySelector("#cfr-main-table");
+        if (liveTable) wrap.innerHTML = liveTable.outerHTML;
+        else wrap.innerHTML = (cfrTableWrap && cfrTableWrap.dataset.originalHtml) ? cfrTableWrap.dataset.originalHtml : (cfrTableWrap ? cfrTableWrap.innerHTML : "");
+        var table = wrap.querySelector("#cfr-main-table");
+        if (!table) return [];
+        var bodyRows = Array.prototype.slice.call(table.querySelectorAll("tbody tr")).filter(function (tr) {
+          return !tr.classList.contains("cfr-main-detail-row");
+        });
+        return bodyRows.map(function (tr, rowIdx) {
+          var tds = tr.querySelectorAll("td");
+          if (tds.length < 5) return null;
+          var nameEl = tds[1].querySelector(".text-sm");
+          var codeEl = tds[1].querySelector(".text-xs");
+          var q4s = tds[3].querySelectorAll("span");
+          var q1s = tds[4].querySelectorAll("span");
+          var q4Rank = q4s[0] ? q4s[0].textContent.trim() : "-";
+          var q4Score = parseFloat(q4s[1] ? q4s[1].textContent.trim() : "");
+          var q1Rank = q1s[0] ? q1s[0].textContent.trim() : "-";
+          var q1Score = parseFloat(q1s[1] ? q1s[1].textContent.trim() : "");
+          var orgFallback = CFR_DEFAULT_ORG_BY_ROW[rowIdx] || ["(Chưa gán phòng)", "(Chưa gán bộ phận)", "(Chưa gán nhóm)"];
+          var phong = (tr.getAttribute("data-cfr-phong") || "").trim() || orgFallback[0];
+          var boPhan = (tr.getAttribute("data-cfr-bo-phan") || "").trim() || orgFallback[1];
+          var nhom = (tr.getAttribute("data-cfr-nhom") || "").trim() || orgFallback[2];
+          return {
+            name: nameEl ? nameEl.textContent.trim() : "",
+            code: codeEl ? codeEl.textContent.trim() : "",
+            q4Rank: q4Rank,
+            q4Score: isNaN(q4Score) ? null : q4Score,
+            q1Rank: q1Rank,
+            q1Score: isNaN(q1Score) ? null : q1Score,
+            phong: phong,
+            boPhan: boPhan,
+            nhom: nhom
+          };
+        }).filter(Boolean);
+      }
+
+      function buildSvgGroupedBars(labels, seriesA, seriesB, labelA, labelB) {
+        var w = Math.max(360, 56 + labels.length * 68);
+        var h = 200;
+        var pad = 36;
+        var bw = (w - pad * 2) / labels.length * 0.55;
+        var gap = (w - pad * 2) / labels.length;
+        var maxV = 5;
+        function y(v) { return h - pad - (v / maxV) * (h - pad * 2); }
+        var bars = labels.map(function (lab, i) {
+          var x0 = pad + i * gap + gap * 0.12;
+          var a = seriesA[i] != null ? seriesA[i] : 0;
+          var b = seriesB[i] != null ? seriesB[i] : 0;
+          var ya = y(a);
+          var yb = y(b);
+          return '' +
+            '<rect x="' + (x0) + '" y="' + ya + '" width="' + (bw * 0.45) + '" height="' + (h - pad - ya) + '" rx="3" fill="#94a3b8" opacity="0.9"></rect>' +
+            '<rect x="' + (x0 + bw * 0.48) + '" y="' + yb + '" width="' + (bw * 0.45) + '" height="' + (h - pad - yb) + '" rx="3" fill="#2563eb"></rect>' +
+            '<text x="' + (x0 + bw / 2) + '" y="' + (h - 10) + '" text-anchor="middle" fill="#64748b" font-size="8">' + (lab.length > 11 ? lab.slice(0, 10) + "…" : lab) + '</text>';
+        }).join("");
+        return '' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" class="w-full max-h-[220px]">' +
+            '<text x="' + pad + '" y="16" font-size="11" fill="#64748b">' + labelA + '</text>' +
+            '<text x="' + (pad + 70) + '" y="16" font-size="11" fill="#2563eb">' + labelB + '</text>' +
+            '<line x1="' + pad + '" y1="' + (h - pad) + '" x2="' + (w - pad) + '" y2="' + (h - pad) + '" stroke="#e2e8f0" stroke-width="1"></line>' +
+            bars +
+          '</svg>';
+      }
+
+      function buildSvgLineTrend(points, stroke, labels) {
+        var w = 420;
+        var h = 168;
+        var padX = 32;
+        var padTop = 22;
+        var padBottom = 34;
+        var maxY = 5;
+        var minY = 0;
+        var innerW = w - padX * 2;
+        var step = points.length > 1 ? innerW / (points.length - 1) : 0;
+        function ptY(p) { return h - padBottom - ((p - minY) / (maxY - minY)) * (h - padTop - padBottom); }
+        function ptX(i) { return padX + i * step; }
+        var pts = points.map(function (p, i) {
+          return ptX(i) + "," + ptY(p);
+        }).join(" ");
+        var circles = points.map(function (p, i) {
+          return '<circle cx="' + ptX(i) + '" cy="' + ptY(p) + '" r="4.5" fill="#fff" stroke="' + stroke + '" stroke-width="2"></circle>';
+        }).join("");
+        var valueLabs = points.map(function (p, i) {
+          return '<text x="' + ptX(i) + '" y="' + (ptY(p) - 10) + '" text-anchor="middle" font-size="11" font-weight="800" fill="#0f172a">' + (typeof p === "number" ? p.toFixed(2) : p) + '</text>';
+        }).join("");
+        var axisLabs = (labels || []).map(function (lab, i) {
+          if (i >= points.length) return "";
+          return '<text x="' + ptX(i) + '" y="' + (h - 10) + '" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">' + lab + '</text>';
+        }).join("");
+        return '' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" class="w-full max-h-[220px]">' +
+            '<line x1="' + padX + '" y1="' + (h - padBottom) + '" x2="' + (w - padX) + '" y2="' + (h - padBottom) + '" stroke="#e2e8f0"></line>' +
+            (points.length > 1 ? '<polyline fill="none" stroke="' + stroke + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="' + pts + '"></polyline>' : '') +
+            circles + valueLabs + axisLabs +
+          '</svg>';
+      }
+
+      function buildSvgHorizontalRankBars(rankOrder, counts, colors, denom) {
+        var maxC = denom != null && denom > 0 ? denom : Math.max.apply(null, counts.concat([1]));
+        var rows = rankOrder.map(function (r, i) {
+          var pct = maxC ? Math.round((counts[i] / maxC) * 100) : 0;
+          var right = denom != null && denom > 0
+            ? (counts[i] + ' <span class="text-slate-400 font-medium">(' + pct + '%)</span>')
+            : String(counts[i]);
+          return '' +
+            '<div class="flex items-center gap-2 text-xs">' +
+              '<span class="w-7 font-bold text-slate-600">' + r + '</span>' +
+              '<div class="flex-1 h-2 rounded-full bg-slate-100 overflow-hidden">' +
+                '<div class="h-full rounded-full" style="width:' + pct + '%;background:' + colors[i] + '"></div>' +
+              '</div>' +
+              '<span class="w-16 text-right font-semibold text-slate-700">' + right + '</span>' +
+            '</div>';
+        }).join("");
+        return '<div class="space-y-2.5">' + rows + '</div>';
+      }
+
+      /** Ước hạng từ điểm 1–5 (cùng logic với điểm Q3 nội suy). */
+      function perfRankFromScore(score) {
+        if (score == null || isNaN(score)) return null;
+        var s = clamp(score, 1, 5);
+        if (s >= 4.5) return "A+";
+        if (s >= 4.0) return "A";
+        if (s >= 3.5) return "B+";
+        if (s >= 3.0) return "B";
+        return "C";
+      }
+
+      /**
+       * Biểu đồ tròn phân bổ hạng + chú thích (mẫu số = tổng dòng danh sách hoặc tập con).
+       * Slice "Khác" khi tổng hạng A+…C < totalN (hạng trống / không khớp).
+       */
+      function buildSvgRankPie(rankOrder, counts, colors, totalN, opts) {
+        opts = opts || {};
+        var foot = opts.footnote || "";
+        var cx = 100;
+        var cy = 100;
+        var R = 74;
+        var sumRanked = counts.reduce(function (a, b) { return a + b; }, 0);
+        var other = Math.max(0, (totalN != null ? totalN : sumRanked) - sumRanked);
+        var total = sumRanked + other;
+        if (!total) {
+          return '<p class="text-sm text-slate-500 py-6 text-center">Chưa có dữ liệu</p>';
+        }
+        var acc = 0;
+        var paths = [];
+        var i;
+        for (i = 0; i < counts.length; i++) {
+          var c = counts[i];
+          if (!c) continue;
+          var da = (c / total) * 2 * Math.PI;
+          var t0 = -Math.PI / 2 + acc;
+          var t1 = -Math.PI / 2 + acc + da;
+          acc += da;
+          var x0 = cx + R * Math.cos(t0);
+          var y0 = cy + R * Math.sin(t0);
+          var x1 = cx + R * Math.cos(t1);
+          var y1 = cy + R * Math.sin(t1);
+          var large = da > Math.PI ? 1 : 0;
+          paths.push('<path d="M ' + cx + " " + cy + " L " + x0 + " " + y0 + " A " + R + " " + R + " 0 " + large + " 1 " + x1 + " " + y1 + ' Z" fill="' + colors[i] + '" stroke="#fff" stroke-width="1.5"></path>');
+        }
+        if (other > 0) {
+          var daO = (other / total) * 2 * Math.PI;
+          var t0o = -Math.PI / 2 + acc;
+          var t1o = -Math.PI / 2 + acc + daO;
+          var x0o = cx + R * Math.cos(t0o);
+          var y0o = cy + R * Math.sin(t0o);
+          var x1o = cx + R * Math.cos(t1o);
+          var y1o = cy + R * Math.sin(t1o);
+          var largeO = daO > Math.PI ? 1 : 0;
+          paths.push('<path d="M ' + cx + " " + cy + " L " + x0o + " " + y0o + " A " + R + " " + R + " 0 " + largeO + " 1 " + x1o + " " + y1o + ' Z" fill="#cbd5e1" stroke="#fff" stroke-width="1.5"></path>');
+        }
+        var legendRows = rankOrder.map(function (lab, j) {
+          var cnt = counts[j];
+          var pct = Math.round((cnt / total) * 100);
+          return '' +
+            '<div class="flex items-center justify-between gap-2 text-[11px]">' +
+              '<span class="flex items-center gap-1.5 min-w-0">' +
+                '<span class="w-2.5 h-2.5 rounded-sm shrink-0" style="background:' + colors[j] + '"></span>' +
+                '<span class="text-slate-700 font-medium">' + lab + '</span>' +
+              '</span>' +
+              '<span class="text-slate-600 shrink-0 tabular-nums">' + cnt + " (" + pct + "%)</span>" +
+            '</div>';
+        }).join("");
+        var otherRow = other > 0
+          ? '<div class="flex items-center justify-between gap-2 text-[11px]">' +
+              '<span class="flex items-center gap-1.5 min-w-0">' +
+                '<span class="w-2.5 h-2.5 rounded-sm shrink-0 bg-slate-300"></span>' +
+                '<span class="text-slate-700 font-medium">Khác / trống</span>' +
+              '</span>' +
+              '<span class="text-slate-600 shrink-0 tabular-nums">' + other + " (" + Math.round((other / total) * 100) + "%)</span>" +
+            "</div>"
+          : "";
+        return '' +
+          '<div class="flex flex-col sm:flex-row items-center gap-4">' +
+            '<svg viewBox="0 0 200 200" class="w-36 h-36 sm:w-40 sm:h-40 shrink-0" aria-hidden="true">' +
+              paths.join("") +
+            '</svg>' +
+            '<div class="w-full min-w-0 flex-1 space-y-1.5">' +
+              legendRows +
+              otherRow +
+              (foot ? '<p class="text-[10px] text-slate-500 pt-1 leading-snug">' + foot + "</p>" : "") +
+            "</div>" +
+          "</div>";
+      }
+
+      /** Cột điểm TB: Q3 (ước) → Q4 → Q1, cùng thang 1–5. */
+      function buildSvgAvgQuarterCompareTriplet(avgQ3, avgQ4, avgQ1, hasQ3Estimate) {
+        var w = 420;
+        var h = 128;
+        var padBottom = 26;
+        var maxV = 5;
+        var maxBar = 66;
+        var baseY = h - padBottom;
+        var vals = [avgQ3, avgQ4, avgQ1];
+        var labs = ["Q3/2025 (ước)", "Q4/2025", "Q1/2026"];
+        var fills = ["#d97706", "#94a3b8", "#2563eb"];
+        var padX = 24;
+        var innerW = w - padX * 2;
+        var cell = innerW / 3;
+        var barW = 40;
+        var parts = [];
+        var i;
+        for (i = 0; i < 3; i++) {
+          var cx = padX + i * cell + cell / 2;
+          var bx = cx - barW / 2;
+          var v = vals[i];
+          var showBar = i === 0 ? hasQ3Estimate : true;
+          var bh = showBar ? (Math.max(0, v) / maxV) * maxBar : 0;
+          var fill = i === 0 && !hasQ3Estimate ? "#e2e8f0" : fills[i];
+          var valStr = (i === 0 && !hasQ3Estimate) ? "—" : (typeof v === "number" && !isNaN(v) ? v.toFixed(2) : "—");
+          parts.push(
+            '<text x="' + cx + '" y="14" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">' + labs[i] + "</text>" +
+              '<rect x="' + bx + '" y="' + (baseY - bh) + '" width="' + barW + '" height="' + Math.max(bh, i === 0 && !hasQ3Estimate ? 3 : 0) + '" rx="5" fill="' + fill + '" opacity="' + (i === 0 && !hasQ3Estimate ? "0.85" : "1") + '"></rect>' +
+              '<text x="' + cx + '" y="' + (baseY + 15) + '" text-anchor="middle" font-size="13" font-weight="800" fill="#0f172a">' + valStr + "</text>"
+          );
+        }
+        return '' +
+          '<svg viewBox="0 0 ' + w + " " + h + '" class="w-full max-h-[140px]">' +
+            '<line x1="' + padX + '" y1="' + baseY + '" x2="' + (w - padX) + '" y2="' + baseY + '" stroke="#e2e8f0" stroke-width="1"></line>' +
+            parts.join("") +
+          "</svg>";
+      }
+
+      function escapeHtmlQc(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function computeQuarterTripletFromRows(rows) {
+        var avg = function (arr) { return arr.length ? arr.reduce(function (a, b) { return a + b; }, 0) / arr.length : 0; };
+        var q1Scores = rows.map(function (x) { return x.q1Score; }).filter(function (v) { return v != null; });
+        var q4Scores = rows.map(function (x) { return x.q4Score; }).filter(function (v) { return v != null; });
+        var q3EstScores = rows.map(function (x) {
+          if (x.q4Score == null || x.q1Score == null) return null;
+          return clamp(2 * x.q4Score - x.q1Score, 1, 5);
+        }).filter(function (v) { return v != null; });
+        return {
+          avgQ1: avg(q1Scores),
+          avgQ4: avg(q4Scores),
+          avgQ3: avg(q3EstScores),
+          hasQ3: q3EstScores.length > 0,
+          hasQ4Q1: q1Scores.length > 0 && q4Scores.length > 0
+        };
+      }
+
+      function groupCfrRowsBy(rows, key) {
+        var map = {};
+        rows.forEach(function (r) {
+          var k = r[key] || "";
+          if (!map[k]) map[k] = [];
+          map[k].push(r);
+        });
+        return Object.keys(map).sort(function (a, b) { return a.localeCompare(b, "vi"); }).map(function (k) {
+          return { key: k, rows: map[k] };
+        });
+      }
+
+      function buildQcBreadcrumbHtml(st) {
+        if (st.level === 0) {
+          return '<div class="text-xs text-slate-600 leading-relaxed">Đang xem theo <strong>Phòng</strong>. Nhấn icon <span class="material-symbols-outlined text-[15px] align-text-bottom text-slate-500">expand_more</span> trên từng dòng để xuống <strong>Bộ phận</strong>.</div>';
+        }
+        if (st.level === 1) {
+          return '' +
+            '<div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">' +
+              '<button type="button" class="inline-flex items-center gap-0.5 font-medium text-blue-600 hover:underline" data-cfr-qc-back="0">' +
+                '<span class="material-symbols-outlined text-[16px]">arrow_back</span> Toàn đơn vị' +
+              "</button>" +
+              '<span class="text-slate-300">·</span>' +
+              '<span class="text-slate-800 font-semibold">' + escapeHtmlQc(st.phong) + "</span>" +
+              '<span class="text-slate-400 text-[11px] ml-1">(Bộ phận)</span>' +
+            "</div>" +
+            '<div class="text-[11px] text-slate-500 mt-1">Nhấn icon xuống để xem <strong>Nhóm</strong> trong bộ phận.</div>';
+        }
+        return '' +
+          '<div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">' +
+            '<button type="button" class="inline-flex items-center gap-0.5 font-medium text-blue-600 hover:underline" data-cfr-qc-back="0">' +
+              '<span class="material-symbols-outlined text-[16px]">arrow_back</span> Toàn đơn vị' +
+            "</button>" +
+            '<span class="text-slate-300">/</span>' +
+            '<button type="button" class="font-medium text-blue-600 hover:underline" data-cfr-qc-back="1">' + escapeHtmlQc(st.phong) + "</button>" +
+            '<span class="text-slate-300">/</span>' +
+            '<span class="text-slate-800 font-semibold">' + escapeHtmlQc(st.boPhan) + "</span>" +
+            '<span class="text-slate-400 text-[11px] ml-1">(Nhóm)</span>' +
+          "</div>" +
+          '<div class="text-[11px] text-slate-500 mt-1">Cấp chi tiết nhất — so sánh theo từng nhóm.</div>';
+      }
+
+      function buildQcDrillTableHtml(allRows, st) {
+        var scopeRows = allRows.filter(function (r) {
+          if (st.level === 0) return true;
+          if (st.level === 1) return r.phong === st.phong;
+          return r.phong === st.phong && r.boPhan === st.boPhan;
+        });
+        var groupKey = st.level === 0 ? "phong" : (st.level === 1 ? "boPhan" : "nhom");
+        var headerLabel = st.level === 0 ? "Phòng" : (st.level === 1 ? "Bộ phận" : "Nhóm");
+        var groups = groupCfrRowsBy(scopeRows, groupKey);
+        if (!groups.length) {
+          return '<p class="text-sm text-slate-500 py-2">Không có dòng dữ liệu trong phạm vi này.</p>';
+        }
+        var rowsHtml = groups.map(function (g) {
+          var t = computeQuarterTripletFromRows(g.rows);
+          var q3s = t.hasQ3 ? t.avgQ3.toFixed(2) : "—";
+          var q4s = t.hasQ4Q1 ? t.avgQ4.toFixed(2) : "—";
+          var q1s = t.hasQ4Q1 ? t.avgQ1.toFixed(2) : "—";
+          var drillBtn = "";
+          if (st.level === 0) {
+            drillBtn = '' +
+              '<button type="button" class="inline-flex items-center justify-center h-9 w-9 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-blue-600" data-cfr-qc-drill data-cfr-qc-target-level="1" data-cfr-qc-phong="' + encodeURIComponent(g.key) + '" title="Xuống Bộ phận">' +
+                '<span class="material-symbols-outlined text-[20px]">expand_more</span>' +
+              "</button>";
+          } else if (st.level === 1) {
+            drillBtn = '' +
+              '<button type="button" class="inline-flex items-center justify-center h-9 w-9 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-blue-600" data-cfr-qc-drill data-cfr-qc-target-level="2" data-cfr-qc-bo-phan="' + encodeURIComponent(g.key) + '" title="Xuống Nhóm">' +
+                '<span class="material-symbols-outlined text-[20px]">expand_more</span>' +
+              "</button>";
+          } else {
+            drillBtn = '<span class="inline-flex h-9 w-9 items-center justify-center text-slate-300" title="Đã tới cấp Nhóm">—</span>';
+          }
+          return '' +
+            '<tr class="border-b border-slate-100 last:border-0">' +
+              '<td class="py-2.5 pr-3 font-medium text-slate-800 max-w-[200px]">' + escapeHtmlQc(g.key) + "</td>" +
+              '<td class="py-2.5 pr-2 text-right tabular-nums text-slate-700">' + q3s + "</td>" +
+              '<td class="py-2.5 pr-2 text-right tabular-nums text-slate-700">' + q4s + "</td>" +
+              '<td class="py-2.5 pr-2 text-right tabular-nums text-slate-700">' + q1s + "</td>" +
+              '<td class="py-2.5 pr-2 text-right tabular-nums text-slate-500">' + g.rows.length + "</td>" +
+              '<td class="py-2.5 text-right">' + drillBtn + "</td>" +
+            "</tr>";
+        }).join("");
+        return '' +
+          '<table class="w-full text-xs min-w-[360px]">' +
+            '<thead><tr class="text-slate-500 border-b border-slate-200">' +
+              '<th class="text-left py-2 pr-3 font-semibold">' + headerLabel + "</th>" +
+              '<th class="text-right py-2 pr-2 font-semibold">TB Q3 (ước)</th>' +
+              '<th class="text-right py-2 pr-2 font-semibold">TB Q4</th>' +
+              '<th class="text-right py-2 pr-2 font-semibold">TB Q1</th>' +
+              '<th class="text-right py-2 pr-2 font-semibold">NS</th>' +
+              '<th class="text-right py-2 font-semibold w-12"></th>' +
+            "</tr></thead><tbody>" +
+            rowsHtml +
+          "</tbody></table>";
+      }
+
+      function refreshCfrQuarterComparePanel(rows) {
+        var root = document.getElementById("cfr-quarter-compare-root");
+        if (!root) return;
+        var st = cfrQuarterDrillState;
+        var scopeRows = rows.filter(function (r) {
+          if (st.level === 0) return true;
+          if (st.level === 1) return r.phong === st.phong;
+          return r.phong === st.phong && r.boPhan === st.boPhan;
+        });
+        var tri = computeQuarterTripletFromRows(scopeRows);
+        var chartEl = root.querySelector("#cfr-qc-chart");
+        var bcEl = root.querySelector("#cfr-qc-breadcrumb");
+        var tbEl = root.querySelector("#cfr-qc-table");
+        if (chartEl) {
+          chartEl.innerHTML = tri.hasQ4Q1
+            ? buildSvgAvgQuarterCompareTriplet(tri.avgQ3, tri.avgQ4, tri.avgQ1, tri.hasQ3)
+            : '<p class="text-sm text-slate-500">Chưa đủ dữ liệu điểm Q4 và Q1 trong phạm vi đang chọn.</p>';
+        }
+        if (bcEl) bcEl.innerHTML = buildQcBreadcrumbHtml(st);
+        if (tbEl) tbEl.innerHTML = buildQcDrillTableHtml(rows, st);
+      }
+
+      function ensureCfrQuarterCompareDelegation() {
+        if (!cfrChartView || cfrChartView.dataset.qcDrillBound === "1") return;
+        cfrChartView.dataset.qcDrillBound = "1";
+        cfrChartView.addEventListener("click", function (ev) {
+          var backBtn = ev.target.closest("[data-cfr-qc-back]");
+          if (backBtn && cfrChartView.contains(backBtn)) {
+            var bl = parseInt(backBtn.getAttribute("data-cfr-qc-back"), 10);
+            if (bl === 0) cfrQuarterDrillState = { level: 0, phong: "", boPhan: "" };
+            else if (bl === 1) { cfrQuarterDrillState.level = 1; cfrQuarterDrillState.boPhan = ""; }
+            refreshCfrQuarterComparePanel(cfrDashboardRowsSnapshot);
+            ev.preventDefault();
+            return;
+          }
+          var drill = ev.target.closest("[data-cfr-qc-drill]");
+          if (!drill || !cfrChartView.contains(drill)) return;
+          var target = parseInt(drill.getAttribute("data-cfr-qc-target-level"), 10);
+          if (target === 1) {
+            cfrQuarterDrillState = {
+              level: 1,
+              phong: decodeURIComponent(drill.getAttribute("data-cfr-qc-phong") || ""),
+              boPhan: ""
+            };
+          } else if (target === 2) {
+            cfrQuarterDrillState.level = 2;
+            cfrQuarterDrillState.boPhan = decodeURIComponent(drill.getAttribute("data-cfr-qc-bo-phan") || "");
+          }
+          refreshCfrQuarterComparePanel(cfrDashboardRowsSnapshot);
+          ev.preventDefault();
+        });
+      }
+
+      function buildDefaultCfrChartsDashboard(rows) {
+        var ranks = ["A+", "A", "B+", "B", "C"];
+        var rankColors = ["#10b981", "#14b8a6", "#3b82f6", "#6366f1", "#f43f5e"];
+        var q1Counts = ranks.map(function (r) {
+          return rows.filter(function (x) { return x.q1Rank === r; }).length;
+        });
+        var q4Counts = ranks.map(function (r) {
+          return rows.filter(function (x) { return x.q4Rank === r; }).length;
+        });
+        var nQ3 = rows.filter(function (x) { return x.q4Score != null && x.q1Score != null; }).length;
+        var q3Counts = ranks.map(function (r) {
+          return rows.filter(function (x) {
+            if (x.q4Score == null || x.q1Score == null) return false;
+            var est = clamp(2 * x.q4Score - x.q1Score, 1, 5);
+            return perfRankFromScore(est) === r;
+          }).length;
+        });
+        var n = rows.length;
+        var q1Scores = rows.map(function (x) { return x.q1Score; }).filter(function (v) { return v != null; });
+        var q4Scores = rows.map(function (x) { return x.q4Score; }).filter(function (v) { return v != null; });
+        var avg = function (arr) { return arr.length ? arr.reduce(function (a, b) { return a + b; }, 0) / arr.length : 0; };
+        var avgQ1 = avg(q1Scores);
+        var avgQ4 = avg(q4Scores);
+        var q3EstScores = rows.map(function (x) {
+          if (x.q4Score == null || x.q1Score == null) return null;
+          return clamp(2 * x.q4Score - x.q1Score, 1, 5);
+        }).filter(function (v) { return v != null; });
+        var avgQ3 = avg(q3EstScores);
+        var deltaAvg = (q1Scores.length && q4Scores.length) ? (avgQ1 - avgQ4) : 0;
+        var quarterLine = (q3EstScores.length && q4Scores.length && q1Scores.length)
+          ? buildSvgLineTrend([avgQ3, avgQ4, avgQ1], "#2563eb", ["Q3/2025", "Q4/2025", "Q1/2026"])
+          : "";
+        var pctC = n ? Math.round((q1Counts[4] / n) * 100) : 0;
+        var pctTop = n ? Math.round(((q1Counts[0] + q1Counts[1]) / n) * 100) : 0;
+        var withDelta = rows.map(function (x) {
+          if (x.q1Score == null || x.q4Score == null) return null;
+          return { name: x.name, code: x.code, d: x.q1Score - x.q4Score, q1: x.q1Score };
+        }).filter(Boolean);
+        var topUp = withDelta.filter(function (x) { return x.d > 0; }).sort(function (a, b) { return b.d - a.d; }).slice(0, 5);
+        var topDown = withDelta.filter(function (x) { return x.d < 0; }).sort(function (a, b) { return a.d - b.d; }).slice(0, 5);
+        var watchList = rows.filter(function (x) { return x.q1Score != null; }).sort(function (a, b) { return a.q1Score - b.q1Score; }).slice(0, 5);
+        var deltaColor = deltaAvg >= 0 ? "#059669" : "#e11d48";
+        var insightLine = (function () {
+          if (!n) return "Chưa có dữ liệu nhân sự trong danh sách.";
+          var parts = [];
+          if (q3EstScores.length) {
+            parts.push("Chuỗi quý <strong>Q3/2025 → Q4/2025 → Q1/2026</strong> (điểm TB, Q3 ước lượng): <strong>" + avgQ3.toFixed(2) + "</strong> → <strong>" + avgQ4.toFixed(2) + "</strong> → <strong>" + avgQ1.toFixed(2) + "</strong>.");
+          } else {
+            parts.push("Chưa đủ dòng có <strong>cả điểm Q4 và Q1</strong> để ước lượng Q3/2025 và vẽ chuỗi quý.");
+          }
+          parts.push("Q4 so với Q1: chênh TB <strong style=\"color:" + deltaColor + "\">" + (deltaAvg >= 0 ? "+" : "") + deltaAvg.toFixed(2) + "</strong>.");
+          parts.push("Cơ cấu hạng Q1: <strong>" + pctTop + "%</strong> A/A+, <strong>" + pctC + "%</strong> hạng C.");
+          if (watchList.length) parts.push("Nhóm điểm Q1 thấp nhất hiện có <strong>" + Math.min(5, watchList.length) + "</strong> nhân sự cần xem xét trong bảng bên dưới.");
+          return parts.join(" ");
+        })();
+        return '' +
+          '<div class="space-y-4">' +
+            '<p class="text-xs text-slate-500 leading-relaxed">Điểm <strong>Q4/2025</strong> và <strong>Q1/2026</strong> lấy trực tiếp từ <strong>Danh sách CFR</strong>. Điểm <strong>Q3/2025</strong> là <strong>ước lượng nội suy</strong> từ Q4 và Q1 (giả định biến thiên tuyến tính giữa các quý) để thấy xu hướng tăng/giảm trên chuỗi quý.</p>' +
+            '<div class="grid grid-cols-2 lg:grid-cols-4 gap-3">' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">Nhân sự</p><p class="mt-1 text-3xl font-black text-slate-900">' + n + '</p><p class="text-xs text-slate-500 mt-1">Dòng trong danh sách</p></div>' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">TB điểm Q1</p><p class="mt-1 text-3xl font-black text-blue-600">' + (q1Scores.length ? avgQ1.toFixed(2) : "—") + '</p><p class="text-xs text-slate-500 mt-1">Có điểm Q1</p></div>' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">TB điểm Q4</p><p class="mt-1 text-3xl font-black text-slate-700">' + (q4Scores.length ? avgQ4.toFixed(2) : "—") + '</p><p class="text-xs text-slate-500 mt-1">Có điểm Q4</p></div>' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">Δ TB (Q1−Q4)</p><p class="mt-1 text-3xl font-black" style="color:' + deltaColor + '">' + (q1Scores.length && q4Scores.length ? ((deltaAvg >= 0 ? "+" : "") + deltaAvg.toFixed(2)) : "—") + '</p><p class="text-xs text-slate-500 mt-1">So kỳ</p></div>' +
+            '</div>' +
+            '<div class="cfr-dash-card p-4">' +
+              '<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-1">' +
+                '<div><p class="text-sm font-bold text-slate-800">Xu hướng điểm TB theo quý</p><p class="text-[11px] text-slate-500 mt-0.5">Q3/2025 → Q4/2025 → Q1/2026 — TB toàn danh sách (Q3 ước lượng từ Q4 & Q1)</p></div>' +
+                '<div class="text-xs text-slate-600 sm:text-right"><span class="font-semibold text-slate-800">TB Q3 (ước):</span> ' + (q3EstScores.length ? avgQ3.toFixed(2) : "—") + '</div>' +
+              '</div>' +
+              (quarterLine || '<p class="text-sm text-slate-500 py-4">Cần đủ điểm Q4 và Q1 trên các dòng để vẽ chuỗi quý.</p>') +
+            '</div>' +
+            '<div class="grid grid-cols-1 md:grid-cols-3 gap-4">' +
+              '<div class="cfr-dash-card p-4">' +
+                '<p class="text-sm font-bold text-slate-800 mb-0.5">Phân bổ hạng Q3/2025</p>' +
+                '<p class="text-[11px] text-slate-500 mb-3">Hạng ước từ điểm nội suy (2×Q4−Q1), ngưỡng A+/A/B+/B/C theo điểm 1–5</p>' +
+                (nQ3
+                  ? buildSvgRankPie(ranks, q3Counts, rankColors, nQ3, { footnote: "Mẫu số: " + nQ3 + " dòng có đủ điểm Q4 & Q1." })
+                  : '<p class="text-sm text-slate-500 py-4">Cần đủ điểm Q4 và Q1 trên các dòng để ước Q3.</p>') +
+              '</div>' +
+              '<div class="cfr-dash-card p-4">' +
+                '<p class="text-sm font-bold text-slate-800 mb-0.5">Phân bổ hạng Q4/2025</p>' +
+                '<p class="text-[11px] text-slate-500 mb-3">% trên tổng số dòng danh sách</p>' +
+                buildSvgRankPie(ranks, q4Counts, rankColors, n, {}) +
+              '</div>' +
+              '<div class="cfr-dash-card p-4">' +
+                '<p class="text-sm font-bold text-slate-800 mb-0.5">Phân bổ hạng Q1/2026</p>' +
+                '<p class="text-[11px] text-slate-500 mb-3">% trên tổng số dòng danh sách</p>' +
+                buildSvgRankPie(ranks, q1Counts, rankColors, n, {}) +
+              '</div>' +
+            '</div>' +
+            '<div class="cfr-dash-card p-4" id="cfr-quarter-compare-root">' +
+              '<p class="text-sm font-bold text-slate-800 mb-1">So sánh điểm trung bình theo quý</p>' +
+              '<p class="text-[11px] text-slate-500 mb-2 leading-relaxed">Q3 (ước) → Q4 → Q1, cùng thang 1–5. Lần đầu xem theo <strong>Phòng</strong>; nhấn <span class="material-symbols-outlined text-[13px] align-text-bottom text-slate-400">expand_more</span> để xuống <strong>Bộ phận</strong>, rồi <strong>Nhóm</strong>. Tổ chức lấy từ thuộc tính <span class="font-mono text-[10px] bg-slate-100 px-1 rounded">data-cfr-phong</span>, <span class="font-mono text-[10px] bg-slate-100 px-1 rounded">data-cfr-bo-phan</span>, <span class="font-mono text-[10px] bg-slate-100 px-1 rounded">data-cfr-nhom</span> trên dòng bảng (không có thì dùng ví dụ theo thứ tự dòng).</p>' +
+              '<div id="cfr-qc-breadcrumb" class="mb-3 min-h-[2.25rem]"></div>' +
+              '<div id="cfr-qc-chart"></div>' +
+              '<div id="cfr-qc-table" class="mt-4 overflow-x-auto -mx-1 px-1"></div>' +
+            '</div>' +
+            '<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">' +
+              '<div class="cfr-dash-card p-4">' +
+                '<p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Tóm tắt</p>' +
+                '<p class="text-sm text-slate-700 leading-relaxed">' + insightLine + '</p>' +
+                '<div class="mt-4 flex flex-wrap gap-2 text-[11px]">' +
+                  '<span class="px-2 py-1 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">A/A+ Q1: ' + pctTop + '%</span>' +
+                  '<span class="px-2 py-1 rounded-md bg-rose-50 text-rose-800 border border-rose-200">C Q1: ' + pctC + '%</span>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">' +
+              '<div class="cfr-dash-card p-4">' +
+                '<p class="text-sm font-bold text-slate-800 mb-2">Tăng điểm nhiều nhất (Q1 − Q4)</p>' +
+                '<div class="space-y-2">' + (topUp.length ? topUp.map(function (it) {
+                  return '<div class="flex items-center justify-between text-xs gap-2"><span class="text-slate-700 truncate font-medium">' + it.name + '</span><span class="shrink-0 font-bold text-emerald-600">+' + it.d.toFixed(2) + '</span></div>';
+                }).join("") : '<p class="text-xs text-slate-500">Không có dòng tăng điểm hoặc thiếu dữ liệu Q4/Q1.</p>') + '</div>' +
+              '</div>' +
+              '<div class="cfr-dash-card p-4">' +
+                '<p class="text-sm font-bold text-slate-800 mb-2">Giảm điểm nhiều nhất (Q1 − Q4)</p>' +
+                '<div class="space-y-2">' + (topDown.length ? topDown.map(function (it) {
+                  return '<div class="flex items-center justify-between text-xs gap-2"><span class="text-slate-700 truncate font-medium">' + it.name + '</span><span class="shrink-0 font-bold text-rose-600">' + it.d.toFixed(2) + '</span></div>';
+                }).join("") : '<p class="text-xs text-slate-500">Không có dòng giảm điểm hoặc thiếu dữ liệu Q4/Q1.</p>') + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="cfr-dash-card p-4">' +
+              '<p class="text-sm font-bold text-slate-800 mb-2">Nhân sự điểm Q1 thấp nhất (cần chú ý)</p>' +
+              '<div class="overflow-x-auto"><table class="w-full text-xs">' +
+                '<thead><tr class="text-slate-500 border-b border-slate-200"><th class="text-left py-2 pr-2">Nhân sự</th><th class="text-left py-2 pr-2">Mã</th><th class="text-right py-2">Q1</th><th class="text-right py-2">Hạng</th></tr></thead><tbody>' +
+                (watchList.length ? watchList.map(function (r) {
+                  return '<tr class="border-b border-slate-100"><td class="py-2 pr-2 font-medium text-slate-800 max-w-[140px] truncate">' + r.name + '</td><td class="py-2 pr-2 text-slate-500">' + r.code + '</td><td class="py-2 text-right font-semibold">' + r.q1Score.toFixed(2) + '</td><td class="py-2 text-right">' + r.q1Rank + '</td></tr>';
+                }).join("") : '<tr><td colspan="4" class="py-3 text-slate-500">Chưa có điểm Q1 để xếp.</td></tr>') +
+              '</tbody></table></div>' +
+            '</div>' +
+          '</div>';
+      }
+
+      function buildCultureChartsDashboard() {
+        return '' +
+          '<div class="space-y-4">' +
+            '<div class="grid grid-cols-2 lg:grid-cols-4 gap-3">' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">TB 5 giá trị</p><p class="text-3xl font-black text-blue-600 mt-1">4.1</p></div>' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">Cần cải thiện</p><p class="text-3xl font-black text-amber-600 mt-1">2</p></div>' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">Ổn định</p><p class="text-3xl font-black text-emerald-600 mt-1">3</p></div>' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">Độ lệch QL–NV</p><p class="text-3xl font-black text-slate-800 mt-1">0.3</p></div>' +
+            '</div>' +
+            '<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">' +
+              '<div class="cfr-dash-card p-4"><p class="text-sm font-bold text-slate-800 mb-2">Radar 5 giá trị (TB)</p>' +
+                '<svg viewBox="0 0 200 200" class="w-full max-w-[240px] mx-auto">' +
+                  '<polygon fill="rgba(37,99,235,0.15)" stroke="#2563eb" stroke-width="2" points="100,28 158,72 138,158 62,158 42,72"></polygon>' +
+                  '<circle cx="100" cy="100" r="78" fill="none" stroke="#e2e8f0" stroke-dasharray="4 4"></circle>' +
+                '</svg></div>' +
+              '<div class="cfr-dash-card p-4"><p class="text-sm font-bold text-slate-800 mb-2">Gap theo giá trị</p>' +
+                buildSvgGroupedBars(["KH trung tâm", "Tự chủ", "Chính trực", "Phát triển", "Hợp tác"], [3.9, 4.0, 4.2, 3.8, 4.1], [4.2, 4.1, 4.3, 4.0, 4.4], "NV", "QL") +
+              '</div>' +
+            '</div>' +
+          '</div>';
+      }
+
+      function buildCompetencyChartsDashboard() {
+        return '' +
+          '<div class="space-y-4">' +
+            '<div class="grid grid-cols-2 lg:grid-cols-4 gap-3">' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">TB năng lực</p><p class="text-3xl font-black text-indigo-600 mt-1">3.9</p></div>' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">Chuyên môn</p><p class="text-3xl font-black text-slate-900 mt-1">4.0</p></div>' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">Lãnh đạo</p><p class="text-3xl font-black text-slate-900 mt-1">3.6</p></div>' +
+              '<div class="cfr-dash-card p-4"><p class="text-[11px] font-semibold uppercase text-slate-500">Top kỹ năng</p><p class="text-sm font-bold text-emerald-700 mt-2">AI & Delivery</p></div>' +
+            '</div>' +
+            '<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">' +
+              '<div class="cfr-dash-card p-4"><p class="text-sm font-bold text-slate-800 mb-2">Năng lực theo nhóm</p>' +
+                buildSvgHorizontalRankBars(["Chuyên môn", "Lãnh đạo", "Cộng hưởng"], [4.0, 3.6, 3.9], ["#6366f1", "#0ea5e9", "#22c55e"]) +
+              '</div>' +
+              '<div class="cfr-dash-card p-4"><p class="text-sm font-bold text-slate-800 mb-2">Xu hướng Q3→Q1 (TB phòng)</p>' +
+                buildSvgLineTrend([3.5, 3.7, 3.9], "#4f46e5") +
+              '</div>' +
+            '</div>' +
+          '</div>';
+      }
+
+      function renderInsightView() {
+        if (!cfrChartView) return;
+        if (activeTableMode === "culture") {
+          cfrChartView.innerHTML = buildCultureChartsDashboard();
+          return;
+        }
+        if (activeTableMode === "competency") {
+          cfrChartView.innerHTML = buildCompetencyChartsDashboard();
+          return;
+        }
+        var rows = parseCfrMainRowsForCharts();
+        cfrDashboardRowsSnapshot = rows;
+        cfrQuarterDrillState = { level: 0, phong: "", boPhan: "" };
+        cfrChartView.innerHTML = rows.length ? buildDefaultCfrChartsDashboard(rows) : '' +
+          '<div class="cfr-dash-card p-6 text-center text-slate-600 text-sm">Chưa có dữ liệu bảng CFR để vẽ biểu đồ. Hãy quay lại tab <strong>Danh sách</strong> hoặc chế độ <strong>CFR</strong>.</div>';
+        ensureCfrQuarterCompareDelegation();
+        if (rows.length) refreshCfrQuarterComparePanel(rows);
+      }
+
+      function syncContentTabUI() {
+        if (viewChartBtn) {
+          viewChartBtn.classList.toggle("bg-slate-900", activeContentTab === "chart");
+          viewChartBtn.classList.toggle("text-white", activeContentTab === "chart");
+          viewChartBtn.classList.toggle("text-slate-600", activeContentTab !== "chart");
+          viewChartBtn.classList.toggle("hover:bg-slate-100", activeContentTab !== "chart");
+        }
+        if (viewListBtn) {
+          viewListBtn.classList.toggle("bg-slate-900", activeContentTab === "list");
+          viewListBtn.classList.toggle("text-white", activeContentTab === "list");
+          viewListBtn.classList.toggle("text-slate-600", activeContentTab !== "list");
+          viewListBtn.classList.toggle("hover:bg-slate-100", activeContentTab !== "list");
+        }
+        if (cfrChartView) cfrChartView.classList.toggle("hidden", activeContentTab !== "chart");
+        if (cfrTableWrap) cfrTableWrap.classList.toggle("hidden", activeContentTab !== "list");
+        if (activeContentTab === "chart") renderInsightView();
+      }
+
+      function setActiveContentTab(nextTab) {
+        activeContentTab = nextTab === "chart" ? "chart" : "list";
+        syncContentTabUI();
       }
 
       function bindRankDistributionInteractions() {
@@ -2146,6 +2818,7 @@
           restoreDefaultTableIfNeeded();
         }
         syncModeUI();
+        if (activeContentTab === "chart") renderInsightView();
       }
 
       function getCompetencySeriesFromCode(code, idx) {
@@ -2241,6 +2914,18 @@
         });
       }
 
+      if (viewChartBtn) {
+        viewChartBtn.addEventListener("click", function () {
+          setActiveContentTab("chart");
+        });
+      }
+
+      if (viewListBtn) {
+        viewListBtn.addEventListener("click", function () {
+          setActiveContentTab("list");
+        });
+      }
+
       if (cfrQ4SortBtn) {
         cfrQ4SortBtn.addEventListener("click", function () {
           if (activeTableMode !== "default") return;
@@ -2309,6 +2994,7 @@
       bindRankDistributionInteractions();
       syncCompetencyFilterMenus();
       syncModeUI();
+      syncContentTabUI();
 
       // Culture mode now switches the right table immediately from the main toggle.
       try { window.parent.postMessage({ type: "aixperf-theme-get" }, "*"); } catch (e) {}
