@@ -316,7 +316,7 @@
             </div>
           </div>
 
-          <div class="card rounded-xl border shadow-sm flex flex-col h-auto sm:h-[280px] p-4 mb-1" style="border-color: var(--border);">
+          <div id="rank-distribution-card" class="card rounded-xl border shadow-sm flex flex-col h-auto sm:h-[280px] p-4 mb-1" style="border-color: var(--border);">
             <h3 class="text-base font-bold flex items-center gap-2 mb-2">
               <span class="material-symbols-outlined text-[16px] text-blue-500">pie_chart</span>
               Phân bổ Xếp hạng
@@ -325,10 +325,10 @@
               <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 h-full p-2 w-full">
                 <div class="relative w-40 h-40 sm:w-48 sm:h-48 shrink-0">
                   <svg class="transform -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" fill="none" r="40" stroke="#14b8a6" stroke-dasharray="25.1327412287 251.3274122872" stroke-dashoffset="0" stroke-width="15"></circle>
-                    <circle cx="50" cy="50" fill="none" r="40" stroke="#3b82f6" stroke-dasharray="25.1327412287 251.3274122872" stroke-dashoffset="-25.1327412287" stroke-width="15"></circle>
-                    <circle cx="50" cy="50" fill="none" r="40" stroke="#6366f1" stroke-dasharray="75.3982236862 251.3274122872" stroke-dashoffset="-50.2654824574" stroke-width="15"></circle>
-                    <circle cx="50" cy="50" fill="none" r="40" stroke="#ef4444" stroke-dasharray="125.6637061436 251.3274122872" stroke-dashoffset="-125.6637061436" stroke-width="15"></circle>
+                    <circle data-rank-color="A" cx="50" cy="50" fill="none" r="40" stroke="#14b8a6" stroke-dasharray="25.1327412287 251.3274122872" stroke-dashoffset="0" stroke-width="15" class="cursor-pointer transition-opacity"></circle>
+                    <circle data-rank-color="B+" cx="50" cy="50" fill="none" r="40" stroke="#3b82f6" stroke-dasharray="25.1327412287 251.3274122872" stroke-dashoffset="-25.1327412287" stroke-width="15" class="cursor-pointer transition-opacity"></circle>
+                    <circle data-rank-color="B" cx="50" cy="50" fill="none" r="40" stroke="#6366f1" stroke-dasharray="75.3982236862 251.3274122872" stroke-dashoffset="-50.2654824574" stroke-width="15" class="cursor-pointer transition-opacity"></circle>
+                    <circle data-rank-color="C" cx="50" cy="50" fill="none" r="40" stroke="#ef4444" stroke-dasharray="125.6637061436 251.3274122872" stroke-dashoffset="-125.6637061436" stroke-width="15" class="cursor-pointer transition-opacity"></circle>
                   </svg>
                   <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                     <span class="text-2xl font-bold">10</span>
@@ -336,23 +336,23 @@
                   </div>
                 </div>
                 <div class="space-y-2 overflow-y-auto max-h-[220px] w-full sm:max-w-[200px]">
-                  <div class="flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
+                  <div data-rank-color="A+" class="rank-legend-item cursor-pointer flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
                     <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-emerald-500"></div><span class="font-semibold w-6">A+</span></div>
                     <div class="flex items-center gap-3"><span class="font-bold">0</span><span class="text-xs font-bold w-8 text-right min-w-[50px]" style="color: var(--text-secondary);">0%</span></div>
                   </div>
-                  <div class="flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
+                  <div data-rank-color="A" class="rank-legend-item cursor-pointer flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
                     <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-teal-500"></div><span class="font-semibold w-6">A</span></div>
                     <div class="flex items-center gap-3"><span class="font-bold">1</span><span class="text-xs font-bold w-8 text-right min-w-[50px]" style="color: var(--text-secondary);">10%</span></div>
                   </div>
-                  <div class="flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
+                  <div data-rank-color="B+" class="rank-legend-item cursor-pointer flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
                     <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-blue-500"></div><span class="font-semibold w-6">B+</span></div>
                     <div class="flex items-center gap-3"><span class="font-bold">1</span><span class="text-xs font-bold w-8 text-right min-w-[50px]" style="color: var(--text-secondary);">10%</span></div>
                   </div>
-                  <div class="flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
+                  <div data-rank-color="B" class="rank-legend-item cursor-pointer flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
                     <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-indigo-500"></div><span class="font-semibold w-6">B</span></div>
                     <div class="flex items-center gap-3"><span class="font-bold">3</span><span class="text-xs font-bold w-8 text-right min-w-[50px]" style="color: var(--text-secondary);">30%</span></div>
                   </div>
-                  <div class="flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
+                  <div data-rank-color="C" class="rank-legend-item cursor-pointer flex items-center justify-between text-xs p-1.5 rounded transition-colors hover:bg-slate-100/70">
                     <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-rose-500"></div><span class="font-semibold w-6">C</span></div>
                     <div class="flex items-center gap-3"><span class="font-bold">5</span><span class="text-xs font-bold w-8 text-right min-w-[50px]" style="color: var(--text-secondary);">50%</span></div>
                   </div>
@@ -472,7 +472,12 @@
         <section class="xl:col-span-9 card flex flex-col min-h-0">
           <div class="p-4 border-b flex items-center justify-between gap-3 flex-wrap" style="border-color: var(--border);">
             <h2 id="list-title" class="font-semibold">Danh sách CFR</h2>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 flex-wrap">
+              <div class="inline-flex items-center p-1 rounded-xl border bg-white" style="border-color: var(--border);">
+                <button type="button" id="mode-default-btn" class="mode-tab-btn h-8 px-3 rounded-lg text-xs font-semibold bg-slate-900 text-white">CFR</button>
+                <button type="button" id="mode-culture-btn" class="mode-tab-btn h-8 px-3 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">Văn hoá</button>
+                <button type="button" id="mode-competency-btn" class="mode-tab-btn h-8 px-3 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">Năng lực</button>
+              </div>
               <select id="culture-metric-filter" class="h-9 rounded-xl border px-3 text-sm bg-white" style="border-color: var(--border);">
                 <option value="all">Tất cả giá trị văn hoá</option>
                 <option value="0">Giá trị văn hoá 1</option>
@@ -509,8 +514,18 @@
                   <th class="px-3 py-3 w-10 text-left"><span class="table-check"></span></th>
                   <th class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-left">Nhân viên</th>
                   <th id="progress-col-header" class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-left">Tiến trình</th>
-                  <th id="q4-header" class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-center">Q4/2025</th>
-                  <th id="q1-header" class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-center">Q1/2026</th>
+                  <th id="q4-header" class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-center">
+                    <button id="cfr-q4-sort-btn" type="button" class="inline-flex items-center gap-1 hover:text-slate-700">
+                      <span>Q4/2025</span>
+                      <span id="cfr-q4-sort-icon" class="material-symbols-outlined text-[13px] opacity-70">filter_alt</span>
+                    </button>
+                  </th>
+                  <th id="q1-header" class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-center">
+                    <button id="cfr-q1-sort-btn" type="button" class="inline-flex items-center gap-1 hover:text-slate-700">
+                      <span>Q1/2026</span>
+                      <span id="cfr-q1-sort-icon" class="material-symbols-outlined text-[13px] opacity-70">filter_alt</span>
+                    </button>
+                  </th>
                   <th class="font-semibold px-6 py-3 text-xs uppercase tracking-wide text-center">Thao tác</th>
                 </tr>
               </thead>
@@ -849,6 +864,10 @@
       var progressHeader = document.getElementById("progress-col-header");
       var q4Header = document.getElementById("q4-header");
       var q1Header = document.getElementById("q1-header");
+      var cfrQ4SortBtn = document.getElementById("cfr-q4-sort-btn");
+      var cfrQ4SortIcon = document.getElementById("cfr-q4-sort-icon");
+      var cfrQ1SortBtn = document.getElementById("cfr-q1-sort-btn");
+      var cfrQ1SortIcon = document.getElementById("cfr-q1-sort-icon");
       var listTitle = document.getElementById("list-title");
       var cultureMetricFilter = document.getElementById("culture-metric-filter");
       var competencyFilterWrap = document.getElementById("competency-filter-wrap");
@@ -858,9 +877,15 @@
       var competencyItemBtn = document.getElementById("competency-item-btn");
       var competencyItemSummary = document.getElementById("competency-item-summary");
       var competencyItemMenu = document.getElementById("competency-item-menu");
+      var rankDistributionCard = document.getElementById("rank-distribution-card");
+      var modeDefaultBtn = document.getElementById("mode-default-btn");
+      var modeCultureBtn = document.getElementById("mode-culture-btn");
+      var modeCompetencyBtn = document.getElementById("mode-competency-btn");
       var competencyByPersonChart = document.getElementById("competency-by-person-chart");
       var cfrTableWrap = document.getElementById("cfr-table-wrap");
       var cfrMainTable = document.getElementById("cfr-main-table");
+      var selectedRankFromChart = null;
+      var cfrSortState = { column: null, direction: "asc" };
       var activeTableMode = "default";
       var cultureSortState = { metricIdx: null, direction: "asc" };
       var cultureMetricFilterState = "all";
@@ -1102,6 +1127,242 @@
         var score = clamp(Math.round(Number(value || 1)), 1, 5);
         var labels = ["Hiếm khi", "Đôi khi", "Thường xuyên", "Luôn luôn", "Hình mẫu"];
         return labels[score - 1] || labels[0];
+      }
+
+      function buildDefaultCfrDetailSummary(employeeLabel, employeeScore, managerLabel, managerScore) {
+        var empScore = Number(employeeScore || 0);
+        var mgrScore = Number(managerScore || 0);
+        var cultureEmp = clamp(Math.round((empScore * 1.2) * 10) / 10, 1, 5);
+        var cultureMgr = clamp(Math.round((mgrScore * 1.2) * 10) / 10, 1, 5);
+        var competencyEmp = clamp(Math.round((empScore * 1.0) * 10) / 10, 1, 5);
+        var competencyMgr = clamp(Math.round((mgrScore * 1.0) * 10) / 10, 1, 5);
+        var totalEmp = ((cultureEmp + competencyEmp) / 2).toFixed(2);
+        var totalMgr = ((cultureMgr + competencyMgr) / 2).toFixed(2);
+        function rankFromScore(v) {
+          if (v >= 4.2) return "A+";
+          if (v >= 3.8) return "A";
+          if (v >= 3.2) return "B+";
+          if (v >= 2.6) return "B";
+          return "C";
+        }
+        function rankButtons(active, role, groupKey) {
+          return ["C", "B", "B+", "A", "A+"].map(function (r) {
+            var activeCls = r === active
+              ? "bg-slate-500 text-white dark:bg-slate-600"
+              : "border border-slate-200 bg-white text-slate-400 dark:border-slate-700 dark:bg-slate-900";
+            if (role === "manager") {
+              var managerIdleCls = r === active ? "" : " hover:bg-slate-100 text-slate-500";
+              return '<button class="cfr-rank-btn-manager h-8 w-8 rounded-lg text-xs font-bold transition-colors ' + activeCls + managerIdleCls + '" data-rank-group="' + groupKey + '" data-rank="' + r + '" type="button">' + r + '</button>';
+            }
+            return '<button class="h-8 w-8 rounded-lg text-xs font-bold cursor-not-allowed opacity-60 ' + activeCls + '" disabled type="button">' + r + '</button>';
+          }).join("");
+        }
+        var empRank = rankFromScore(Number(totalEmp));
+        var mgrRank = rankFromScore(Number(totalMgr));
+        return '' +
+          '<div class="border border-slate-200 rounded-lg overflow-hidden">' +
+            '<div class="border-b border-slate-200">' +
+              '<div class="grid grid-cols-12 border-b border-slate-200 bg-slate-50/60">' +
+                '<div class="col-span-4 p-5 text-sm font-bold uppercase tracking-widest text-slate-500">Hạng mục đánh giá</div>' +
+                '<div class="col-span-4 border-l border-slate-200 p-5"><span class="font-bold text-slate-700">Nhân viên đánh giá</span></div>' +
+                '<div class="col-span-4 border-l border-slate-200 p-5"><span class="font-bold text-slate-700">Quản lý trực tiếp</span></div>' +
+              '</div>' +
+              '<div class="grid grid-cols-12 items-center border-b border-slate-200">' +
+                '<div class="col-span-4 p-6"><p class="text-lg font-bold text-slate-700">Văn hóa (Culture)</p></div>' +
+                '<div class="col-span-4 border-l border-slate-200 p-6"><div class="flex items-start justify-between gap-3"><span class="text-3xl font-bold text-slate-900">' + cultureEmp.toFixed(1) + '</span><span class="inline-flex items-center px-2 h-6 rounded border text-xs font-medium bg-blue-500/10 text-blue-500 border-blue-500/20">Đã gửi</span></div></div>' +
+                '<div class="col-span-4 border-l border-slate-200 p-6"><div class="flex items-start justify-between gap-3"><span class="text-3xl font-bold text-slate-900">' + cultureMgr.toFixed(1) + '</span><span class="inline-flex items-center px-2 h-6 rounded border text-xs font-medium bg-green-500/10 text-green-500 border-green-500/20">Đã duyệt</span></div></div>' +
+              '</div>' +
+              '<div class="grid grid-cols-12 items-center border-b border-slate-200">' +
+                '<div class="col-span-4 p-6"><p class="text-lg font-bold text-slate-700">Năng lực (Competency)</p></div>' +
+                '<div class="col-span-4 border-l border-slate-200 p-6"><div class="flex items-start justify-between gap-3"><span class="text-3xl font-bold text-slate-900">' + competencyEmp.toFixed(1) + '</span><span class="inline-flex items-center px-2 h-6 rounded border text-xs font-medium bg-blue-500/10 text-blue-500 border-blue-500/20">Đã gửi</span></div></div>' +
+                '<div class="col-span-4 border-l border-slate-200 p-6"><div class="flex items-start justify-between gap-3"><span class="text-3xl font-bold text-slate-900">' + competencyMgr.toFixed(1) + '</span><span class="inline-flex items-center px-2 h-6 rounded border text-xs font-medium bg-green-500/10 text-green-500 border-green-500/20">Đã duyệt</span></div></div>' +
+              '</div>' +
+              '<div class="grid grid-cols-12 items-start bg-slate-50">' +
+                '<div class="col-span-4 flex items-center h-full p-6"><span class="flex items-center gap-2 text-base font-black uppercase tracking-wider text-slate-800">Tổng điểm Q1 <span class="material-symbols-outlined text-base text-slate-500">info</span></span></div>' +
+                '<div class="col-span-4 border-l border-slate-200 p-6">' +
+                  '<div class="flex items-center justify-between gap-3">' +
+                    '<div class="flex flex-col gap-1"><span class="text-4xl font-black tracking-tight text-slate-900">' + totalEmp + '</span></div>' +
+                    '<div class="flex flex-col items-end space-y-1"><div class="text-sm font-bold text-slate-400 uppercase">Xếp loại</div><div class="text-2xl font-black text-blue-600">' + empRank + '</div><p class="text-sm font-bold text-slate-600">Đạt kỳ vọng</p><div class="flex gap-1">' + rankButtons(empRank, "employee", "emp-" + employeeLabel + "-" + managerLabel) + '</div></div>' +
+                  '</div>' +
+                '</div>' +
+                '<div class="col-span-4 border-l border-slate-200 p-6">' +
+                  '<div class="flex items-center justify-between gap-3">' +
+                    '<div class="flex flex-col gap-1"><span class="text-4xl font-black tracking-tight text-slate-900">' + totalMgr + '</span><span class="text-sm font-semibold text-slate-500">Đề xuất Hạng: <span class="font-bold text-blue-600 cfr-rank-proposal" data-rank-group="mgr-' + employeeLabel + '-' + managerLabel + '">' + mgrRank + '</span></span></div>' +
+                    '<div class="flex flex-col items-end space-y-1"><div class="text-sm font-bold text-slate-400 uppercase">Xếp loại</div><div class="text-2xl font-black text-blue-600 cfr-rank-title" data-rank-group="mgr-' + employeeLabel + '-' + managerLabel + '">' + mgrRank + '</div><p class="text-sm font-bold text-slate-600">Đạt kỳ vọng</p><div class="flex gap-1">' + rankButtons(mgrRank, "manager", "mgr-" + employeeLabel + "-" + managerLabel) + '</div></div>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="px-6 py-3.5 bg-white flex items-center justify-end gap-2">' +
+              '<button type="button" class="h-9 px-4 rounded-md border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold">Lưu nháp</button>' +
+              '<button type="button" class="h-9 px-4 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold">Nhấn gửi duyệt</button>' +
+            '</div>' +
+          '</div>';
+      }
+
+      function initDefaultCfrTableInteractions() {
+        if (!cfrTableWrap || cfrTableWrap.dataset.defaultCfrEventsBound === "1") return;
+        cfrTableWrap.dataset.defaultCfrEventsBound = "1";
+        function setManagerRankForGroup(group, rank) {
+          var peers = cfrTableWrap.querySelectorAll('.cfr-rank-btn-manager[data-rank-group="' + group + '"]');
+          Array.prototype.forEach.call(peers, function (btn) {
+            btn.classList.remove("bg-slate-500", "text-white", "dark:bg-slate-600");
+            btn.classList.add("border", "border-slate-200", "bg-white", "text-slate-500", "dark:border-slate-700", "dark:bg-slate-900", "hover:bg-slate-100");
+          });
+          var activeBtn = cfrTableWrap.querySelector('.cfr-rank-btn-manager[data-rank-group="' + group + '"][data-rank="' + rank + '"]');
+          if (activeBtn) {
+            activeBtn.classList.remove("border", "border-slate-200", "bg-white", "text-slate-500", "dark:border-slate-700", "dark:bg-slate-900", "hover:bg-slate-100");
+            activeBtn.classList.add("bg-slate-500", "text-white", "dark:bg-slate-600");
+          }
+          var titleEl = cfrTableWrap.querySelector('.cfr-rank-title[data-rank-group="' + group + '"]');
+          if (titleEl) titleEl.textContent = rank;
+          var proposalEl = cfrTableWrap.querySelector('.cfr-rank-proposal[data-rank-group="' + group + '"]');
+          if (proposalEl) proposalEl.textContent = rank;
+        }
+        cfrTableWrap.addEventListener("click", function (event) {
+          if (activeTableMode !== "default") return;
+          var managerRankBtn = event.target.closest(".cfr-rank-btn-manager");
+          if (managerRankBtn) {
+            var group = managerRankBtn.getAttribute("data-rank-group");
+            var rank = managerRankBtn.getAttribute("data-rank");
+            if (!group || !rank) return;
+            setManagerRankForGroup(group, rank);
+            return;
+          }
+          var toggleBtn = event.target.closest(".cfr-main-row-toggle");
+          if (!toggleBtn) return;
+          var row = toggleBtn.closest("tr");
+          if (!row || row.classList.contains("cfr-main-detail-row")) return;
+          var detailId = toggleBtn.getAttribute("data-detail-id");
+          if (!detailId) return;
+          var detailRow = cfrTableWrap.querySelector("#" + detailId);
+          if (!detailRow) return;
+          var isHidden = detailRow.classList.contains("hidden");
+          detailRow.classList.toggle("hidden", !isHidden);
+          var icon = toggleBtn.querySelector(".cfr-main-row-chevron");
+          if (icon) icon.style.transform = isHidden ? "rotate(180deg)" : "rotate(0deg)";
+        });
+      }
+
+      function enhanceDefaultCfrRows() {
+        if (!cfrTableWrap) return;
+        var table = cfrTableWrap.querySelector("#cfr-main-table");
+        if (!table) return;
+        var tbody = table.querySelector("tbody");
+        if (!tbody) return;
+        var rows = Array.prototype.slice.call(tbody.querySelectorAll("tr"));
+        rows.forEach(function (row, idx) {
+          if (row.classList.contains("cfr-main-detail-row")) return;
+          var cells = row.querySelectorAll("td");
+          if (!cells || cells.length < 6) return;
+          var actionBtn = cells[5].querySelector("button");
+          if (!actionBtn) return;
+          var detailId = "cfr-main-detail-row-" + idx;
+          actionBtn.classList.add("cfr-main-row-toggle");
+          actionBtn.setAttribute("data-detail-id", detailId);
+          var icon = actionBtn.querySelector(".material-symbols-outlined");
+          if (icon) icon.classList.add("cfr-main-row-chevron", "transition-transform");
+          if (tbody.querySelector("#" + detailId)) return;
+          var employeeLabel = ((cells[3].querySelector("span") || {}).textContent || "-").trim();
+          var managerLabel = ((cells[4].querySelector("span") || {}).textContent || "-").trim();
+          var employeeScore = Number((((cells[3].querySelectorAll("span")[1] || {}).textContent || "0").trim())) || 0;
+          var managerScore = Number((((cells[4].querySelectorAll("span")[1] || {}).textContent || "0").trim())) || 0;
+          var detailRow = document.createElement("tr");
+          detailRow.id = detailId;
+          detailRow.className = "cfr-main-detail-row hidden bg-slate-50/50";
+          detailRow.innerHTML =
+            '<td colspan="6" class="px-6 py-4">' +
+              buildDefaultCfrDetailSummary(employeeLabel, employeeScore, managerLabel, managerScore) +
+            '</td>';
+          row.insertAdjacentElement("afterend", detailRow);
+        });
+      }
+
+      function sortDefaultCfrByScoreColumn(cellIndex, direction) {
+        if (!cfrTableWrap) return;
+        var table = cfrTableWrap.querySelector("#cfr-main-table");
+        if (!table) return;
+        var tbody = table.querySelector("tbody");
+        if (!tbody) return;
+        var rows = Array.prototype.slice.call(tbody.querySelectorAll("tr:not(.cfr-main-detail-row)"));
+        rows.sort(function (a, b) {
+          var aScoreEl = a.querySelector("td:nth-child(" + cellIndex + ") span:last-child");
+          var bScoreEl = b.querySelector("td:nth-child(" + cellIndex + ") span:last-child");
+          var aScore = Number((aScoreEl ? aScoreEl.textContent : "0").trim()) || 0;
+          var bScore = Number((bScoreEl ? bScoreEl.textContent : "0").trim()) || 0;
+          return direction === "asc" ? (aScore - bScore) : (bScore - aScore);
+        });
+        rows.forEach(function (row) {
+          var detailId = null;
+          var toggleBtn = row.querySelector(".cfr-main-row-toggle");
+          if (toggleBtn) detailId = toggleBtn.getAttribute("data-detail-id");
+          tbody.appendChild(row);
+          if (detailId) {
+            var detailRow = tbody.querySelector("#" + detailId);
+            if (detailRow) tbody.appendChild(detailRow);
+          }
+        });
+      }
+
+      function syncCfrSortIcons() {
+        if (cfrQ4SortIcon) cfrQ4SortIcon.textContent = "filter_alt";
+        if (cfrQ1SortIcon) cfrQ1SortIcon.textContent = "filter_alt";
+        var icon = cfrSortState.column === "q4" ? cfrQ4SortIcon : (cfrSortState.column === "q1" ? cfrQ1SortIcon : null);
+        if (icon) icon.textContent = cfrSortState.direction === "asc" ? "arrow_upward" : "arrow_downward";
+      }
+
+      function bindRankDistributionInteractions() {
+        if (!rankDistributionCard || rankDistributionCard.dataset.eventsBound === "1") return;
+        rankDistributionCard.dataset.eventsBound = "1";
+        function applyRankFilterToCfr(rank) {
+          var table = cfrTableWrap ? cfrTableWrap.querySelector("#cfr-main-table") : null;
+          if (!table) return;
+          var rows = table.querySelectorAll("tbody tr:not(.cfr-main-detail-row)");
+          Array.prototype.forEach.call(rows, function (row) {
+            var q1Cell = row.querySelector("td:nth-child(5)");
+            if (!q1Cell) {
+              row.classList.remove("hidden");
+              return;
+            }
+            var chips = q1Cell.querySelectorAll("span");
+            if (!chips.length) {
+              row.classList.remove("hidden");
+              return;
+            }
+            var rowRank = (chips[0].textContent || "").trim();
+            var matched = !rank || rowRank === rank;
+            row.classList.toggle("hidden", !matched);
+            var actionBtn = row.querySelector(".cfr-main-row-toggle");
+            if (!matched && actionBtn) {
+              var detailId = actionBtn.getAttribute("data-detail-id");
+              if (detailId) {
+                var detailRow = table.querySelector("#" + detailId);
+                if (detailRow) detailRow.classList.add("hidden");
+                var icon = actionBtn.querySelector(".cfr-main-row-chevron");
+                if (icon) icon.style.transform = "rotate(0deg)";
+              }
+            }
+          });
+        }
+        function applyChartRank(rank) {
+          if (!rank) return;
+          selectedRankFromChart = selectedRankFromChart === rank ? null : rank;
+          var activeRank = selectedRankFromChart;
+          var legendItems = rankDistributionCard.querySelectorAll(".rank-legend-item");
+          Array.prototype.forEach.call(legendItems, function (item) {
+            item.classList.toggle("bg-slate-100", activeRank && item.getAttribute("data-rank-color") === activeRank);
+          });
+          var circles = rankDistributionCard.querySelectorAll("circle[data-rank-color]");
+          Array.prototype.forEach.call(circles, function (c) {
+            c.style.opacity = !activeRank ? "1" : (c.getAttribute("data-rank-color") === activeRank ? "1" : "0.35");
+          });
+          applyRankFilterToCfr(activeRank);
+        }
+        rankDistributionCard.addEventListener("click", function (event) {
+          var rankNode = event.target.closest("[data-rank-color]");
+          if (!rankNode) return;
+          applyChartRank(rankNode.getAttribute("data-rank-color"));
+        });
       }
 
 
@@ -1396,6 +1657,7 @@
       function restoreDefaultTableIfNeeded() {
         if (!cfrTableWrap || !cfrTableWrap.dataset.originalHtml) return;
         cfrTableWrap.innerHTML = cfrTableWrap.dataset.originalHtml;
+        enhanceDefaultCfrRows();
       }
 
       function getCompetencyTrendBars(series) {
@@ -1849,6 +2111,24 @@
         if (competencyFilterWrap) competencyFilterWrap.classList.toggle("hidden", activeTableMode !== "competency");
         if (competencyFilterWrap) competencyFilterWrap.classList.toggle("flex", activeTableMode === "competency");
         if (activeTableMode !== "competency") closeCompetencyMenus();
+        if (modeDefaultBtn) {
+          modeDefaultBtn.classList.toggle("bg-slate-900", activeTableMode === "default");
+          modeDefaultBtn.classList.toggle("text-white", activeTableMode === "default");
+          modeDefaultBtn.classList.toggle("text-slate-600", activeTableMode !== "default");
+          modeDefaultBtn.classList.toggle("hover:bg-slate-100", activeTableMode !== "default");
+        }
+        if (modeCultureBtn) {
+          modeCultureBtn.classList.toggle("bg-slate-900", activeTableMode === "culture");
+          modeCultureBtn.classList.toggle("text-white", activeTableMode === "culture");
+          modeCultureBtn.classList.toggle("text-slate-600", activeTableMode !== "culture");
+          modeCultureBtn.classList.toggle("hover:bg-slate-100", activeTableMode !== "culture");
+        }
+        if (modeCompetencyBtn) {
+          modeCompetencyBtn.classList.toggle("bg-slate-900", activeTableMode === "competency");
+          modeCompetencyBtn.classList.toggle("text-white", activeTableMode === "competency");
+          modeCompetencyBtn.classList.toggle("text-slate-600", activeTableMode !== "competency");
+          modeCompetencyBtn.classList.toggle("hover:bg-slate-100", activeTableMode !== "competency");
+        }
         if (listTitle) {
           if (activeTableMode === "culture") listTitle.textContent = "Danh sách Văn hoá";
           else if (activeTableMode === "competency") listTitle.textContent = "Danh sách Năng lực";
@@ -1945,6 +2225,42 @@
         });
       }
 
+      if (modeDefaultBtn) {
+        modeDefaultBtn.addEventListener("click", function () {
+          setActiveTableMode("default");
+        });
+      }
+      if (modeCultureBtn) {
+        modeCultureBtn.addEventListener("click", function () {
+          setActiveTableMode("culture");
+        });
+      }
+      if (modeCompetencyBtn) {
+        modeCompetencyBtn.addEventListener("click", function () {
+          setActiveTableMode("competency");
+        });
+      }
+
+      if (cfrQ4SortBtn) {
+        cfrQ4SortBtn.addEventListener("click", function () {
+          if (activeTableMode !== "default") return;
+          if (cfrSortState.column === "q4") cfrSortState.direction = cfrSortState.direction === "asc" ? "desc" : "asc";
+          else { cfrSortState.column = "q4"; cfrSortState.direction = "asc"; }
+          sortDefaultCfrByScoreColumn(4, cfrSortState.direction);
+          syncCfrSortIcons();
+        });
+      }
+
+      if (cfrQ1SortBtn) {
+        cfrQ1SortBtn.addEventListener("click", function () {
+          if (activeTableMode !== "default") return;
+          if (cfrSortState.column === "q1") cfrSortState.direction = cfrSortState.direction === "asc" ? "desc" : "asc";
+          else { cfrSortState.column = "q1"; cfrSortState.direction = "asc"; }
+          sortDefaultCfrByScoreColumn(5, cfrSortState.direction);
+          syncCfrSortIcons();
+        });
+      }
+
       if (competencyTypeBtn && competencyTypeMenu) {
         competencyTypeBtn.addEventListener("click", function () {
           competencyTypeMenu.classList.toggle("hidden");
@@ -1988,6 +2304,9 @@
       });
 
       renderCompetencyByPersonChart();
+      initDefaultCfrTableInteractions();
+      enhanceDefaultCfrRows();
+      bindRankDistributionInteractions();
       syncCompetencyFilterMenus();
       syncModeUI();
 
