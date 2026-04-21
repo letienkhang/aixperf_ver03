@@ -480,8 +480,8 @@
             <h2 id="list-title" class="font-semibold">Danh sách CFR</h2>
             <div class="flex items-center gap-2 flex-wrap">
               <div class="inline-flex items-center p-1 rounded-xl border bg-white" style="border-color: var(--border);">
-                <button type="button" id="view-chart-btn" class="h-8 px-3 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">Biểu đồ</button>
-                <button type="button" id="view-list-btn" class="h-8 px-3 rounded-lg text-xs font-semibold bg-slate-900 text-white">Danh sách</button>
+                <button type="button" id="view-chart-btn" class="hidden h-8 px-3 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">Biểu đồ</button>
+                <button type="button" id="view-list-btn" class="hidden h-8 px-3 rounded-lg text-xs font-semibold bg-slate-900 text-white">Danh sách</button>
               </div>
               <div class="inline-flex items-center p-1 rounded-xl border bg-white" style="border-color: var(--border);">
                 <button type="button" id="mode-default-btn" class="mode-tab-btn h-8 px-3 rounded-lg text-xs font-semibold bg-slate-900 text-white">CFR</button>
@@ -1973,13 +1973,12 @@
           viewListBtn.classList.toggle("text-slate-600", activeContentTab !== "list");
           viewListBtn.classList.toggle("hover:bg-slate-100", activeContentTab !== "list");
         }
-        if (cfrChartView) cfrChartView.classList.toggle("hidden", activeContentTab !== "chart");
-        if (cfrTableWrap) cfrTableWrap.classList.toggle("hidden", activeContentTab !== "list");
-        if (activeContentTab === "chart") renderInsightView();
+        if (cfrChartView) cfrChartView.classList.add("hidden");
+        if (cfrTableWrap) cfrTableWrap.classList.remove("hidden");
       }
 
       function setActiveContentTab(nextTab) {
-        activeContentTab = nextTab === "chart" ? "chart" : "list";
+        activeContentTab = "list";
         syncContentTabUI();
       }
 
