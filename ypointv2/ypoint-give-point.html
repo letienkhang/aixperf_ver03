@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Quản trị tặng điểm - Y Point</title>
+  <title>Tặng điểm - Y Point</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet" />
@@ -82,10 +82,10 @@
         href="ypoint-shop.html" aria-label="Quay lại Y Point Shop">
         <span class="material-icons-round text-primary dark:text-white">arrow_back</span>
       </a>
-      <h1 class="flex-1 min-w-0 text-primary dark:text-white text-xl font-bold truncate">Tặng điểm (Admin)</h1>
+      <h1 class="flex-1 min-w-0 text-primary dark:text-white text-xl font-bold truncate">Tặng điểm</h1>
       <a
         class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform"
-        aria-label="Xem lịch sử tặng điểm" href="ypoint-admin-history.html">
+        aria-label="Xem lịch sử tặng điểm" href="ypoint-give-point-history.html">
         <span class="material-icons-round text-primary dark:text-white">history</span>
       </a>
     </div>
@@ -101,32 +101,32 @@
           <div class="flex justify-between items-start mb-4">
             <div class="space-y-0.5">
               <p class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
-                Tài khoản admin
+                Mã nhân viên
               </p>
-              <p class="text-lg font-extrabold text-[#1E2161] dark:text-white">ADM-YODY-01</p>
+              <p class="text-lg font-extrabold text-[#1E2161] dark:text-white">YD09090</p>
             </div>
             <div class="text-right space-y-0.5">
               <p class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
                 Cập nhật
               </p>
-              <p class="text-sm font-bold text-slate-700 dark:text-slate-200">16/04/2026</p>
+              <p class="text-sm font-bold text-slate-700 dark:text-slate-200">03/05/2026</p>
             </div>
           </div>
           <div class="space-y-1 mb-4">
             <p class="text-[11px] font-bold tracking-[0.1em] text-slate-400 dark:text-slate-500 uppercase">
-              Point khả dụng (ngân sách tặng)
+              Số dư khả dụng
             </p>
             <div class="flex items-baseline gap-2">
-              <span id="adminAvailablePoints" data-points="50000"
-                class="text-4xl font-black text-[#1E2161] dark:text-white tracking-tight">50,000</span>
+              <span id="userAvailablePoints" data-points="1250"
+                class="text-4xl font-black text-[#1E2161] dark:text-white tracking-tight">1,250</span>
               <span class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase">Points</span>
             </div>
           </div>
-          <div class="flex justify-end items-end">
-            <div class="flex flex-col hidden">
+          <div class="flex justify-between items-end">
+            <div class="flex flex-col">
               <span
-                class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-600 border border-amber-200/80 dark:border-amber-700/50">
-                <span class="material-icons-round text-lg">shield</span>
+                class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary border border-primary/20">
+                <span class="material-icons-round text-lg">workspace_premium</span>
               </span>
             </div>
             <a class="flex items-center gap-1.5 py-1.5 px-3.5 bg-slate-50 dark:bg-slate-700/50 rounded-full hover:bg-slate-100 dark:hover:bg-slate-600/50 transition-colors"
@@ -146,7 +146,7 @@
             Số lượng point tặng <span class="text-slate-600 dark:text-slate-300 normal-case font-semibold">(mỗi người)</span>
           </label>
           <div class="relative">
-            <input id="gift-amount" type="number" min="1" step="1" value="100" inputmode="numeric"
+            <input id="gift-amount" type="number" min="1" step="1" value="50" inputmode="numeric"
               class="w-full rounded-xl border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-slate-900 dark:text-white font-bold text-lg pl-4 pr-14 py-3 focus:ring-2 focus:ring-primary/30 focus:border-primary" />
             <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 uppercase">pts</span>
           </div>
@@ -156,14 +156,14 @@
           <label for="gift-note" class="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
             Nội dung / lý do
           </label>
-          <textarea id="gift-note" rows="2" placeholder="Ví dụ: cho câu trả lời chính xác"
+          <textarea id="gift-note" rows="2" placeholder="Ví dụ: Cảm ơn bạn đã hỗ trợ dự án XYZ"
             class="w-full rounded-xl border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 px-4 py-3 focus:ring-2 focus:ring-primary/30 focus:border-primary resize-none"></textarea>
         </div>
       </div>
 
       <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm px-5 py-5">
         <p class="text-xs font-semibold text-slate-600 dark:text-slate-300 mb-3">
-          Preview trước noti cho người dùng
+          Preview trước noti cho người nhận
         </p>
         <div class="rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-600 shadow-sm overflow-hidden">
           <div class="px-3 py-2 bg-slate-100/90 dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
@@ -176,7 +176,7 @@
             </div>
             <div class="min-w-0 flex-1 space-y-0.5">
               <p id="preview-notif-title" class="text-sm font-extrabold text-slate-900 dark:text-white leading-snug">
-                🎉 Điểm thưởng từ Ypoint
+                🎉 Điểm thưởng từ đồng nghiệp
               </p>
               <p id="preview-notif-body" class="text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                 +0 points —
@@ -195,7 +195,7 @@
             <span id="recipient-count-badge"
               class="inline-flex mt-1.5 items-center rounded-full bg-primary/10 text-primary text-[11px] font-extrabold px-2.5 py-0.5">0 đã chọn</span>
           </div>
-          <a id="open-bulk-picker" href="ypoint-admin-recipients.html"
+          <a id="open-bulk-picker" href="ypoint-give-point-recipients.html"
             class="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-primary/20 dark:border-indigo-400/40 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-bold text-primary dark:text-indigo-300 active:scale-[0.98] transition-transform">
             <span class="material-icons-round text-base">group_add</span>
             Chọn từ DS nhân sự
@@ -225,12 +225,12 @@
 
   </main>
 
-  <div id="admin-toast"
+  <div id="give-toast"
     class="fixed inset-x-0 bottom-24 z-50 flex justify-center px-4 pointer-events-none hidden">
-    <div id="admin-toast-inner"
+    <div id="give-toast-inner"
       class="inline-flex items-center gap-2 px-4 py-3 rounded-2xl text-white text-xs font-semibold shadow-lg pointer-events-auto max-w-md text-left">
-      <span id="admin-toast-icon" class="material-icons-round text-base shrink-0">check_circle</span>
-      <span id="admin-toast-text"></span>
+      <span id="give-toast-icon" class="material-icons-round text-base shrink-0">check_circle</span>
+      <span id="give-toast-text"></span>
     </div>
   </div>
 
@@ -262,21 +262,20 @@
       var submitBtn = document.getElementById('submit-gift-btn');
       var amountEl = document.getElementById('gift-amount');
       var noteEl = document.getElementById('gift-note');
-      var balanceEl = document.getElementById('adminAvailablePoints');
-      var toast = document.getElementById('admin-toast');
-      var toastInner = document.getElementById('admin-toast-inner');
-      var toastIcon = document.getElementById('admin-toast-icon');
-      var toastText = document.getElementById('admin-toast-text');
+      var balanceEl = document.getElementById('userAvailablePoints');
+      var toast = document.getElementById('give-toast');
+      var toastInner = document.getElementById('give-toast-inner');
+      var toastIcon = document.getElementById('give-toast-icon');
+      var toastText = document.getElementById('give-toast-text');
       var previewNotifTitle = document.getElementById('preview-notif-title');
       var previewNotifBody = document.getElementById('preview-notif-body');
-      var HISTORY_STORAGE_KEY = 'ypointAdminHistoryDemo';
-      var RECIPIENT_DATA_STORAGE_KEY = 'ypointAdminRecipientsData';
-      var RECIPIENT_PICK_STORAGE_KEY = 'ypointAdminRecipientsPicked';
+      var HISTORY_STORAGE_KEY = 'ypointGivePointHistoryDemo';
+      var RECIPIENT_DATA_STORAGE_KEY = 'ypointGivePointRecipientsData';
+      var RECIPIENT_PICK_STORAGE_KEY = 'ypointGivePointRecipientsPicked';
 
-      /** Preview text shown to user */
       function updateNotificationPreview() {
         if (!previewNotifBody) return;
-        var PREVIEW_TITLE = '🎉 Điểm thưởng từ Ypoint';
+        var PREVIEW_TITLE = '🎉 Điểm thưởng từ đồng nghiệp';
         if (previewNotifTitle) previewNotifTitle.textContent = PREVIEW_TITLE;
         var per = parseInt(amountEl.value, 10);
         if (isNaN(per) || per < 0) per = 0;
@@ -293,7 +292,7 @@
         return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
       }
 
-      function appendAdminHistory(indices, per, note) {
+      function appendGivePointHistory(indices, per, note) {
         var current = [];
         try {
           current = JSON.parse(localStorage.getItem(HISTORY_STORAGE_KEY) || '[]');
@@ -302,7 +301,7 @@
           current = [];
         }
         var createdAt = Date.now();
-        var txId = 'YP-ADM-' + createdAt.toString(36).toUpperCase().slice(-8);
+        var txId = 'YP-GIVE-' + createdAt.toString(36).toUpperCase().slice(-8);
         var reason = note || '—';
         indices.forEach(function (i) {
           var r = recipients[i];
@@ -554,13 +553,13 @@
           return;
         }
         if (!note) {
-          showToast('Vui lòng nhập nhận xét / lý do trước khi gửi.', 'warn');
+          showToast('Vui lòng nhập lý do trước khi gửi.', 'warn');
           return;
         }
         var total = n * per;
         var bal = getBalance();
         if (total > bal) {
-          showToast('Không đủ ngân sách: cần ' + formatNum(total) + ' pts, hiện có ' + formatNum(bal) + ' pts.', 'err');
+          showToast('Không đủ số dư: cần ' + formatNum(total) + ' pts, hiện có ' + formatNum(bal) + ' pts.', 'err');
           return;
         }
         var newBal = bal - total;
@@ -568,17 +567,16 @@
         balanceEl.textContent = formatNum(newBal);
         var sentIndices = Array.from(selected);
         showToast(
-          'Đã gửi ' + formatNum(per) + ' pts/người tới ' + n + ' nhân sự.' +
+          'Đã gửi ' + formatNum(per) + ' pts/người tới ' + n + ' đồng nghiệp.' +
             (note ? (' Nội dung: ' + note.slice(0, 80) + (note.length > 80 ? '…' : '')) : ''),
           'ok'
         );
-        appendAdminHistory(sentIndices, per, note);
+        appendGivePointHistory(sentIndices, per, note);
         selected.clear();
         persistSelectedRecipientIds();
         renderSelectedOnly();
       });
 
-      // Feed recipient data for the dedicated picker page and sync selected ids on return.
       localStorage.setItem(RECIPIENT_DATA_STORAGE_KEY, JSON.stringify(recipients));
       syncSelectedFromStorage();
       window.addEventListener('focus', function () {
