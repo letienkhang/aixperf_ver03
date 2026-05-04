@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Văn hoá - AIxPerf</title>
+  <title>Năng lực - AIxPerf</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet" />
@@ -44,7 +44,7 @@
       height: 6px;
       border-radius: 999px;
       outline: none;
-      background: linear-gradient(to right, #e0e7ff, #c7d2fe, #93c5fd, #60a5fa, #3b82f6, #2563eb);
+      background: linear-gradient(to right, #e2e8f0, #c7d2fe, #93c5fd, #60a5fa, #3b82f6, #2563eb);
       opacity: 0.5;
       position: relative;
     }
@@ -72,10 +72,17 @@
     input[type="range"].mood-slider:active::-webkit-slider-thumb {
       transform: scale(1.15);
     }
+    input[type="range"].mood-slider:disabled {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    input[type="range"].mood-slider:disabled::-webkit-slider-thumb {
+      cursor: default;
+    }
     input[type="range"].mgr-slider {
       -webkit-appearance: none; appearance: none; width: 100%; height: 6px;
       border-radius: 999px; outline: none;
-      background: linear-gradient(to right, #d1fae5, #a7f3d0, #6ee7b7, #34d399, #10b981);
+      background: linear-gradient(to right, #e2e8f0, #d1fae5, #a7f3d0, #6ee7b7, #34d399, #10b981);
       opacity: 0.5; position: relative;
     }
     input[type="range"].mgr-slider::-webkit-slider-thumb {
@@ -89,6 +96,12 @@
       border: 3px solid currentColor; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
     input[type="range"].mgr-slider:active::-webkit-slider-thumb { transform: scale(1.15); }
+    input[type="range"].mgr-slider:disabled {
+      pointer-events: none; opacity: 0.7;
+    }
+    input[type="range"].mgr-slider:disabled::-webkit-slider-thumb {
+      cursor: default;
+    }
     .mgr-editor p { margin-bottom: 6px; line-height: 1.6; }
     .mgr-editor ul, .mgr-editor ol { padding-left: 1.25rem; margin-bottom: 8px; }
     .mgr-editor ul { list-style: disc; }
@@ -151,7 +164,7 @@
         <span class="material-icons-round text-primary dark:text-white">arrow_back</span>
       </a>
       <div class="flex-1 min-w-0">
-        <h1 class="text-primary dark:text-white text-lg font-bold truncate">Văn hoá</h1>
+        <h1 class="text-primary dark:text-white text-lg font-bold truncate">Năng lực</h1>
         <p class="text-[10px] text-slate-500 dark:text-slate-400 hidden">Bước 1/4 · Tự đánh giá</p>
       </div>
       <span class="inline-flex items-center rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2.5 py-1 hidden">
@@ -171,16 +184,24 @@
     </div>
   </div>
 
+  <!-- TAB: Cá nhân (personalView) -->
   <main class="flex-1 px-4 pt-1 space-y-4 pb-32" id="personalView">
 
-    <!-- 1. Customer Centric -->
+    <!-- ═══ Năng lực chuyên môn ═══ -->
+    <div class="flex items-center gap-2">
+      <span class="material-icons-round text-[16px] text-primary/60 dark:text-indigo-400/60">engineering</span>
+      <p class="text-xs font-extrabold uppercase tracking-[0.12em] text-primary/60 dark:text-indigo-400/60">Năng lực chuyên môn</p>
+      <div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+    </div>
+
+    <!-- 1. Kiến thức chuyên môn -->
     <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
       <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
         <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
           <span class="text-sm font-black text-primary dark:text-indigo-400">1</span>
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-bold text-slate-900 dark:text-white">Customer Centric</p>
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Kiến thức chuyên môn</p>
         </div>
         <span class="inline-flex items-center gap-0.5 rounded-full bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
           <span class="material-icons-round text-[11px]">edit_note</span> Nháp
@@ -189,14 +210,13 @@
       </summary>
       <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
         <div class="space-y-4" data-criteria-group>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="5" data-history="3,4,4">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Đặt sự hài lòng của khách hàng là ưu tiên số 1 trong mọi suy nghĩ và hành động.</p>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="0" data-history="3,4,4">
             <div class="flex items-start gap-3">
               <span class="shrink-0 self-center" data-emoji></span>
               <div class="flex-1 min-w-0 space-y-2">
                 <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="5" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Hình mẫu</span>
+                  <input type="range" min="0" max="5" value="0" step="1" class="mood-slider flex-1 min-w-0" data-slider />
+                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Chưa chọn</span>
                 </div>
                 <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
                   <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
@@ -220,70 +240,35 @@
               <div class="flex-1"></div>
               <button type="button" data-expand class="editor-btn" title="Mở rộng"><span class="material-icons-round text-[16px]">open_in_full</span></button>
             </div>
-            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn...">Khách hàng luôn là ưu tiên số 1 trong mọi quyết định.</div>
+            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn..."></div>
           </div>
         </div>
       </div>
     </details>
 
-    <!-- 2. Ownership & Autonomy -->
+    <!-- 2. Kỹ năng thực hành -->
     <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
       <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
         <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
           <span class="text-sm font-black text-primary dark:text-indigo-400">2</span>
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-bold text-slate-900 dark:text-white">Ownership & Autonomy</p>
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Kỹ năng thực hành</p>
         </div>
-        <span class="inline-flex items-center gap-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
-          <span class="material-icons-round text-[11px]">send</span> Đã gửi
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">edit_note</span> Nháp
         </span>
         <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
       </summary>
       <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
         <div class="space-y-4" data-criteria-group>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="4" data-history="4,3,4">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Sở hữu mục tiêu công ty, đội nhóm, cá nhân.</p>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="0" data-history="4,0,4">
             <div class="flex items-start gap-3">
               <span class="shrink-0 self-center" data-emoji></span>
               <div class="flex-1 min-w-0 space-y-2">
                 <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="4" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Luôn luôn</span>
-                </div>
-                <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
-                  <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
-                  <div class="flex-1 min-w-0 h-[26px] flex items-center" data-trend-svg></div>
-                  <span class="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 w-9 text-right shrink-0 leading-none">Q2/26</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="3" data-history="0,3,5">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Chủ động tìm kiếm nguồn lực và giải pháp.</p>
-            <div class="flex items-start gap-3">
-              <span class="shrink-0 self-center" data-emoji></span>
-              <div class="flex-1 min-w-0 space-y-2">
-                <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="3" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Thường xuyên</span>
-                </div>
-                <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
-                  <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
-                  <div class="flex-1 min-w-0 h-[26px] flex items-center" data-trend-svg></div>
-                  <span class="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 w-9 text-right shrink-0 leading-none">Q2/26</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="5" data-history="4,4,4">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Suy nghĩ và hành động vì lợi ích tốt nhất cho tổ chức.</p>
-            <div class="flex items-start gap-3">
-              <span class="shrink-0 self-center" data-emoji></span>
-              <div class="flex-1 min-w-0 space-y-2">
-                <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="5" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Hình mẫu</span>
+                  <input type="range" min="0" max="5" value="0" step="1" class="mood-slider flex-1 min-w-0" data-slider />
+                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Chưa chọn</span>
                 </div>
                 <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
                   <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
@@ -307,87 +292,35 @@
               <div class="flex-1"></div>
               <button type="button" data-expand class="editor-btn" title="Mở rộng"><span class="material-icons-round text-[16px]">open_in_full</span></button>
             </div>
-            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn...">Luôn chủ động nhận trách nhiệm và tìm giải pháp.</div>
+            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn..."></div>
           </div>
         </div>
       </div>
     </details>
 
-    <!-- 3. Integrity -->
+    <!-- 3. Tư duy phân tích -->
     <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
       <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
         <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
           <span class="text-sm font-black text-primary dark:text-indigo-400">3</span>
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-bold text-slate-900 dark:text-white">Integrity</p>
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Tư duy phân tích</p>
         </div>
-        <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
-          <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">edit_note</span> Nháp
         </span>
         <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
       </summary>
       <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
         <div class="space-y-4" data-criteria-group>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="4" data-history="3,4,4">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Trung thực về tiền bạc, hàng hóa, tài sản.</p>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="0" data-history="0,3,3">
             <div class="flex items-start gap-3">
               <span class="shrink-0 self-center" data-emoji></span>
               <div class="flex-1 min-w-0 space-y-2">
                 <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="4" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Luôn luôn</span>
-                </div>
-                <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
-                  <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
-                  <div class="flex-1 min-w-0 h-[26px] flex items-center" data-trend-svg></div>
-                  <span class="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 w-9 text-right shrink-0 leading-none">Q2/26</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="3" data-history="0,3,3">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Làm đúng, làm đủ theo thiết kế.</p>
-            <div class="flex items-start gap-3">
-              <span class="shrink-0 self-center" data-emoji></span>
-              <div class="flex-1 min-w-0 space-y-2">
-                <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="3" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Thường xuyên</span>
-                </div>
-                <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
-                  <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
-                  <div class="flex-1 min-w-0 h-[26px] flex items-center" data-trend-svg></div>
-                  <span class="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 w-9 text-right shrink-0 leading-none">Q2/26</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="4" data-history="4,3,4">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Giữ lời hứa với khách hàng, đồng nghiệp, đối tác.</p>
-            <div class="flex items-start gap-3">
-              <span class="shrink-0 self-center" data-emoji></span>
-              <div class="flex-1 min-w-0 space-y-2">
-                <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="4" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Luôn luôn</span>
-                </div>
-                <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
-                  <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
-                  <div class="flex-1 min-w-0 h-[26px] flex items-center" data-trend-svg></div>
-                  <span class="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 w-9 text-right shrink-0 leading-none">Q2/26</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="5" data-history="3,3,5">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Khi đã nỗ lực hết sức mà thấy nguy cơ không thể giữ lời thì ngay lập tức thông tin cho những người liên quan, tìm hiểu tác động, dọn dẹp hậu quả và đưa ra lời hứa mới.</p>
-            <div class="flex items-start gap-3">
-              <span class="shrink-0 self-center" data-emoji></span>
-              <div class="flex-1 min-w-0 space-y-2">
-                <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="5" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Hình mẫu</span>
+                  <input type="range" min="0" max="5" value="0" step="1" class="mood-slider flex-1 min-w-0" data-slider />
+                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Chưa chọn</span>
                 </div>
                 <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
                   <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
@@ -411,70 +344,42 @@
               <div class="flex-1"></div>
               <button type="button" data-expand class="editor-btn" title="Mở rộng"><span class="material-icons-round text-[16px]">open_in_full</span></button>
             </div>
-            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn...">Trung thực và giữ lời hứa trong công việc.</div>
+            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn..."></div>
           </div>
         </div>
       </div>
     </details>
 
-    <!-- 4. Growth Mindset -->
+    <!-- ═══ Năng lực lãnh đạo ═══ -->
+    <div class="flex items-center gap-2 pt-3">
+      <span class="material-icons-round text-[16px] text-primary/60 dark:text-indigo-400/60">groups</span>
+      <p class="text-xs font-extrabold uppercase tracking-[0.12em] text-primary/60 dark:text-indigo-400/60">Năng lực lãnh đạo</p>
+      <div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+    </div>
+
+    <!-- 4. Tầm nhìn & Chiến lược -->
     <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
       <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
         <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
           <span class="text-sm font-black text-primary dark:text-indigo-400">4</span>
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-bold text-slate-900 dark:text-white">Growth Mindset</p>
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Tầm nhìn & Chiến lược</p>
         </div>
-        <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
-          <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">edit_note</span> Nháp
         </span>
         <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
       </summary>
       <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
         <div class="space-y-4" data-criteria-group>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="5" data-history="4,5,5">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Không ngừng học tập và tự hoàn thiện.</p>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="0" data-history="3,3,4">
             <div class="flex items-start gap-3">
               <span class="shrink-0 self-center" data-emoji></span>
               <div class="flex-1 min-w-0 space-y-2">
                 <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="5" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Hình mẫu</span>
-                </div>
-                <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
-                  <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
-                  <div class="flex-1 min-w-0 h-[26px] flex items-center" data-trend-svg></div>
-                  <span class="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 w-9 text-right shrink-0 leading-none">Q2/26</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="2" data-history="5,2,2">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Sẵn sàng thử nghiệm phương pháp mới, chấp nhận thất bại và tiếp tục hành động.</p>
-            <div class="flex items-start gap-3">
-              <span class="shrink-0 self-center" data-emoji></span>
-              <div class="flex-1 min-w-0 space-y-2">
-                <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="2" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Đôi khi</span>
-                </div>
-                <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
-                  <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
-                  <div class="flex-1 min-w-0 h-[26px] flex items-center" data-trend-svg></div>
-                  <span class="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 w-9 text-right shrink-0 leading-none">Q2/26</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="5" data-history="0,4,5">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Luôn nhìn thấy chủ đích tích cực trong mọi tình huống.</p>
-            <div class="flex items-start gap-3">
-              <span class="shrink-0 self-center" data-emoji></span>
-              <div class="flex-1 min-w-0 space-y-2">
-                <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="5" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Hình mẫu</span>
+                  <input type="range" min="0" max="5" value="0" step="1" class="mood-slider flex-1 min-w-0" data-slider />
+                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Chưa chọn</span>
                 </div>
                 <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
                   <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
@@ -498,87 +403,35 @@
               <div class="flex-1"></div>
               <button type="button" data-expand class="editor-btn" title="Mở rộng"><span class="material-icons-round text-[16px]">open_in_full</span></button>
             </div>
-            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn...">Không ngừng học hỏi và cải thiện bản thân.</div>
+            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn..."></div>
           </div>
         </div>
       </div>
     </details>
 
-    <!-- 5. Good Relationship -->
+    <!-- 5. Phát triển đội ngũ -->
     <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
       <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
         <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
           <span class="text-sm font-black text-primary dark:text-indigo-400">5</span>
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-bold text-slate-900 dark:text-white">Good Relationship</p>
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Phát triển đội ngũ</p>
         </div>
-        <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
-          <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">edit_note</span> Nháp
         </span>
         <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
       </summary>
       <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
         <div class="space-y-4" data-criteria-group>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="3" data-history="3,2,3">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Hào phóng, sẵn sàng cho đi và giúp đỡ mọi người.</p>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="0" data-history="0,4,5">
             <div class="flex items-start gap-3">
               <span class="shrink-0 self-center" data-emoji></span>
               <div class="flex-1 min-w-0 space-y-2">
                 <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="3" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Thường xuyên</span>
-                </div>
-                <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
-                  <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
-                  <div class="flex-1 min-w-0 h-[26px] flex items-center" data-trend-svg></div>
-                  <span class="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 w-9 text-right shrink-0 leading-none">Q2/26</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="2" data-history="3,0,2">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Đặt mình vào vị trí người khác để lắng nghe trọn vẹn và không thành kiến.</p>
-            <div class="flex items-start gap-3">
-              <span class="shrink-0 self-center" data-emoji></span>
-              <div class="flex-1 min-w-0 space-y-2">
-                <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="2" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Đôi khi</span>
-                </div>
-                <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
-                  <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
-                  <div class="flex-1 min-w-0 h-[26px] flex items-center" data-trend-svg></div>
-                  <span class="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 w-9 text-right shrink-0 leading-none">Q2/26</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="4" data-history="4,4,4">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Sẵn sàng đóng góp và đón nhận sự đóng góp một cách kịp thời, trực tiếp và xây dựng.</p>
-            <div class="flex items-start gap-3">
-              <span class="shrink-0 self-center" data-emoji></span>
-              <div class="flex-1 min-w-0 space-y-2">
-                <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="4" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Luôn luôn</span>
-                </div>
-                <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
-                  <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
-                  <div class="flex-1 min-w-0 h-[26px] flex items-center" data-trend-svg></div>
-                  <span class="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 w-9 text-right shrink-0 leading-none">Q2/26</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="3" data-history="2,3,3">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Luôn ghi nhận thành quả hoặc nỗ lực dù chưa có thành quả.</p>
-            <div class="flex items-start gap-3">
-              <span class="shrink-0 self-center" data-emoji></span>
-              <div class="flex-1 min-w-0 space-y-2">
-                <div class="flex items-center gap-2">
-                  <input type="range" min="1" max="5" value="3" step="1" class="mood-slider flex-1 min-w-0" data-slider />
-                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Thường xuyên</span>
+                  <input type="range" min="0" max="5" value="0" step="1" class="mood-slider flex-1 min-w-0" data-slider />
+                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Chưa chọn</span>
                 </div>
                 <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
                   <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
@@ -602,7 +455,59 @@
               <div class="flex-1"></div>
               <button type="button" data-expand class="editor-btn" title="Mở rộng"><span class="material-icons-round text-[16px]">open_in_full</span></button>
             </div>
-            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn...">Hào phóng và sẵn sàng hỗ trợ đồng nghiệp.</div>
+            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn..."></div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 6. Ra quyết định -->
+    <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
+      <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
+        <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="text-sm font-black text-primary dark:text-indigo-400">6</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Ra quyết định</p>
+        </div>
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">edit_note</span> Nháp
+        </span>
+        <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
+      </summary>
+      <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
+        <div class="space-y-4" data-criteria-group>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="0" data-history="4,0,3">
+            <div class="flex items-start gap-3">
+              <span class="shrink-0 self-center" data-emoji></span>
+              <div class="flex-1 min-w-0 space-y-2">
+                <div class="flex items-center gap-2">
+                  <input type="range" min="0" max="5" value="0" step="1" class="mood-slider flex-1 min-w-0" data-slider />
+                  <span class="text-[11px] font-bold w-[4.5rem] text-right shrink-0 leading-tight" data-label>Chưa chọn</span>
+                </div>
+                <div class="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2.5 py-2 border border-slate-200 dark:border-slate-600">
+                  <span class="text-[9px] font-bold text-slate-800 dark:text-slate-100 w-9 shrink-0 leading-none">Q3/25</span>
+                  <div class="flex-1 min-w-0 h-[26px] flex items-center" data-trend-svg></div>
+                  <span class="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 w-9 text-right shrink-0 leading-none">Q2/26</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-2" data-editor-wrap>
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 overflow-hidden">
+            <div class="flex items-center gap-0.5 px-2 py-1.5 border-b border-slate-200/80 dark:border-slate-600 bg-white/60 dark:bg-slate-800/50">
+              <button type="button" data-cmd="bold" class="editor-btn" title="In đậm"><span class="material-icons-round text-[16px]">format_bold</span></button>
+              <button type="button" data-cmd="italic" class="editor-btn" title="In nghiêng"><span class="material-icons-round text-[16px]">format_italic</span></button>
+              <button type="button" data-cmd="underline" class="editor-btn" title="Gạch chân"><span class="material-icons-round text-[16px]">format_underlined</span></button>
+              <div class="w-px h-4 bg-slate-200 dark:bg-slate-600 mx-0.5"></div>
+              <button type="button" data-cmd="insertOrderedList" class="editor-btn" title="Danh sách 1.2.3"><span class="material-icons-round text-[16px]">format_list_numbered</span></button>
+              <button type="button" data-cmd="insertUnorderedList" class="editor-btn" title="Danh sách gạch đầu dòng"><span class="material-icons-round text-[16px]">format_list_bulleted</span></button>
+              <div class="flex-1"></div>
+              <button type="button" data-expand class="editor-btn" title="Mở rộng"><span class="material-icons-round text-[16px]">open_in_full</span></button>
+            </div>
+            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn..."></div>
           </div>
         </div>
       </div>
@@ -610,16 +515,24 @@
 
   </main>
 
+  <!-- TAB: Quản lý (managerView) -->
   <main class="flex-1 px-4 pt-1 space-y-4 pb-32 hidden" id="managerView">
 
-    <!-- 1. Customer Centric -->
+    <!-- ═══ Năng lực chuyên môn ═══ -->
+    <div class="flex items-center gap-2">
+      <span class="material-icons-round text-[16px] text-emerald-500/60 dark:text-emerald-400/60">engineering</span>
+      <p class="text-xs font-extrabold uppercase tracking-[0.12em] text-emerald-500/60 dark:text-emerald-400/60">Năng lực chuyên môn</p>
+      <div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+    </div>
+
+    <!-- 1. Kiến thức chuyên môn -->
     <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
       <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
         <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
           <span class="text-sm font-black text-emerald-600 dark:text-emerald-400">1</span>
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-bold text-slate-900 dark:text-white">Customer Centric</p>
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Kiến thức chuyên môn</p>
         </div>
         <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
           <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
@@ -629,40 +542,34 @@
       <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
         <div class="space-y-4" data-mgr-criteria-group>
           <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="4">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Đặt sự hài lòng của khách hàng là ưu tiên số 1 trong mọi suy nghĩ và hành động.</p>
             <div class="flex items-center gap-3">
               <span class="shrink-0" data-mgr-emoji></span>
-              <input type="range" min="1" max="5" value="4" step="1" class="mgr-slider flex-1" data-mgr-slider />
-              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>Luôn luôn</span>
+              <input type="range" min="0" max="5" value="4" step="1" class="mgr-slider flex-1" data-mgr-slider disabled />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>4/5</span>
             </div>
           </div>
         </div>
         <div class="space-y-2">
-          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Quản lý đánh giá</p>
-          <div contenteditable="true" class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary mgr-editor">
-            <p><b>Điểm mạnh:</b> Tư duy hướng khách hàng rõ ràng, luôn đặt trải nghiệm khách hàng lên hàng đầu.</p>
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white px-4 py-3 mgr-editor">
+            <p><b>Điểm mạnh:</b> Kiến thức chuyên môn vững vàng, luôn cập nhật công nghệ mới.</p>
             <ul>
-              <li>Chủ động khảo sát feedback từ <b>50+ khách hàng</b> để cải thiện quy trình chăm sóc</li>
-              <li>Xây dựng được quy trình follow-up sau bán hàng, giảm <b>30% complaint</b> so với Q4</li>
-            </ul>
-            <p><b>Cần cải thiện:</b></p>
-            <ul>
-              <li>Khả năng xử lý tình huống khách hàng khó tính – đôi khi phản ứng chậm khi có complaint gấp</li>
-              <li>Nên tham gia thêm training <i>Customer Conflict Resolution</i></li>
+              <li>Hoàn thành <b>AWS Solutions Architect</b> certification trong Q1</li>
+              <li>Áp dụng kiến thức mới để tối ưu hệ thống, giảm <b>40% chi phí infrastructure</b></li>
             </ul>
           </div>
         </div>
       </div>
     </details>
 
-    <!-- 2. Ownership & Autonomy -->
+    <!-- 2. Kỹ năng thực hành -->
     <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
       <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
         <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
           <span class="text-sm font-black text-emerald-600 dark:text-emerald-400">2</span>
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-bold text-slate-900 dark:text-white">Ownership & Autonomy</p>
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Kỹ năng thực hành</p>
         </div>
         <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
           <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
@@ -672,53 +579,34 @@
       <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
         <div class="space-y-4" data-mgr-criteria-group>
           <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="5">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Chủ động giải quyết vấn đề, không chờ chỉ đạo.</p>
             <div class="flex items-center gap-3">
               <span class="shrink-0" data-mgr-emoji></span>
-              <input type="range" min="1" max="5" value="5" step="1" class="mgr-slider flex-1" data-mgr-slider />
-              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>Hình mẫu</span>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="4">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Chủ động tìm kiếm nguồn lực và giải pháp.</p>
-            <div class="flex items-center gap-3">
-              <span class="shrink-0" data-mgr-emoji></span>
-              <input type="range" min="1" max="5" value="4" step="1" class="mgr-slider flex-1" data-mgr-slider />
-              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>Luôn luôn</span>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="3">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Suy nghĩ và hành động vì lợi ích tốt nhất cho tổ chức.</p>
-            <div class="flex items-center gap-3">
-              <span class="shrink-0" data-mgr-emoji></span>
-              <input type="range" min="1" max="5" value="3" step="1" class="mgr-slider flex-1" data-mgr-slider />
-              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>Thường xuyên</span>
+              <input type="range" min="0" max="5" value="5" step="1" class="mgr-slider flex-1" data-mgr-slider disabled />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>5/5</span>
             </div>
           </div>
         </div>
         <div class="space-y-2">
-          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Quản lý đánh giá</p>
-          <div contenteditable="true" class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary mgr-editor">
-            <p><b>Đánh giá chung:</b> Đây là <b>điểm mạnh nổi bật nhất</b> của nhân viên trong quý này.</p>
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white px-4 py-3 mgr-editor">
+            <p><b>Đánh giá chung:</b> Đây là <b>điểm mạnh nổi bật nhất</b> của nhân viên.</p>
             <ol>
-              <li>Luôn chủ động nhận việc khó mà không cần ai giao</li>
-              <li>Tự research giải pháp và triển khai nhanh chóng</li>
-              <li>Dự án <b>migration hệ thống CRM</b> hoàn thành <u>trước deadline 2 tuần</u></li>
+              <li>Thành thạo toàn bộ tech stack: React, Node.js, PostgreSQL, Docker, K8s</li>
+              <li>Tự giải quyết <b>95% issues</b> mà không cần escalation</li>
             </ol>
-            <p><b>Đề xuất:</b> Nâng level tiêu chí này lên <i>Hình mẫu</i> cho kỳ đánh giá tiếp theo.</p>
           </div>
         </div>
       </div>
     </details>
 
-    <!-- 3. Integrity -->
+    <!-- 3. Tư duy phân tích -->
     <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
       <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
         <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
           <span class="text-sm font-black text-emerald-600 dark:text-emerald-400">3</span>
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-bold text-slate-900 dark:text-white">Integrity</p>
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Tư duy phân tích</p>
         </div>
         <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
           <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
@@ -728,102 +616,41 @@
       <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
         <div class="space-y-4" data-mgr-criteria-group>
           <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="4">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Trung thực về tiền bạc, hàng hóa, tài sản.</p>
             <div class="flex items-center gap-3">
               <span class="shrink-0" data-mgr-emoji></span>
-              <input type="range" min="1" max="5" value="4" step="1" class="mgr-slider flex-1" data-mgr-slider />
-              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>Luôn luôn</span>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="5">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Giữ lời hứa với khách hàng, đồng nghiệp, đối tác.</p>
-            <div class="flex items-center gap-3">
-              <span class="shrink-0" data-mgr-emoji></span>
-              <input type="range" min="1" max="5" value="5" step="1" class="mgr-slider flex-1" data-mgr-slider />
-              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>Hình mẫu</span>
+              <input type="range" min="0" max="5" value="4" step="1" class="mgr-slider flex-1" data-mgr-slider disabled />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>4/5</span>
             </div>
           </div>
         </div>
         <div class="space-y-2">
-          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Quản lý đánh giá</p>
-          <div contenteditable="true" class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary mgr-editor">
-            <p><b>Trung thực & Minh bạch:</b></p>
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white px-4 py-3 mgr-editor">
+            <p><b>Phân tích & Ra quyết định:</b></p>
             <ul>
-              <li>Báo cáo đầy đủ và chính xác <b>100%</b> các chi phí phát sinh, không có sai lệch</li>
-              <li>Khi gặp sự cố delay giao hàng cho <b>khách VIP</b>, đã chủ động thông báo ngay và đề xuất phương án bù đắp</li>
+              <li>Xây dựng dashboard monitoring giúp phát hiện sớm <b>90% incidents</b></li>
+              <li>Phân tích root cause chính xác, đưa ra giải pháp dựa trên data</li>
             </ul>
-            <p><b>Giữ cam kết:</b></p>
-            <ul>
-              <li>Luôn đúng deadline với team dù phải OT nhiều ngày</li>
-              <li>Khi nhận ra nguy cơ trễ → <i>thông báo sớm</i>, không để đến phút cuối</li>
-            </ul>
-            <p>→ Đánh giá: <b>Đáng tin cậy</b>, là tấm gương tốt cho team.</p>
           </div>
         </div>
       </div>
     </details>
 
-    <!-- 4. Growth Mindset -->
+    <!-- ═══ Năng lực lãnh đạo ═══ -->
+    <div class="flex items-center gap-2 pt-3">
+      <span class="material-icons-round text-[16px] text-emerald-500/60 dark:text-emerald-400/60">groups</span>
+      <p class="text-xs font-extrabold uppercase tracking-[0.12em] text-emerald-500/60 dark:text-emerald-400/60">Năng lực lãnh đạo</p>
+      <div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+    </div>
+
+    <!-- 4. Tầm nhìn & Chiến lược -->
     <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
       <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
         <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
           <span class="text-sm font-black text-emerald-600 dark:text-emerald-400">4</span>
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-bold text-slate-900 dark:text-white">Growth Mindset</p>
-        </div>
-        <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
-          <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
-        </span>
-        <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
-      </summary>
-      <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
-        <div class="space-y-4" data-mgr-criteria-group>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="5">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Không ngừng học tập và tự hoàn thiện.</p>
-            <div class="flex items-center gap-3">
-              <span class="shrink-0" data-mgr-emoji></span>
-              <input type="range" min="1" max="5" value="5" step="1" class="mgr-slider flex-1" data-mgr-slider />
-              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>Hình mẫu</span>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="3">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Sẵn sàng thử nghiệm phương pháp mới.</p>
-            <div class="flex items-center gap-3">
-              <span class="shrink-0" data-mgr-emoji></span>
-              <input type="range" min="1" max="5" value="3" step="1" class="mgr-slider flex-1" data-mgr-slider />
-              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>Thường xuyên</span>
-            </div>
-          </div>
-        </div>
-        <div class="space-y-2">
-          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Quản lý đánh giá</p>
-          <div contenteditable="true" class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary mgr-editor">
-            <p><b>Học tập & Phát triển:</b></p>
-            <ol>
-              <li>Hoàn thành <b>3 khóa học online</b> về Data Analytics</li>
-              <li>Áp dụng được kiến thức mới vào báo cáo hàng tuần → <u>chất lượng tăng rõ rệt</u></li>
-              <li>Tự xây dựng dashboard theo dõi KPI cho team</li>
-            </ol>
-            <p><b>Cần cải thiện:</b></p>
-            <ul>
-              <li>Dự án pilot chatbot thất bại → có biểu hiện <i>nản chí</i>, mất ~2 tuần mới phục hồi</li>
-              <li>Cần rèn luyện <b>resilience</b> – xem thất bại là cơ hội, không phải rào cản</li>
-            </ul>
-            <p><b>Khuyến nghị:</b> Tham gia workshop <i>"Innovation Mindset"</i> và <i>"Fail Fast, Learn Faster"</i> trong Q2.</p>
-          </div>
-        </div>
-      </div>
-    </details>
-
-    <!-- 5. Good Relationship -->
-    <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
-      <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
-        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
-          <span class="text-sm font-black text-emerald-600 dark:text-emerald-400">5</span>
-        </div>
-        <div class="flex-1 min-w-0">
-          <p class="text-sm font-bold text-slate-900 dark:text-white">Good Relationship</p>
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Tầm nhìn & Chiến lược</p>
         </div>
         <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
           <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
@@ -833,36 +660,95 @@
       <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
         <div class="space-y-4" data-mgr-criteria-group>
           <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="4">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Hào phóng, sẵn sàng cho đi và giúp đỡ mọi người.</p>
             <div class="flex items-center gap-3">
               <span class="shrink-0" data-mgr-emoji></span>
-              <input type="range" min="1" max="5" value="4" step="1" class="mgr-slider flex-1" data-mgr-slider />
-              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>Luôn luôn</span>
-            </div>
-          </div>
-          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="5">
-            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Sẵn sàng đóng góp và đón nhận sự đóng góp.</p>
-            <div class="flex items-center gap-3">
-              <span class="shrink-0" data-mgr-emoji></span>
-              <input type="range" min="1" max="5" value="5" step="1" class="mgr-slider flex-1" data-mgr-slider />
-              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>Hình mẫu</span>
+              <input type="range" min="0" max="5" value="4" step="1" class="mgr-slider flex-1" data-mgr-slider disabled />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>4/5</span>
             </div>
           </div>
         </div>
         <div class="space-y-2">
-          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Quản lý đánh giá</p>
-          <div contenteditable="true" class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary mgr-editor">
-            <p><b>Hỗ trợ & Mentoring:</b></p>
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white px-4 py-3 mgr-editor">
+            <p><b>Tầm nhìn chiến lược:</b></p>
+            <ol>
+              <li>Đề xuất roadmap <b>Q2-Q3</b> rõ ràng, align với business goals</li>
+              <li>Truyền đạt vision cho team thông qua monthly all-hands</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 5. Phát triển đội ngũ -->
+    <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
+      <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
+        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
+          <span class="text-sm font-black text-emerald-600 dark:text-emerald-400">5</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Phát triển đội ngũ</p>
+        </div>
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
+        </span>
+        <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
+      </summary>
+      <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
+        <div class="space-y-4" data-mgr-criteria-group>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="5">
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-mgr-emoji></span>
+              <input type="range" min="0" max="5" value="5" step="1" class="mgr-slider flex-1" data-mgr-slider disabled />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>5/5</span>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white px-4 py-3 mgr-editor">
+            <p><b>Mentoring & Coaching:</b></p>
             <ul>
-              <li>Mentor thành công <b>2 fresher</b> trong Q1 – cả 2 đều pass probation</li>
-              <li>Tổ chức <b>3 buổi sharing session</b> về quy trình làm việc cho team</li>
+              <li>Mentor thành công <b>2 junior developers</b> – cả 2 đều promote lên mid-level</li>
+              <li>Tổ chức weekly 1-on-1 đều đặn, có <u>action items rõ ràng</u></li>
             </ul>
-            <p><b>Lắng nghe & Đồng cảm:</b></p>
-            <ul>
-              <li>Được <u>nhiều thành viên</u> đánh giá cao về sự thấu hiểu</li>
-              <li>Trong retrospective, luôn đưa feedback <i>mang tính xây dựng</i>, không chỉ trích cá nhân</li>
-            </ul>
-            <p><b>Ghi nhận:</b> Viết thank-you note cho team QA sau sprint căng thẳng – tạo tinh thần tích cực cho cả team. 👏</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 6. Ra quyết định -->
+    <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
+      <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
+        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
+          <span class="text-sm font-black text-emerald-600 dark:text-emerald-400">6</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Ra quyết định</p>
+        </div>
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
+        </span>
+        <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
+      </summary>
+      <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
+        <div class="space-y-4" data-mgr-criteria-group>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-mgr-criteria-item data-value="4">
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-mgr-emoji></span>
+              <input type="range" min="0" max="5" value="4" step="1" class="mgr-slider flex-1" data-mgr-slider disabled />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-mgr-label>4/5</span>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 text-sm text-slate-900 dark:text-white px-4 py-3 mgr-editor">
+            <p><b>Ra quyết định:</b></p>
+            <ol>
+              <li>Quyết định chuyển sang <b>event-driven architecture</b> đúng thời điểm</li>
+              <li>Chịu trách nhiệm hoàn toàn khi quyết định không đạt kỳ vọng</li>
+            </ol>
           </div>
         </div>
       </div>
@@ -885,11 +771,12 @@
   <script>
     (function () {
       var LEVELS = {
-        1: { label: 'Hiếm khi',     bg: '#f0f4ff', border: '#e0e7ff', color: '#a5b4fc', thumb: '#a5b4fc' },
-        2: { label: 'Đôi khi',       bg: '#eef2ff', border: '#c7d2fe', color: '#818cf8', thumb: '#818cf8' },
-        3: { label: 'Thường xuyên',  bg: '#e8edff', border: '#a5b4fc', color: '#6366f1', thumb: '#6366f1' },
-        4: { label: 'Luôn luôn',     bg: '#e0e8ff', border: '#93a5f6', color: '#4f46e5', thumb: '#4f46e5' },
-        5: { label: 'Hình mẫu',      bg: '#dbeafe', border: '#7c9cf5', color: '#3730a3', thumb: '#3730a3' }
+        0: { label: 'Chưa chọn',  bg: '#f8fafc', border: '#e2e8f0', color: '#94a3b8', thumb: '#cbd5e1' },
+        1: { label: '1/5',        bg: '#f0f4ff', border: '#e0e7ff', color: '#a5b4fc', thumb: '#a5b4fc' },
+        2: { label: '2/5',        bg: '#eef2ff', border: '#c7d2fe', color: '#818cf8', thumb: '#818cf8' },
+        3: { label: '3/5',        bg: '#e8edff', border: '#a5b4fc', color: '#6366f1', thumb: '#6366f1' },
+        4: { label: '4/5',        bg: '#e0e8ff', border: '#93a5f6', color: '#4f46e5', thumb: '#4f46e5' },
+        5: { label: '5/5',        bg: '#dbeafe', border: '#7c9cf5', color: '#3730a3', thumb: '#3730a3' }
       };
 
       function faceSVG(val, c) {
@@ -897,7 +784,10 @@
         var sc = c;
         var sw = 2.5;
         var eyes = '', mouth = '', extras = '';
-        if (val === 1) {
+        if (val === 0) {
+          eyes = '<circle cx="11" cy="14" r="1.5" fill="'+sc+'"/><circle cx="21" cy="14" r="1.5" fill="'+sc+'"/>';
+          mouth = '<line x1="12" y1="20" x2="20" y2="20" stroke="'+sc+'" stroke-width="'+sw+'" stroke-linecap="round"/>';
+        } else if (val === 1) {
           eyes = '<circle cx="11" cy="13" r="1.8" fill="'+sc+'"/><circle cx="21" cy="13" r="1.8" fill="'+sc+'"/>';
           mouth = '<path d="M12 20 Q16 23 20 20" stroke="'+sc+'" stroke-width="'+sw+'" fill="none" stroke-linecap="round"/>';
         } else if (val === 2) {
@@ -933,7 +823,7 @@
         var emojiEl = item.querySelector('[data-emoji]');
         var label = item.querySelector('[data-label]');
         var val = parseInt(slider.value, 10);
-        var lvl = LEVELS[val] || LEVELS[3];
+        var lvl = LEVELS[val] || LEVELS[0];
 
         emojiEl.innerHTML = faceSVG(val, lvl.color);
         label.textContent = lvl.label;
@@ -989,9 +879,10 @@
         svgEl.innerHTML = '<svg viewBox="0 0 '+w+' '+h+'" width="100%" height="26" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">' + segs + dots + '</svg>';
       }
 
-      document.querySelectorAll('#personalView [data-criteria-item]').forEach(function (item) {
+      document.querySelectorAll('[data-criteria-item]').forEach(function (item) {
         applyMood(item);
         var slider = item.querySelector('[data-slider]');
+
         slider.addEventListener('input', function () {
           applyMood(item);
           renderTrendChart(item);
@@ -1000,11 +891,12 @@
       });
 
       var MGR_LEVELS = {
-        1: { label: 'Hiếm khi',     bg: '#ffffff', border: '#d1fae5', color: '#86efac', thumb: '#86efac' },
-        2: { label: 'Đôi khi',       bg: '#ffffff', border: '#a7f3d0', color: '#34d399', thumb: '#34d399' },
-        3: { label: 'Thường xuyên',  bg: '#ffffff', border: '#6ee7b7', color: '#10b981', thumb: '#10b981' },
-        4: { label: 'Luôn luôn',     bg: '#ffffff', border: '#4ade80', color: '#059669', thumb: '#059669' },
-        5: { label: 'Hình mẫu',      bg: '#ffffff', border: '#22c55e', color: '#047857', thumb: '#047857' }
+        0: { label: 'Chưa chọn',  bg: '#ffffff', border: '#e2e8f0', color: '#94a3b8', thumb: '#cbd5e1' },
+        1: { label: '1/5',        bg: '#ffffff', border: '#d1fae5', color: '#86efac', thumb: '#86efac' },
+        2: { label: '2/5',        bg: '#ffffff', border: '#a7f3d0', color: '#34d399', thumb: '#34d399' },
+        3: { label: '3/5',        bg: '#ffffff', border: '#6ee7b7', color: '#10b981', thumb: '#10b981' },
+        4: { label: '4/5',        bg: '#ffffff', border: '#34d399', color: '#059669', thumb: '#059669' },
+        5: { label: '5/5',        bg: '#ffffff', border: '#10b981', color: '#047857', thumb: '#047857' }
       };
 
       function applyMgrMood(item) {
@@ -1012,7 +904,7 @@
         var emojiEl = item.querySelector('[data-mgr-emoji]');
         var label = item.querySelector('[data-mgr-label]');
         var val = parseInt(slider.value, 10);
-        var lvl = MGR_LEVELS[val] || MGR_LEVELS[3];
+        var lvl = MGR_LEVELS[val] || MGR_LEVELS[0];
 
         emojiEl.innerHTML = faceSVG(val, lvl.color);
         label.textContent = lvl.label;
@@ -1026,10 +918,6 @@
 
       document.querySelectorAll('[data-mgr-criteria-item]').forEach(function (item) {
         applyMgrMood(item);
-        var slider = item.querySelector('[data-mgr-slider]');
-        slider.addEventListener('input', function () {
-          applyMgrMood(item);
-        });
       });
     })();
   </script>
@@ -1122,12 +1010,13 @@
           tab.classList.remove('text-slate-400', 'dark:text-slate-500');
           tab.classList.add('bg-white', 'dark:bg-slate-700', 'text-primary', 'dark:text-white', 'shadow-sm');
 
+          personal.classList.add('hidden');
+          manager.classList.add('hidden');
+
           if (target === 'personal') {
             personal.classList.remove('hidden');
-            manager.classList.add('hidden');
             bottomBar.classList.remove('hidden');
           } else {
-            personal.classList.add('hidden');
             manager.classList.remove('hidden');
             bottomBar.classList.add('hidden');
           }
@@ -1141,7 +1030,7 @@
     <div class="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-200" id="confirmPanel">
       <div class="px-6 pt-5 pb-4">
         <div class="flex items-center justify-between mb-4">
-          <p class="text-base font-bold text-slate-900 dark:text-white">Duyệt Văn hóa</p>
+          <p class="text-base font-bold text-slate-900 dark:text-white">Duyệt Năng lực</p>
           <button type="button" id="confirmCancel2" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors">
             <span class="material-icons-round text-slate-400 text-lg">close</span>
           </button>
@@ -1193,9 +1082,9 @@
       var titleEl = document.getElementById('summaryCardTitle');
       var closeBtn = document.getElementById('summaryClose');
 
-      var LABELS = {1:'Hiếm khi', 2:'Đôi khi', 3:'Thường xuyên', 4:'Luôn luôn', 5:'Hình mẫu'};
-      var COLORS = {1:'#a5b4fc', 2:'#818cf8', 3:'#6366f1', 4:'#4f46e5', 5:'#3730a3'};
-      var BAR_BG = {1:'#eef2ff', 2:'#e0e7ff', 3:'#c7d2fe', 4:'#a5b4fc', 5:'#818cf8'};
+      var LABELS = {0:'Chưa chọn', 1:'1/5', 2:'2/5', 3:'3/5', 4:'4/5', 5:'5/5'};
+      var COLORS = {0:'#94a3b8', 1:'#a5b4fc', 2:'#818cf8', 3:'#6366f1', 4:'#4f46e5', 5:'#3730a3'};
+      var BAR_BG = {0:'#f1f5f9', 1:'#eef2ff', 2:'#e0e7ff', 3:'#c7d2fe', 4:'#a5b4fc', 5:'#818cf8'};
 
       function openSummary(card) {
         var title = card.querySelector('summary p.text-sm').textContent;
@@ -1269,6 +1158,10 @@
           toast.style.background = '#ecfdf5';
           toast.style.color = '#059669';
           toastIcon.textContent = 'check_circle';
+        } else if (type === 'error') {
+          toast.style.background = '#fef2f2';
+          toast.style.color = '#dc2626';
+          toastIcon.textContent = 'error';
         } else {
           toast.style.background = '#eff6ff';
           toast.style.color = '#3b82f6';
@@ -1284,9 +1177,10 @@
 
       function buildScoreList() {
         var list = document.getElementById('confirmScoreList');
-        var cards = document.querySelectorAll('#personalView .criteria-card');
+        var allCards = document.querySelectorAll('#personalView .criteria-card');
         var html = '';
-        cards.forEach(function (card) {
+
+        allCards.forEach(function (card) {
           var title = card.querySelector('summary p.text-sm').textContent;
           var items = card.querySelectorAll('[data-criteria-item]');
           var total = 0;
@@ -1300,6 +1194,7 @@
             '<span class="text-sm font-bold text-slate-900 dark:text-white">' + display + '</span>' +
           '</div>';
         });
+
         list.innerHTML = html;
       }
 
@@ -1318,7 +1213,62 @@
         setTimeout(function () { confirmOverlay.classList.add('hidden'); }, 200);
       }
 
-      document.getElementById('btnSubmit').addEventListener('click', openConfirm);
+      function validateBeforeSubmit() {
+        var cards = document.querySelectorAll('#personalView .criteria-card');
+        var firstInvalid = null;
+
+        cards.forEach(function (card) {
+          var item = card.querySelector('[data-criteria-item]');
+          var editor = card.querySelector('[data-editor]');
+          var sliderWrap = item;
+          var editorWrap = editor ? editor.closest('.rounded-xl') || editor : null;
+
+          sliderWrap.classList.remove('ring-2', 'ring-red-400', 'border-red-400');
+          if (editorWrap) editorWrap.classList.remove('ring-2', 'ring-red-400', 'border-red-400');
+
+          var val = parseInt(item.getAttribute('data-value'), 10);
+          var editorEmpty = editor && editor.textContent.trim().length === 0;
+
+          if (val === 0) {
+            sliderWrap.classList.add('ring-2', 'ring-red-400', 'border-red-400');
+            if (!firstInvalid) firstInvalid = sliderWrap;
+          }
+          if (editorEmpty) {
+            if (editorWrap) editorWrap.classList.add('ring-2', 'ring-red-400', 'border-red-400');
+            if (!firstInvalid) firstInvalid = editorWrap || editor;
+          }
+        });
+
+        if (firstInvalid) {
+          if (!firstInvalid.closest('details[open]')) {
+            firstInvalid.closest('details').setAttribute('open', '');
+          }
+          setTimeout(function () {
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 100);
+          showToast('Vui lòng điền đầy đủ thông tin', 'error');
+          return false;
+        }
+        return true;
+      }
+
+      document.querySelectorAll('#personalView [data-slider]').forEach(function (slider) {
+        slider.addEventListener('input', function () {
+          var item = slider.closest('[data-criteria-item]');
+          item.classList.remove('ring-2', 'ring-red-400', 'border-red-400');
+        });
+      });
+
+      document.querySelectorAll('#personalView [data-editor]').forEach(function (editor) {
+        editor.addEventListener('input', function () {
+          var wrap = editor.closest('.rounded-xl');
+          if (wrap) wrap.classList.remove('ring-2', 'ring-red-400', 'border-red-400');
+        });
+      });
+
+      document.getElementById('btnSubmit').addEventListener('click', function () {
+        if (validateBeforeSubmit()) openConfirm();
+      });
       document.getElementById('confirmCancel').addEventListener('click', closeConfirm);
       document.getElementById('confirmCancel2').addEventListener('click', closeConfirm);
       confirmOverlay.addEventListener('click', function (e) {
