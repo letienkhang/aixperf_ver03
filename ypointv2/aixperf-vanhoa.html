@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Văn hoá - AIxPerf</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#221f6d",
+            "background-light": "#f8fafc",
+            "background-dark": "#0f172a",
+            "card-light": "#ffffff",
+            "card-dark": "#1e293b"
+          },
+          fontFamily: { display: ["Inter", "sans-serif"] },
+          borderRadius: { DEFAULT: "1.25rem" }
+        }
+      }
+    };
+  </script>
+  <style type="text/tailwindcss">
+    body { font-family: 'Inter', sans-serif; min-height: max(884px, 100dvh); }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    .criteria-card[open] summary .chevron { transform: rotate(180deg); }
+    .criteria-card summary::-webkit-details-marker { display: none; }
+    .criteria-card summary { list-style: none; }
+  </style>
+  <style>
+    input[type="range"].mood-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      outline: none;
+      background: linear-gradient(to right, #ef4444, #f97316, #eab308, #22c55e, #10b981);
+      opacity: 0.3;
+      position: relative;
+    }
+    input[type="range"].mood-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid currentColor;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input[type="range"].mood-slider::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid currentColor;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    input[type="range"].mood-slider:active::-webkit-slider-thumb {
+      transform: scale(1.15);
+    }
+    .mood-bg { transition: background-color 0.3s ease; }
+    [data-emoji] svg { transition: all 0.2s ease; }
+
+    .editor-btn {
+      width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; color: #64748b; transition: all 0.15s;
+    }
+    .editor-btn:active, .editor-btn.active { background: #e2e8f0; color: #1e293b; }
+    .editor-content:empty::before {
+      content: attr(placeholder); color: #94a3b8; pointer-events: none;
+    }
+    .editor-content ol { list-style: decimal; padding-left: 1.25rem; }
+    .editor-content ul { list-style: disc; padding-left: 1.25rem; }
+    .editor-content li { margin-bottom: 2px; }
+
+    .editor-expand-overlay {
+      position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.5);
+      display: flex; align-items: center; justify-content: center; padding: 16px;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .editor-expand-overlay.open { opacity: 1; pointer-events: auto; }
+    .editor-expand-panel {
+      background: white; border-radius: 20px; width: 100%; max-height: 80vh;
+      display: flex; flex-direction: column; overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25); transform: translateY(20px); transition: transform 0.2s;
+    }
+    .editor-expand-overlay.open .editor-expand-panel { transform: translateY(0); }
+    .editor-expand-body {
+      flex: 1; min-height: 200px; max-height: 60vh; overflow-y: auto;
+      padding: 16px; font-size: 14px; outline: none;
+    }
+    .editor-expand-body ol { list-style: decimal; padding-left: 1.25rem; }
+    .editor-expand-body ul { list-style: disc; padding-left: 1.25rem; }
+  </style>
+</head>
+
+<body
+  class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 flex flex-col">
+  <div class="flex justify-between items-center px-8 py-3 w-full shrink-0">
+    <span class="text-sm font-semibold text-slate-900 dark:text-white">13:23</span>
+    <div class="flex items-center space-x-1.5 text-slate-900 dark:text-white">
+      <span class="material-icons-round text-sm">signal_cellular_alt</span>
+      <span class="material-icons-round text-sm">wifi</span>
+      <span class="material-icons-round text-sm rotate-90">battery_full</span>
+    </div>
+  </div>
+
+  <header class="sticky top-0 z-50 bg-background-light/90 dark:bg-background-dark/90 ios-blur">
+    <div class="px-4 py-3 flex items-center gap-3 w-full">
+      <a class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform"
+        href="aixperf-mobile.html" aria-label="Quay lại">
+        <span class="material-icons-round text-primary dark:text-white">arrow_back</span>
+      </a>
+      <div class="flex-1 min-w-0">
+        <h1 class="text-primary dark:text-white text-lg font-bold truncate">Văn hoá</h1>
+        <p class="text-[10px] text-slate-500 dark:text-slate-400">Bước 1/4 · Tự đánh giá</p>
+      </div>
+      <span class="inline-flex items-center rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2.5 py-1">
+        5/5
+      </span>
+    </div>
+  </header>
+
+  <main class="flex-1 px-4 pt-3 space-y-4 pb-32">
+
+    <!-- 1. Customer Centric -->
+    <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden" open>
+      <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
+        <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="text-sm font-black text-primary dark:text-indigo-400">1</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Customer Centric</p>
+        </div>
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
+        </span>
+        <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
+      </summary>
+      <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
+        <div class="space-y-4" data-criteria-group>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="5">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Đặt sự hài lòng của khách hàng là ưu tiên số 1 trong mọi suy nghĩ và hành động.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="5" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Hình mẫu</span>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-2" data-editor-wrap>
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 overflow-hidden">
+            <div class="flex items-center gap-0.5 px-2 py-1.5 border-b border-slate-200/80 dark:border-slate-600 bg-white/60 dark:bg-slate-800/50">
+              <button type="button" data-cmd="bold" class="editor-btn" title="In đậm"><span class="material-icons-round text-[16px]">format_bold</span></button>
+              <button type="button" data-cmd="italic" class="editor-btn" title="In nghiêng"><span class="material-icons-round text-[16px]">format_italic</span></button>
+              <button type="button" data-cmd="underline" class="editor-btn" title="Gạch chân"><span class="material-icons-round text-[16px]">format_underlined</span></button>
+              <div class="w-px h-4 bg-slate-200 dark:bg-slate-600 mx-0.5"></div>
+              <button type="button" data-cmd="insertOrderedList" class="editor-btn" title="Danh sách 1.2.3"><span class="material-icons-round text-[16px]">format_list_numbered</span></button>
+              <button type="button" data-cmd="insertUnorderedList" class="editor-btn" title="Danh sách gạch đầu dòng"><span class="material-icons-round text-[16px]">format_list_bulleted</span></button>
+              <div class="flex-1"></div>
+              <button type="button" data-expand class="editor-btn" title="Mở rộng"><span class="material-icons-round text-[16px]">open_in_full</span></button>
+            </div>
+            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn...">Khách hàng luôn là ưu tiên số 1 trong mọi quyết định.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 2. Ownership & Autonomy -->
+    <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
+      <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
+        <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="text-sm font-black text-primary dark:text-indigo-400">2</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Ownership & Autonomy</p>
+        </div>
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
+        </span>
+        <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
+      </summary>
+      <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
+        <div class="space-y-4" data-criteria-group>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="4">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Sở hữu mục tiêu công ty, đội nhóm, cá nhân.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="4" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Luôn luôn</span>
+            </div>
+          </div>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="3">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Chủ động tìm kiếm nguồn lực và giải pháp.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="3" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Thường xuyên</span>
+            </div>
+          </div>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="5">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Suy nghĩ và hành động vì lợi ích tốt nhất cho tổ chức.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="5" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Hình mẫu</span>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-2" data-editor-wrap>
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 overflow-hidden">
+            <div class="flex items-center gap-0.5 px-2 py-1.5 border-b border-slate-200/80 dark:border-slate-600 bg-white/60 dark:bg-slate-800/50">
+              <button type="button" data-cmd="bold" class="editor-btn" title="In đậm"><span class="material-icons-round text-[16px]">format_bold</span></button>
+              <button type="button" data-cmd="italic" class="editor-btn" title="In nghiêng"><span class="material-icons-round text-[16px]">format_italic</span></button>
+              <button type="button" data-cmd="underline" class="editor-btn" title="Gạch chân"><span class="material-icons-round text-[16px]">format_underlined</span></button>
+              <div class="w-px h-4 bg-slate-200 dark:bg-slate-600 mx-0.5"></div>
+              <button type="button" data-cmd="insertOrderedList" class="editor-btn" title="Danh sách 1.2.3"><span class="material-icons-round text-[16px]">format_list_numbered</span></button>
+              <button type="button" data-cmd="insertUnorderedList" class="editor-btn" title="Danh sách gạch đầu dòng"><span class="material-icons-round text-[16px]">format_list_bulleted</span></button>
+              <div class="flex-1"></div>
+              <button type="button" data-expand class="editor-btn" title="Mở rộng"><span class="material-icons-round text-[16px]">open_in_full</span></button>
+            </div>
+            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn...">Luôn chủ động nhận trách nhiệm và tìm giải pháp.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 3. Integrity -->
+    <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
+      <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
+        <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="text-sm font-black text-primary dark:text-indigo-400">3</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Integrity</p>
+        </div>
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
+        </span>
+        <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
+      </summary>
+      <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
+        <div class="space-y-4" data-criteria-group>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="4">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Trung thực về tiền bạc, hàng hóa, tài sản.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="4" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Luôn luôn</span>
+            </div>
+          </div>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="3">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Làm đúng, làm đủ theo thiết kế.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="3" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Thường xuyên</span>
+            </div>
+          </div>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="4">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Giữ lời hứa với khách hàng, đồng nghiệp, đối tác.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="4" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Luôn luôn</span>
+            </div>
+          </div>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="5">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Khi đã nỗ lực hết sức mà thấy nguy cơ không thể giữ lời thì ngay lập tức thông tin cho những người liên quan, tìm hiểu tác động, dọn dẹp hậu quả và đưa ra lời hứa mới.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="5" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Hình mẫu</span>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-2" data-editor-wrap>
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 overflow-hidden">
+            <div class="flex items-center gap-0.5 px-2 py-1.5 border-b border-slate-200/80 dark:border-slate-600 bg-white/60 dark:bg-slate-800/50">
+              <button type="button" data-cmd="bold" class="editor-btn" title="In đậm"><span class="material-icons-round text-[16px]">format_bold</span></button>
+              <button type="button" data-cmd="italic" class="editor-btn" title="In nghiêng"><span class="material-icons-round text-[16px]">format_italic</span></button>
+              <button type="button" data-cmd="underline" class="editor-btn" title="Gạch chân"><span class="material-icons-round text-[16px]">format_underlined</span></button>
+              <div class="w-px h-4 bg-slate-200 dark:bg-slate-600 mx-0.5"></div>
+              <button type="button" data-cmd="insertOrderedList" class="editor-btn" title="Danh sách 1.2.3"><span class="material-icons-round text-[16px]">format_list_numbered</span></button>
+              <button type="button" data-cmd="insertUnorderedList" class="editor-btn" title="Danh sách gạch đầu dòng"><span class="material-icons-round text-[16px]">format_list_bulleted</span></button>
+              <div class="flex-1"></div>
+              <button type="button" data-expand class="editor-btn" title="Mở rộng"><span class="material-icons-round text-[16px]">open_in_full</span></button>
+            </div>
+            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn...">Trung thực và giữ lời hứa trong công việc.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 4. Growth Mindset -->
+    <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
+      <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
+        <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="text-sm font-black text-primary dark:text-indigo-400">4</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Growth Mindset</p>
+        </div>
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
+        </span>
+        <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
+      </summary>
+      <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
+        <div class="space-y-4" data-criteria-group>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="5">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Không ngừng học tập và tự hoàn thiện.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="5" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Hình mẫu</span>
+            </div>
+          </div>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="2">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Sẵn sàng thử nghiệm phương pháp mới, chấp nhận thất bại và tiếp tục hành động.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="2" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Đôi khi</span>
+            </div>
+          </div>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="5">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Luôn nhìn thấy chủ đích tích cực trong mọi tình huống.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="5" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Hình mẫu</span>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-2" data-editor-wrap>
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 overflow-hidden">
+            <div class="flex items-center gap-0.5 px-2 py-1.5 border-b border-slate-200/80 dark:border-slate-600 bg-white/60 dark:bg-slate-800/50">
+              <button type="button" data-cmd="bold" class="editor-btn" title="In đậm"><span class="material-icons-round text-[16px]">format_bold</span></button>
+              <button type="button" data-cmd="italic" class="editor-btn" title="In nghiêng"><span class="material-icons-round text-[16px]">format_italic</span></button>
+              <button type="button" data-cmd="underline" class="editor-btn" title="Gạch chân"><span class="material-icons-round text-[16px]">format_underlined</span></button>
+              <div class="w-px h-4 bg-slate-200 dark:bg-slate-600 mx-0.5"></div>
+              <button type="button" data-cmd="insertOrderedList" class="editor-btn" title="Danh sách 1.2.3"><span class="material-icons-round text-[16px]">format_list_numbered</span></button>
+              <button type="button" data-cmd="insertUnorderedList" class="editor-btn" title="Danh sách gạch đầu dòng"><span class="material-icons-round text-[16px]">format_list_bulleted</span></button>
+              <div class="flex-1"></div>
+              <button type="button" data-expand class="editor-btn" title="Mở rộng"><span class="material-icons-round text-[16px]">open_in_full</span></button>
+            </div>
+            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn...">Không ngừng học hỏi và cải thiện bản thân.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 5. Good Relationship -->
+    <details class="criteria-card bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
+      <summary class="px-5 py-4 flex items-center gap-3 cursor-pointer active:bg-slate-50 dark:active:bg-slate-700/50 transition-colors">
+        <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <span class="text-sm font-black text-primary dark:text-indigo-400">5</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-bold text-slate-900 dark:text-white">Good Relationship</p>
+        </div>
+        <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 shrink-0">
+          <span class="material-icons-round text-[11px]">check_circle</span> Đã duyệt
+        </span>
+        <span class="material-icons-round text-slate-400 text-xl chevron transition-transform duration-200 shrink-0">expand_more</span>
+      </summary>
+      <div class="px-5 pb-5 space-y-4 border-t border-slate-100 dark:border-slate-700 pt-4">
+        <div class="space-y-4" data-criteria-group>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="3">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Hào phóng, sẵn sàng cho đi và giúp đỡ mọi người.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="3" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Thường xuyên</span>
+            </div>
+          </div>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="2">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Đặt mình vào vị trí người khác để lắng nghe trọn vẹn và không thành kiến.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="2" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Đôi khi</span>
+            </div>
+          </div>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="4">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Sẵn sàng đóng góp và đón nhận sự đóng góp một cách kịp thời, trực tiếp và xây dựng.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="4" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Luôn luôn</span>
+            </div>
+          </div>
+          <div class="mood-bg rounded-2xl p-4 border border-slate-100 dark:border-slate-700" data-criteria-item data-value="3">
+            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">Luôn ghi nhận thành quả hoặc nỗ lực dù chưa có thành quả.</p>
+            <div class="flex items-center gap-3">
+              <span class="shrink-0" data-emoji></span>
+              <input type="range" min="1" max="5" value="3" step="1" class="mood-slider flex-1" data-slider />
+              <span class="text-[11px] font-bold w-20 text-right shrink-0" data-label>Thường xuyên</span>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-2" data-editor-wrap>
+          <p class="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">Nhân viên tự đánh giá</p>
+          <div class="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40 overflow-hidden">
+            <div class="flex items-center gap-0.5 px-2 py-1.5 border-b border-slate-200/80 dark:border-slate-600 bg-white/60 dark:bg-slate-800/50">
+              <button type="button" data-cmd="bold" class="editor-btn" title="In đậm"><span class="material-icons-round text-[16px]">format_bold</span></button>
+              <button type="button" data-cmd="italic" class="editor-btn" title="In nghiêng"><span class="material-icons-round text-[16px]">format_italic</span></button>
+              <button type="button" data-cmd="underline" class="editor-btn" title="Gạch chân"><span class="material-icons-round text-[16px]">format_underlined</span></button>
+              <div class="w-px h-4 bg-slate-200 dark:bg-slate-600 mx-0.5"></div>
+              <button type="button" data-cmd="insertOrderedList" class="editor-btn" title="Danh sách 1.2.3"><span class="material-icons-round text-[16px]">format_list_numbered</span></button>
+              <button type="button" data-cmd="insertUnorderedList" class="editor-btn" title="Danh sách gạch đầu dòng"><span class="material-icons-round text-[16px]">format_list_bulleted</span></button>
+              <div class="flex-1"></div>
+              <button type="button" data-expand class="editor-btn" title="Mở rộng"><span class="material-icons-round text-[16px]">open_in_full</span></button>
+            </div>
+            <div contenteditable="true" data-editor class="px-4 py-3 text-sm text-slate-900 dark:text-white min-h-[3.5rem] max-h-[7rem] overflow-y-auto focus:outline-none editor-content" placeholder="Nhập nhận xét của bạn...">Hào phóng và sẵn sàng hỗ trợ đồng nghiệp.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+  </main>
+
+  <div class="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-slate-900/90 ios-blur border-t border-slate-100 dark:border-slate-700 px-4 pt-3 pb-8 z-50">
+    <div class="flex gap-3">
+      <button type="button"
+        class="flex-1 py-3.5 rounded-2xl text-sm font-bold text-primary dark:text-indigo-400 bg-primary/10 dark:bg-indigo-600/20 border border-primary/20 dark:border-indigo-500/30 active:scale-[0.98] transition-transform">
+        Lưu nháp
+      </button>
+      <button type="button"
+        class="flex-1 py-3.5 rounded-2xl text-sm font-bold text-white bg-primary dark:bg-indigo-600 active:scale-[0.98] transition-transform shadow-md shadow-primary/20">
+        Gửi duyệt
+      </button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var LEVELS = {
+        1: { label: 'Hiếm khi',     bg: '#fef2f2', border: '#fecaca', color: '#ef4444', thumb: '#ef4444' },
+        2: { label: 'Đôi khi',       bg: '#fff7ed', border: '#fed7aa', color: '#f97316', thumb: '#f97316' },
+        3: { label: 'Thường xuyên',  bg: '#fefce8', border: '#fef08a', color: '#eab308', thumb: '#eab308' },
+        4: { label: 'Luôn luôn',     bg: '#eff6ff', border: '#bfdbfe', color: '#3b82f6', thumb: '#3b82f6' },
+        5: { label: 'Hình mẫu',      bg: '#dbeafe', border: '#93c5fd', color: '#2563eb', thumb: '#2563eb' }
+      };
+
+      function faceSVG(val, c) {
+        var s = 32;
+        var sc = c; // stroke color
+        var sw = 2.5;
+        var eyeY = 12, mouthY = 22;
+        var eyes = '', mouth = '';
+        if (val === 1) {
+          eyes = '<circle cx="11" cy="'+eyeY+'" r="2" fill="'+sc+'"/><circle cx="21" cy="'+eyeY+'" r="2" fill="'+sc+'"/>';
+          mouth = '<path d="M10 24 Q16 19 22 24" stroke="'+sc+'" stroke-width="'+sw+'" fill="none" stroke-linecap="round"/>';
+        } else if (val === 2) {
+          eyes = '<circle cx="11" cy="'+eyeY+'" r="2" fill="'+sc+'"/><circle cx="21" cy="'+eyeY+'" r="2" fill="'+sc+'"/>';
+          mouth = '<line x1="10" y1="'+mouthY+'" x2="22" y2="'+mouthY+'" stroke="'+sc+'" stroke-width="'+sw+'" stroke-linecap="round"/>';
+        } else if (val === 3) {
+          eyes = '<circle cx="11" cy="'+eyeY+'" r="2" fill="'+sc+'"/><circle cx="21" cy="'+eyeY+'" r="2" fill="'+sc+'"/>';
+          mouth = '<path d="M10 21 Q16 25 22 21" stroke="'+sc+'" stroke-width="'+sw+'" fill="none" stroke-linecap="round"/>';
+        } else if (val === 4) {
+          eyes = '<circle cx="11" cy="'+eyeY+'" r="2" fill="'+sc+'"/><circle cx="21" cy="'+eyeY+'" r="2" fill="'+sc+'"/>';
+          mouth = '<path d="M9 20 Q16 27 23 20" stroke="'+sc+'" stroke-width="'+sw+'" fill="none" stroke-linecap="round"/>';
+        } else {
+          eyes = '<path d="M9 13 Q11 9 13 13" stroke="'+sc+'" stroke-width="'+sw+'" fill="none" stroke-linecap="round"/>' +
+                 '<path d="M19 13 Q21 9 23 13" stroke="'+sc+'" stroke-width="'+sw+'" fill="none" stroke-linecap="round"/>';
+          mouth = '<path d="M9 20 Q16 28 23 20" stroke="'+sc+'" stroke-width="'+sw+'" fill="none" stroke-linecap="round"/>';
+        }
+        return '<svg viewBox="0 0 '+s+' '+s+'" width="'+s+'" height="'+s+'" xmlns="http://www.w3.org/2000/svg">' +
+          '<circle cx="16" cy="16" r="14" stroke="'+sc+'" stroke-width="'+sw+'" fill="none"/>' +
+          eyes + mouth + '</svg>';
+      }
+
+      function applyMood(item) {
+        var slider = item.querySelector('[data-slider]');
+        var emojiEl = item.querySelector('[data-emoji]');
+        var label = item.querySelector('[data-label]');
+        var val = parseInt(slider.value, 10);
+        var lvl = LEVELS[val] || LEVELS[3];
+
+        emojiEl.innerHTML = faceSVG(val, lvl.color);
+        label.textContent = lvl.label;
+        label.style.color = lvl.color;
+        item.style.backgroundColor = lvl.bg;
+        item.style.borderColor = lvl.border;
+        slider.style.color = lvl.thumb;
+        slider.style.opacity = '1';
+        item.setAttribute('data-value', val);
+      }
+
+      document.querySelectorAll('[data-criteria-item]').forEach(function (item) {
+        applyMood(item);
+        var slider = item.querySelector('[data-slider]');
+        slider.addEventListener('input', function () {
+          applyMood(item);
+        });
+      });
+    })();
+  </script>
+
+  <!-- Expand overlay -->
+  <div class="editor-expand-overlay" id="editorOverlay">
+    <div class="editor-expand-panel">
+      <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200">
+        <p class="text-sm font-bold text-slate-900">Nhân viên tự đánh giá</p>
+        <button type="button" id="editorOverlayClose" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 active:bg-slate-200 transition-colors">
+          <span class="material-icons-round text-slate-500 text-xl">close</span>
+        </button>
+      </div>
+      <div class="flex items-center gap-0.5 px-3 py-2 border-b border-slate-100 bg-slate-50/80">
+        <button type="button" data-ocmd="bold" class="editor-btn" title="In đậm"><span class="material-icons-round text-[16px]">format_bold</span></button>
+        <button type="button" data-ocmd="italic" class="editor-btn" title="In nghiêng"><span class="material-icons-round text-[16px]">format_italic</span></button>
+        <button type="button" data-ocmd="underline" class="editor-btn" title="Gạch chân"><span class="material-icons-round text-[16px]">format_underlined</span></button>
+        <div class="w-px h-4 bg-slate-200 mx-1"></div>
+        <button type="button" data-ocmd="insertOrderedList" class="editor-btn" title="Danh sách 1.2.3"><span class="material-icons-round text-[16px]">format_list_numbered</span></button>
+        <button type="button" data-ocmd="insertUnorderedList" class="editor-btn" title="Danh sách gạch đầu dòng"><span class="material-icons-round text-[16px]">format_list_bulleted</span></button>
+      </div>
+      <div contenteditable="true" class="editor-expand-body" id="editorOverlayBody"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var overlay = document.getElementById('editorOverlay');
+      var overlayBody = document.getElementById('editorOverlayBody');
+      var overlayClose = document.getElementById('editorOverlayClose');
+      var activeSource = null;
+
+      document.querySelectorAll('[data-cmd]').forEach(function (btn) {
+        btn.addEventListener('mousedown', function (e) { e.preventDefault(); });
+        btn.addEventListener('click', function () {
+          var wrap = btn.closest('[data-editor-wrap]');
+          var editor = wrap.querySelector('[data-editor]');
+          editor.focus();
+          document.execCommand(btn.getAttribute('data-cmd'), false, null);
+        });
+      });
+
+      document.querySelectorAll('[data-ocmd]').forEach(function (btn) {
+        btn.addEventListener('mousedown', function (e) { e.preventDefault(); });
+        btn.addEventListener('click', function () {
+          overlayBody.focus();
+          document.execCommand(btn.getAttribute('data-ocmd'), false, null);
+        });
+      });
+
+      document.querySelectorAll('[data-expand]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var wrap = btn.closest('[data-editor-wrap]');
+          activeSource = wrap.querySelector('[data-editor]');
+          overlayBody.innerHTML = activeSource.innerHTML;
+          overlay.classList.add('open');
+          setTimeout(function () { overlayBody.focus(); }, 100);
+        });
+      });
+
+      function closeOverlay() {
+        if (activeSource) {
+          activeSource.innerHTML = overlayBody.innerHTML;
+        }
+        overlay.classList.remove('open');
+        activeSource = null;
+      }
+
+      overlayClose.addEventListener('click', closeOverlay);
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeOverlay();
+      });
+    })();
+  </script>
+</body>
+
+</html>
